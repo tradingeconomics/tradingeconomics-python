@@ -17,7 +17,7 @@ pip install tradingeconomics
 Install directly from GitHub the latest version
 
 ```bash
-git clone https://github.com/tradingeconomics/tradingeconomics/
+git clone https://github.com/tradingeconomics/tradingeconomics-python.git
 cd tradingeconomics/python
 python setup.py install
 ```
