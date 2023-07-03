@@ -1,7 +1,7 @@
 
 # Trading Economics - Python
 
-![version](https://img.shields.io/badge/version-4.2.2-green.svg)
+[![PyPI version](https://img.shields.io/pypi/v/tradingeconomics.svg)](https://pypi.org/project/tradingeconomics/)
 
 The Trading Economics Application Python package provides direct access to millions of time series with economic data, financial markets quotes, commodity prices, crypto currencies data and much more. It also allows you to query Trading Economics  real-time economic calendar and to subscribe to updates. 
 
@@ -14,11 +14,11 @@ The Trading Economics Application Python package provides direct access to milli
 pip install tradingeconomics
 ```
 
-Install directly from GitHub the latest version
+Install the latest version directly from GitHub 
 
 ```bash
 git clone https://github.com/tradingeconomics/tradingeconomics-python.git
-cd tradingeconomics/python
+cd tradingeconomics-python
 python setup.py install
 ```
 
@@ -49,7 +49,7 @@ te.getFinancialsData(symbol = 'aapl:us', output_type = 'df')
 
 ## More examples
 
-https://github.com/tradingeconomics/tradingeconomics/tree/master/python/examples
+https://github.com/tradingeconomics/tradingeconomics-python/tree/main/examples
 
 #
 
@@ -58,13 +58,13 @@ https://github.com/tradingeconomics/tradingeconomics/tree/master/python/examples
 Try our python interface in a container without installing anything
 
 ```bash
-docker run -it --name te-python tradingeconomics/python:latest
+docker run -it --name te-python tradingeconomics-python:latest
 ```
 #
 
 ## Documentation
 
-https://docs.tradingeconomics.com/?python
+https://docs.tradingeconomics.com
 
 
 #
