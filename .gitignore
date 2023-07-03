@@ -10,6 +10,8 @@ mykeyTennessee.py
 key.py
 python/**/*.pyc
 tradingeconomics.egg-info/
+__pycache__/
+build/
 
 
 ## Ignore Visual Studio temporary files, build results, and
