@@ -1,8 +1,8 @@
-#EXAMPLES
+### EXAMPLES
 
 This folder has examples on how you can get data about Markets, Historical data, Indicators, Calendar, World Bank, Federal Reserve, Comtrade, Forecasts and News, using python.
 ```python
-It supports python 2.7.15 and python 3.6.5 versions
+It supports python 2.7 and any python 3 versions ahead of 3.6.5 
 ```
 
 It shows how you can get data with diferent parameters, and output types.
