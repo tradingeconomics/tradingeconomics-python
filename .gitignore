@@ -13,6 +13,7 @@ tradingeconomics.egg-info/
 __pycache__/
 tradingeconomics/__pycache__/
 build/
+.vscode/
 
 
 ## Ignore Visual Studio temporary files, build results, and

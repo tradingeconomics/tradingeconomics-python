@@ -2,20 +2,47 @@
 Trading Economics API
 =====================
 
-The Trading Economics Python package provides you with direct access to 300.000 economic indicators, exchange rates, stock market indexes, government bond yields and commodity prices. Providing several request methods to query our databases, with samples available in different programming languages, it is the best way to export data in XML, CSV or JSON format. The API can be used to feed a custom developed application, a public website or just off-the-shelf software.
+The Trading Economics Python package provides direct access to over 300,000 economic indicators, exchange rates, stock market indexes, government bond yields, and commodity prices. This package offers various request methods to query the Trading Economics databases and supports exporting data in XML, CSV, or JSON format. The API can be used to feed custom-developed applications, public websites, or off-the-shelf software.
 
-- pip install tradingeconomics
+
+Installation
+----------------------------------------
+
+You can install the package using pip:
+
+    - pip install tradingeconomics
+
+
+Authentication
+----------------------------------------
+
+To use the Trading Economics API, you need to authenticate by providing your API key and secret:
+
+    - import tradingeconomics as te
+    - te.login('key:secret')
+
+
+Sample Usage
+----------------------------------------
+
+Here are some examples of how to use the Trading Economics Python package:
+
+    - te.getCalendarData()
+    - te.getIndicatorData(country=['mexico', 'sweden'], output_type='df')
+    - te.getMarketsData(marketsField='commodities')
+    - te.getMarketsBySymbol(symbols='aapl:us')
+    - te.getFinancialsData(symbol='aapl:us', output_type='df')
 
 
 GitHub Examples
 ----------------------------------------
 
+You can find additional examples and usage instructions in the GitHub repository:
  - https://github.com/tradingeconomics/tradingeconomics/tree/master/python
 
 
 Documentation
 ----------------------------------------
 
+For detailed documentation and API reference, please visit the Trading Economics API documentation:
  - https://docs.tradingeconomics.com
-
-

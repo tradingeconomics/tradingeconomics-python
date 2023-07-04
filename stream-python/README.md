@@ -2,12 +2,12 @@
 
 #####1 - Clone Repository.
 ```
-git clone https://github.com/ieconomics/open-api.git
+git clone https://github.com/tradingeconomics/tradingeconomics-python.git
 ```
 
 #####2
 ```
-cd open-api/stream/python
+cd tradingeconomics-python/stream-python
 ```
 
 #####3 - Install dependencies 
