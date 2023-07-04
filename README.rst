@@ -38,7 +38,7 @@ GitHub Examples
 ----------------------------------------
 
 You can find additional examples and usage instructions in the GitHub repository:
- - https://github.com/tradingeconomics/tradingeconomics/tree/master/python
+ - https://github.com/tradingeconomics/tradingeconomics-python/tree/main/examples
 
 
 Documentation
