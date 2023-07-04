@@ -11,6 +11,7 @@ key.py
 python/**/*.pyc
 tradingeconomics.egg-info/
 __pycache__/
+tradingeconomics/__pycache__/
 build/
 
 
