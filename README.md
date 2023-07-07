@@ -42,7 +42,6 @@ export apikey='guest:guest'
 ### Login - the secure way
 
 ```python
-# python
 import tradingeconomics as te
 te.login()
 ```
