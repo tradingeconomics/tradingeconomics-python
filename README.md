@@ -24,7 +24,7 @@ python setup.py install
 
 #
 
-## Authentication - the secure way
+## Authentication
 
 Protect your credentials! Please set your keys as environment variables before you launch your application. This lets you share your code without disclosing your credentials.
 
@@ -33,18 +33,13 @@ Protect your credentials! Please set your keys as environment variables before y
 ```bash
 # windows command line
 set apikey='guest:guest'
-# linux / mac bash
-export apikey='guest:guest'
 ```
 ### Linux / Mac
 
 ```bash
-# windows command line
-set apikey='guest:guest'
-# linux / mac bash
 export apikey='guest:guest'
 ```
-### Login
+### Login - the secure way
 
 ```python
 # python
@@ -52,7 +47,7 @@ import tradingeconomics as te
 te.login()
 ```
 
-## Authentication - the easy way
+### Login - the easy way
 
 ```python
 import tradingeconomics as te
