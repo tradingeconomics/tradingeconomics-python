@@ -44,7 +44,7 @@ set apikey='guest:guest'
 # linux / mac bash
 export apikey='guest:guest'
 ```
-### login
+### Login
 
 ```python
 # python
