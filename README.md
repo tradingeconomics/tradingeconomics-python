@@ -30,6 +30,8 @@ Protect your credentials! Please set your keys as environment variables before y
 
 ### Windows
 
+In Windows, you can permanently set environment variables using a settings window - just type "environment variables" on windows search to locate it. As an alternative, you can temporarily set them using the command line terminal.
+
 ```bash
 # windows command line
 set apikey='guest:guest'
