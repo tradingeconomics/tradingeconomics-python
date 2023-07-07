@@ -31,9 +31,6 @@ Protect your credentials! Please set your keys as environment variables before y
 ```bash
 # linux / mac 
 export apikey='guest:guest'
-```
-
-```bash
 # windows
 set apikey='guest:guest'
 ```
