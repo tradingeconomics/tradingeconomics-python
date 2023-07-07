@@ -29,10 +29,10 @@ python setup.py install
 Protect your credentials! Please set your keys as environment variables before you launch your application. This lets you share your code without disclosing your credentials.
 
 ```bash
-# linux / mac 
-export apikey='guest:guest'
 # windows
 set apikey='guest:guest'
+# linux / mac 
+export apikey='guest:guest'
 ```
 
 ```python
