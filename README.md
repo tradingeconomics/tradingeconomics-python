@@ -24,10 +24,26 @@ python setup.py install
 
 #
 
-## Authentication
+## Authentication - the secure way
 
+Protect your credentials! Please set your keys as environment variables before you launch your application. This lets you share your code without disclosing your credentials.
 
-In command window launch python and type
+```bash
+# linux / mac 
+export apikey='guest:guest'
+```
+
+```bash
+# windows
+set apikey='guest:guest'
+```
+
+```python
+import tradingeconomics as te
+te.login()
+```
+
+## Authentication - the easy way
 
 ```python
 import tradingeconomics as te
