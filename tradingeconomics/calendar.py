@@ -107,7 +107,7 @@ def getCalendarId(id = None, output_type = None):
         print(e)
         
 
-def getCalendarData(country = None, category = None, initDate = None, endDate = None, importance=None, ticker=None, output_type = None):
+def getCalendarData(country = None, category = None, initDate = None, endDate = None, importance=None, ticker=None, output_type = None, values=None):
     """
     Returns Lastest Updates by country, by country and initial date, by initial date only.
     =================================================================================
@@ -123,6 +123,9 @@ def getCalendarData(country = None, category = None, initDate = None, endDate = 
                 ticker=['IJCUSA','SPAINFACORD','BAHRAININFNRATE']
         importance: string.
                 importance = '2'
+        values: boolean.
+                values = True
+                values = False
         
         initDate: string.
                 initDate = '2021-01-01'
@@ -170,7 +173,8 @@ def getCalendarData(country = None, category = None, initDate = None, endDate = 
         'importance':'',
         'ticker':'',
         'key': f'?c={glob.apikey}',
-        'output_type' : ''
+        'output_type' : '',
+        'values': ''
     }
     if initDate and endDate :     
 
@@ -196,9 +200,11 @@ def getCalendarData(country = None, category = None, initDate = None, endDate = 
 
     if initDate and endDate and not country and not category:
         d['country'] = f'/country/all'
-    
 
-    api_url_request = "%s%s%s%s%s%s%s" % (d['url_base'], d['country'], d['category'],  d['init_date'],  d['end_date'],  d['key'], d['importance']) 
+    if values:
+        d['values'] = f'&values=true'
+
+    api_url_request = "%s%s%s%s%s%s%s%s" % (d['url_base'], d['country'], d['category'],  d['init_date'],  d['end_date'],  d['key'], d['importance'], d['values']) 
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
 
