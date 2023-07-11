@@ -101,7 +101,6 @@ def getCalendarId(id = None, output_type = None):
         raise LoginError('You need to do login before making any request')
     
     try:
-        # print(linkAPI)
         return fn.dataRequest(api_request=linkAPI, output_type=output_type)
     except Exception as e:
         print(e)
@@ -203,8 +202,11 @@ def getCalendarData(country = None, category = None, initDate = None, endDate = 
 
     if values:
         d['values'] = f'&values=true'
+    elif values == False:
+        d['values'] = f'&values=false'
 
     api_url_request = "%s%s%s%s%s%s%s%s" % (d['url_base'], d['country'], d['category'],  d['init_date'],  d['end_date'],  d['key'], d['importance'], d['values']) 
+    print(api_url_request)
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
 
