@@ -206,7 +206,6 @@ def getCalendarData(country = None, category = None, initDate = None, endDate = 
         d['values'] = f'&values=false'
 
     api_url_request = "%s%s%s%s%s%s%s%s" % (d['url_base'], d['country'], d['category'],  d['init_date'],  d['end_date'],  d['key'], d['importance'], d['values']) 
-    print(api_url_request)
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
 
