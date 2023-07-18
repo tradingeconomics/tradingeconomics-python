@@ -526,7 +526,7 @@ def getMarketsStockDescriptions(symbol = None,country = None, output_type=None):
     except ValueError:
       raise WebRequestError ('Something went wrong.')   
 
-def getMarketsSymbology(symbol = None,ticker = None, isin=None,output_type=None):
+def getMarketsSymbology(symbol = None,ticker = None, isin=None, country=None ,output_type=None):
     """
     Returns Markets Descriptions
     =================================================================================
@@ -535,10 +535,14 @@ def getMarketsSymbology(symbol = None,ticker = None, isin=None,output_type=None)
         symbol: string 
                 symbol = 'AAPL:US'
                 
-        
         ticker: string 
                 ticker = 'aapl'
-                
+        
+        isin: string 
+                isin = 'US0378331005'
+
+        country: string 
+                country = 'United States'                
         
         
         output_type: string.
@@ -553,6 +557,7 @@ def getMarketsSymbology(symbol = None,ticker = None, isin=None,output_type=None)
             getMarketsSymbology(symbol='AAPL:US',output_type='df')
             getMarketsSymbology(ticker='aapl',output_type='df')
             getMarketsSymbology(isin='US0378331005',output_type='df')
+            getMarketsSymbology(country='United States',output_type='df')
             
     """
     #validateParameters
@@ -560,6 +565,7 @@ def getMarketsSymbology(symbol = None,ticker = None, isin=None,output_type=None)
     (lambda x : parametersList.append(x) if x != None else None )(symbol) 
     (lambda x : parametersList.append(x) if x != None else None )(ticker) 
     (lambda x : parametersList.append(x) if x != None else None )(isin) 
+    (lambda x : parametersList.append(x) if x != None else None )(country)
 
     if len(parametersList) > 1:
       print('Only one argument must be provided for each request')
@@ -572,6 +578,7 @@ def getMarketsSymbology(symbol = None,ticker = None, isin=None,output_type=None)
         'symbol': '',
         'ticker': '',
         'isin': '',
+        'country': '',
         'key': f'?c={glob.apikey}',
         'output_type' : ''
     }
@@ -586,7 +593,10 @@ def getMarketsSymbology(symbol = None,ticker = None, isin=None,output_type=None)
     if isin:
         d['isin'] = f'/isin/{(fn.stringOrList(isin))}'
 
-    api_url_request = "%s%s%s%s%s" % (d['url_base'], d['symbol'],d['ticker'],  d['isin'],d['key']) 
+    if country:
+        d['country'] = f'/country/{(fn.stringOrList(country))}'
+
+    api_url_request = "%s%s%s%s%s%s" % (d['url_base'], d['symbol'],d['ticker'],  d['isin'],d['country'],d['key']) 
     try:
       output = fn.dataRequest(api_url_request, output_type)
       return output

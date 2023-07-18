@@ -95,15 +95,13 @@ def getCmtUpdates(output_type=None):
 
 
 
-def getCmtCategories(category=None, output_type=None):
+def getCmtCategories(output_type=None):
     """
     Get detailed information about Comtrade categories.
     =================================================================================
 
     Parameters:
     -----------
-    category:list.
-                List of strings of all categories.
     output_type: string.
                 'dict'(default) for dictionary format output, 'df' for data frame,
                 'raw' for list of dictionaries directly from the web.
@@ -125,9 +123,6 @@ def getCmtCategories(category=None, output_type=None):
         ssl._create_default_https_context = _create_unverified_https_context
 
     linkAPI = 'https://api.tradingeconomics.com/comtrade/categories'
-
-    if category == None:
-        linkAPI = 'https://api.tradingeconomics.com/comtrade/categories/'
 
     try:
         linkAPI += '?c=' + glob.apikey
