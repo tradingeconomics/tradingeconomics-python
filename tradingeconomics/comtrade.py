@@ -53,6 +53,62 @@ def checkCmtPage(linkAPI, page_number):
     return linkAPI
 
 
+def getCmtLastUpdates(output_type=None, country=None, start_date=None):
+    """
+    Get last updates by country or date on Comtrade database.
+    =================================================================================
+
+    Parameters:
+    -----------
+    output_type: string
+            'dict'(default) for dictionary format output, 'df' for data frame,
+            'raw' for list of dictionaries directly from the web.
+
+    country: string
+            For example: 'portugal'
+
+    start_date: string
+            For example: '2021-01-01'
+
+    Example
+    -------
+    getCmtLastUpdates(start_date='2022-01-01')
+    getCmtLastUpdates(country = 'portugal', start_date='2022-01-01')
+    getCmtLastUpdates(country = 'portugal', start_date='2022-01-01', output_type='df')
+    """
+
+    try:
+        _create_unverified_https_context = ssl._create_unverified_context
+    except AttributeError:
+        pass
+    else:
+        ssl._create_default_https_context = _create_unverified_https_context
+
+    linkAPI = 'https://api.tradingeconomics.com/comtrade/updates/country'
+
+    if country:
+        linkAPI += '/' + quote(country)
+    else:
+        linkAPI += '/all'
+
+
+    try:
+        linkAPI += '?c=' + glob.apikey
+    except AttributeError:
+        raise LoginError('You need to do login before making any request')
+
+    if start_date:
+        linkAPI += '&from=' + quote(start_date)
+
+    try:
+        # print(linkAPI)
+        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
+    except Exception as e:
+        print(e)
+
+
+
+
 def getCmtUpdates(output_type=None):
     """
     Get latest updates information on Comtrade.
