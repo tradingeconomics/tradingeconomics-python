@@ -542,7 +542,7 @@ def getMarketsSymbology(symbol = None,ticker = None, isin=None, country=None ,ou
                 isin = 'US0378331005'
 
         country: string 
-                country = 'United States'                
+                country = 'Mexico'                
         
         
         output_type: string.
