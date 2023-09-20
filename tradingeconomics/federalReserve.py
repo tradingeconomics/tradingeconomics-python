@@ -364,15 +364,18 @@ def getFedRHistorical(symbol = None, initDate=None,endDate=None, output_type = N
         'output_type' : ''
     }
 
+    initDateFormat = ''
     if initDate:     
-        fn.validate(initDate)
-        d['initDate']=f'&d1={initDate}'
-        
+        initDateFormat = fn.validate(initDate)
+        d['initDate']=f'&d1={quote(initDate)}'
+    
+    endDateFormat = ''
     if endDate:
-        fn.validate(endDate)
-        d['endDate']=f'&d2={endDate}'
-        fn.validatePeriod(initDate, endDate)
-        
+        endDateFormat = fn.validate(endDate)
+        d['endDate']=f'&d2={quote(endDate)}'
+    
+    if initDate and endDate:
+        fn.validatePeriod(initDate, initDateFormat, endDate, endDateFormat)
 
     if symbol:
         d['symbol'] = f'/{fn.stringOrList(symbol)}'

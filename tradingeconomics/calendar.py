@@ -177,11 +177,11 @@ def getCalendarData(country = None, category = None, initDate = None, endDate = 
     }
     if initDate and endDate :     
 
-        fn.validate(initDate)
-        fn.validate(endDate)
-        fn.validatePeriod(initDate, endDate)
-        d['init_date']=f'/{initDate}'
-        d['end_date']=f'/{endDate}'
+        initDateFormat = fn.validate(initDate)
+        endDateFormat = fn.validate(endDate)
+        fn.validatePeriod(initDate, initDateFormat, endDate, endDateFormat)
+        d['init_date']=f'/{quote(initDate)}'
+        d['end_date']=f'/{quote(endDate)}'
 
     if ticker:
         d['ticker'] = f'/ticker/{fn.stringOrList(ticker)}'
@@ -293,15 +293,17 @@ def getCalendarEventsByGroup(group: str, country: str=None, initDate = None, end
         return 'Group cannot be empty'
 
     if initDate and endDate:
-        fn.validatePeriod(initDate, endDate)
+        initDateFormat = fn.validate(initDate)
+        endDateFormat = fn.validate(endDate)
+        fn.validatePeriod(initDate, initDateFormat, endDate, endDateFormat)
     
     if initDate:
         fn.validate(initDate)
-        api_url_request += f"/{initDate}"
+        api_url_request += f"/{quote(initDate)}"
     
     if endDate:
         fn.validate(endDate)
-        api_url_request += f'/{endDate}'
+        api_url_request += f'/{quote(endDate)}'
     
     api_url_request += f"{d['key']}"
     

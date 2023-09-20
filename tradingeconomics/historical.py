@@ -167,18 +167,18 @@ def getHistoricalData(country = None, indicator = None, initDate= None, endDate=
         raise DateError('initDate value is missing') 
     if (initDate is not None) and (endDate is not None) :
         try: 
-            fn.validate(initDate)
+            initDateFormat = fn.validate(initDate)
         except ValueError:
             raise DateError ('Incorrect initDate format, should be YYYY-MM-DD or MM-DD-YYYY.')
         try: 
-            fn.validate(endDate)
+            endDateFormat = fn.validate(endDate)
         except ValueError:
             raise DateError ('Incorrect endDate format, should be YYYY-MM-DD or MM-DD-YYYY.')
         try:        
-            fn.validatePeriod(initDate, endDate)
+            fn.validatePeriod(initDate, initDateFormat, endDate, endDateFormat)
         except ValueError:
             raise DateError ('Invalid time period.')
-        linkAPI = fn.finalLink(linkAPI, [initDate, endDate])
+        linkAPI = fn.finalLink(linkAPI, [quote(initDate), quote(endDate)])
     if (initDate is not None) and endDate == None :        
         try: 
             fn.validate(initDate)
@@ -186,7 +186,7 @@ def getHistoricalData(country = None, indicator = None, initDate= None, endDate=
             raise DateError ('Incorrect initDate format, should be YYYY-MM-DD or MM-DD-YYYY.')
             if initDate > str(date.today()):
                 raise DateError ('Initial date out of range.')
-        linkAPI = fn.finalLink(linkAPI, [initDate])
+        linkAPI = fn.finalLink(linkAPI, [quote(initDate)])
    
     try:
         linkAPI += '?c='+glob.apikey

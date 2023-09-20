@@ -93,31 +93,31 @@ def fetchMarkets(symbol = None, initDate=None, endDate=None, output_type=None):
 
     if (initDate is not None) and (endDate is not None) :
         try: 
-            fn.validate(initDate)
+            initDateFormat = fn.validate(initDate)
         except ValueError:
             raise DateError ('Incorrect initDate format, should be YYYY-MM-DD or MM-DD-YYYY.')
         try: 
-            fn.validate(endDate)
+            endDateFormat = fn.validate(endDate)
         except ValueError:
             raise DateError ('Incorrect endDate format, should be YYYY-MM-DD or MM-DD-YYYY.')
         try:        
-            fn.validatePeriod(initDate, endDate)
+            fn.validatePeriod(initDate, initDateFormat, endDate, endDateFormat)
         except ValueError:
             raise DateError ('Invalid time period.')
-        linkAPI += '&d1=' + initDate + '&d2=' + endDate
+        linkAPI += '&d1=' + quote(initDate) + '&d2=' + quote(endDate)
     
     elif (initDate is not None) and endDate == None :        
         try: 
-            fn.validate(initDate)
+            initDateFormat = fn.validate(initDate)
         except ValueError:
             raise DateError ('Incorrect initDate format, should be YYYY-MM-DD or MM-DD-YYYY.')
             if initDate > str(date.today()):
                 raise DateError ('Initial date out of range.')
-        linkAPI += '&d1=' + initDate
+        linkAPI += '&d1=' + quote(initDate)
     
     elif initDate == None and (endDate is not None):
         initDate = (datetime.strptime(endDate, '%Y-%m-%d') - relativedelta(months=1)).strftime('%Y-%m-%d')
-        linkAPI += '&d1=' + initDate + '&d2=' + endDate   
+        linkAPI += '&d1=' + quote(initDate) + '&d2=' + quote(endDate)   
     
     try:
         #print(linkAPI)

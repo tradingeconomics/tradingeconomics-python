@@ -53,20 +53,24 @@ def out_type(init_format, isCommodity = False):
                 del dict_cat[l]['Country']
             del dict_cat[l]['Category']
     return dict_start
-       
-       
-def validate(date_text):      
+
+def validate(date_string):
+    formats = ["%Y-%m-%d", "%Y-%m-%d %H:%M", "%Y-%m-%d %H:%M:%S"]
+    for format in formats:
         try:
-            try:
-                datetime.strptime(date_text, '%Y-%m-%d')
-            except:
-                datetime.strptime(date_text, '%Y-%m-%d %H:%M')
+            datetime.strptime(date_string, format)
+            return format
         except ValueError:
-            raise DateError("Incorrect data format, should be YYYY-MM-DD")
+            pass
+    raise DateError("Incorrect data format, should be YYYY-MM-DD or YYYY-MM-DD HH:MM or YYYY-MM-DD HH:MM:SS")
+
                        
-def validatePeriod(initDate, endDate):
-    if  datetime.strptime(initDate, '%Y-%m-%d') > datetime.strptime(endDate, '%Y-%m-%d'):
-        raise DateError ('Invalid time period, check the supplied date parameters.')
+def validatePeriod(initDate, initDateFormat, endDate, endDateFormat):
+    try:
+        if  datetime.strptime(initDate, initDateFormat) > datetime.strptime(endDate, endDateFormat):
+            raise DateError ('Invalid time period, check the supplied date parameters.')
+    except ValueError:
+        raise DateError("Incorrect data format, should be YYYY-MM-DD or YYYY-MM-DD HH:MM or YYYY-MM-DD HH:MM:SS")
 
 def timeValidate(clientTime):
     try:
@@ -207,7 +211,7 @@ def makeRequestAndParse(api_request, output_type):
 def checkDates(baseLink, initDate=None, endDate=None):
     if (initDate is not None) and endDate == None :
         try: 
-            validate(initDate)
+            initDateFormat = validate(initDate)
         except ValueError:
             raise DateError ('Incorrect initDate format, should be YYYY-MM-DD or MM-DD-YYYY.')
         # if initDate > str(date.today()):
@@ -216,15 +220,15 @@ def checkDates(baseLink, initDate=None, endDate=None):
 
     if (initDate is not None) and (endDate is not None) :
         try: 
-            validate(initDate)
+            initDateFormat = validate(initDate)
         except ValueError:
             raise DateError ('Incorrect initDate format, should be YYYY-MM-DD or MM-DD-YYYY.')
         try: 
-            validate(endDate)
+            endDateFormat = validate(endDate)
         except ValueError:
             raise DateError ('Incorrect endDate format, should be YYYY-MM-DD or MM-DD-YYYY.')
         try:        
-            validatePeriod(initDate, endDate)
+            validatePeriod(initDate, initDateFormat, endDate, endDateFormat)
         except ValueError:
             raise DateError ('Invalid time period.')
         baseLink += '&d1=' + quote(initDate) + '&d2=' + quote(endDate)

@@ -445,13 +445,13 @@ def getMarketsIntradayByInterval(symbol, interval, initDate,endDate,output_type=
     }
     if initDate and endDate :     
 
-        fn.validate(initDate)
-        fn.validate(endDate)
-        fn.validatePeriod(initDate, endDate)
+        initDateFormat = fn.validate(initDate)
+        endDateFormat = fn.validate(endDate)
+        fn.validatePeriod(initDate, initDateFormat, endDate, endDateFormat)
         # #it will parse endDate when initDate and endData are the same. 
         # endDate = (lambda x, y : f"{endDate[0:8]}{(int(endDate[8:])+1)}" if x==y else endDate)(initDate,endDate)
-        # d['init_date']=f'&d1={initDate}'
-        # d['end_date']=f'&d2={endDate}'
+        d['init_date']=f'&d1={quote(initDate)}'
+        d['end_date']=f'&d2={quote(endDate)}'
 
     
 
