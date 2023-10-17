@@ -53,7 +53,6 @@ def getDividends(symbols: List[str]=None, startDate: str=None, endDate: str=None
     linkAPI = fn.checkDates(linkAPI, startDate, endDate)
 
     try:
-        print(linkAPI)
         return fn.dataRequest(api_request=linkAPI, output_type=output_type)
     except Exception as e:
         raise WebRequestError('Something went wrong with the request: ' + str(e))
