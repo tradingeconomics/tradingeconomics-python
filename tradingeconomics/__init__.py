@@ -27,6 +27,7 @@ if PY3: # Python 3+
     from .financials import getFinancialsData, getFinancialsCategoryList, getFinancialsDataByCategory, getSectors
     from .historicalFinancials import getFinancialsHistorical
     from .search import getSearch
+    from .dividends import getDividends
 
 
 else: # Python 2.X
@@ -49,8 +50,4 @@ else: # Python 2.X
     from financials import getFinancialsData, getFinancialsCategoryList, getFinancialsDataByCategory
     from historicalFinancials import getFinancialsHistorical
     from search import getSearch
-
-
-
-
-    
+    from dividends import getDividends
