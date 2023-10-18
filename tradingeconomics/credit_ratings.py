@@ -38,7 +38,6 @@ def getCreditRatings(country: List[str]=None, output_type: str=None):
     except AttributeError:
         raise LoginError('You need to do login before making any request')
 
-    print(linkAPI)
     try:
         return fn.dataRequest(api_request=linkAPI, output_type=output_type)
     except Exception as e:
@@ -64,7 +63,6 @@ def getHistoricalCreditRatings(country: List[str]=None, initDate: str=None, endD
     -------
     getHistoricalCreditRatings()
     getHistoricalCreditRatings(country='mexico')
-    getHistoricalCreditRatings(country=['mexico', 'sweden'])
     getHistoricalCreditRatings(country='mexico', initDate='2010-08-01')
     getHistoricalCreditRatings(country='mexico', initDate='2010-08-01', endDate='2012-01-01')
     """
