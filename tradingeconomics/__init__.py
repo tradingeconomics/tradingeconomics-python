@@ -28,6 +28,7 @@ if PY3: # Python 3+
     from .historicalFinancials import getFinancialsHistorical
     from .search import getSearch
     from .dividends import getDividends
+    from .credit_ratings import getCreditRatings, getHistoricalCreditRatings
 
 
 else: # Python 2.X
@@ -51,3 +52,4 @@ else: # Python 2.X
     from historicalFinancials import getFinancialsHistorical
     from search import getSearch
     from dividends import getDividends
+    from credit_ratings import getCreditRatings

@@ -143,7 +143,7 @@ def getIndicatorData(country = None, indicators = None, output_type = None):
  
 def getRatings(country=None, rating = None, output_type='df'):
     """
-    Return a list of all countrys by rating.
+    Return a list of all countries by rating.
     =================================================================================
     Parameters:
     -----------
