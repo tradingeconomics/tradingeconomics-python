@@ -12,9 +12,9 @@ te.login('guest:guest')
 class TestCreditRatings(unittest.TestCase):
 
     def test_getCreditRatings_country(self):
-        a = te.getCreditRatings(country='mexico', output_type='df')
+        a = te.getCreditRatings(country='sweden', output_type='df')
 
-        url = f'https://api.tradingeconomics.com/credit-ratings/country/mexico?c=guest:guest'
+        url = f'https://api.tradingeconomics.com/credit-ratings/country/sweden?c=guest:guest'
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -45,9 +45,9 @@ class TestCreditRatings(unittest.TestCase):
 
     def test_getHistoricalCreditRatings_country(self):
 
-        a = te.getHistoricalCreditRatings(country='mexico', initDate='2010-08-01', endDate='2022-01-01', output_type='df')
+        a = te.getHistoricalCreditRatings(country='sweden', initDate='2010-08-01', endDate='2022-01-01', output_type='df')
 
-        url = f'https://api.tradingeconomics.com/credit-ratings/historical/country/mexico?c=guest:guest&d1=2010-08-01&d2=2022-01-01'
+        url = f'https://api.tradingeconomics.com/credit-ratings/historical/country/sweden?c=guest:guest&d1=2010-08-01&d2=2022-01-01'
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
