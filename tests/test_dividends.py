@@ -62,7 +62,6 @@ class TestgetDividends(unittest.TestCase):
         b = b.reset_index(drop=True)
         self.assertEqual(True, a.equals(b))
 
-
     def test_getDividends_startDate(self):
         a = te.getDividends(startDate='2017-01-01', output_type='df')
         

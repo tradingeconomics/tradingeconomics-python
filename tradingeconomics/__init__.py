@@ -29,6 +29,8 @@ if PY3: # Python 3+
     from .search import getSearch
     from .dividends import getDividends
     from .credit_ratings import getCreditRatings, getHistoricalCreditRatings
+    from .ipo import getIpo
+    from .stock_splits import getStockSplits
 
 
 else: # Python 2.X
@@ -53,3 +55,5 @@ else: # Python 2.X
     from search import getSearch
     from dividends import getDividends
     from credit_ratings import getCreditRatings
+    from ipo import getIpo
+    from stock_splits import getStockSplits

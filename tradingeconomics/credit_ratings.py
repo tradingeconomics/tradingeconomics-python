@@ -17,7 +17,7 @@ def getCreditRatings(country: List[str]=None, output_type: str=None):
     Example:
     -------
     getCreditRatings()
-    getCreditRatings(country='mexico')
+    getCreditRatings(country='sweden')
     getCreditRatings(country=['mexico', 'sweden'])
     """
 
