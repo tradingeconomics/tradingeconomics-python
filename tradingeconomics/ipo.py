@@ -30,9 +30,9 @@ def getIpo(ticker: List[str]=None, country: List[str]=None, startDate: str=None,
 
     Example:
     --------
-    getIpoCalendar(ticker = 'SWIN', startDate='2023-10-01', endDate='2023-10-31')
-    getIpoCalendar(country = ['United States', 'Hong Kong'], startDate='2023-10-31')
-    getIpoCalendar()
+    getIpo(ticker = 'SWIN', startDate='2023-10-01', endDate='2023-10-31')
+    getIpo(country = ['United States', 'Hong Kong'], startDate='2023-10-31')
+    getIpo()
     
     """
     try:
