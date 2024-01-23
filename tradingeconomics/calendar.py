@@ -3,6 +3,7 @@ from datetime import *
 from . import functions as fn
 from . import glob
 import ssl
+from typing import List
 
 
 PY3 = sys.version_info[0] == 3
@@ -77,7 +78,7 @@ def getCalendarId(id = None, output_type = None):
     -------
     getCalendarId(id = None, output_type = None)
 
-    getCalendarId(id = 160025, output_type = None)
+    getCalendarId(id = '174108', output_type = None)
 
     getCalendarId(id = ['174108','160025','160030'], output_type = 'df')
     
@@ -308,3 +309,47 @@ def getCalendarEventsByGroup(group: str, country: str=None, initDate = None, end
     api_url_request += f"{d['key']}"
     
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
+
+
+def getCalendarEvents(country: List[str]=None, output_type = None):
+    """
+    Returns all calendar events or of the specific country passed as parameter.
+    =================================================================================
+    Parameters:
+    ----------
+        country: string, optional
+            'united states'
+            'china'
+        
+        
+        output_type: string.
+             'dict'(default) for dictionary format output, 
+             'df' for data frame,
+             'raw' for list of dictionaries directly from the web. 
+    Notes
+    -----
+    
+    
+    Example
+    -------
+            getCalendarEvents(output_type='df')
+            getCalendarEvents(country='china', output_type='df')
+            getCalendarEvents(country=['china', 'canada'] output_type='dict')
+            
+    """
+
+    d = {
+            'url_base': 'https://api.tradingeconomics.com/calendar/events',
+            'key': f'?c={glob.apikey}',
+            'output_type' : ''
+        }
+
+    api_url_request = f"{d['url_base']}"
+
+    if country:
+        api_url_request += f"/country/{fn.stringOrList(country)}"
+    
+    api_url_request += f"{d['key']}"
+    
+    return fn.dataRequest(api_request=api_url_request, output_type=output_type)
+
