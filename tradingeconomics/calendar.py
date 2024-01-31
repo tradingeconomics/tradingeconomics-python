@@ -187,7 +187,7 @@ def getCalendarData(country = None, category = None, initDate = None, endDate = 
     if ticker:
         d['ticker'] = f'/ticker/{fn.stringOrList(ticker)}'
         api_url_request = "%s%s%s%s%s" % (d['url_base'],  d['ticker'],  d['init_date'],  d['end_date'],  d['key']) 
-        #print(api_url_request)
+        
         return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
     if country:
@@ -271,7 +271,7 @@ def getCalendarEventsByGroup(group: str, country: str=None, initDate = None, end
     
     Example
     -------
-            getCalendarEventsByGroup(output_type='df')
+            getCalendarEventsByGroup(group='bond', output_type='df')
             getCalendarEventsByGroup(country='china', group='inflation', endDate='2023-02-01', output_type='df')
             getCalendarEventsByGroup('inflation', initDate='2023-01-01', endDate='2023-02-01', output_type='dict')
             

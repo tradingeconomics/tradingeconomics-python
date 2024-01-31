@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import sys
 import requests
+import time
 
 sys.path.insert (0, '../tradingeconomics')
 import tradingeconomics as te
@@ -11,6 +12,9 @@ te.login('guest:guest')
 
 class TestgetDividends(unittest.TestCase):
 
+    def tearDown(self):
+        time.sleep(2)
+        
     def test_getDividends_startDate_endDate(self):
         a = te.getDividends(startDate='2017-01-01', endDate='2018-01-01', output_type='df')
 

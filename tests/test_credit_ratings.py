@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import sys
 import requests
+import time
 
 sys.path.insert (0, '../tradingeconomics')
 import tradingeconomics as te
@@ -10,6 +11,9 @@ import tradingeconomics as te
 te.login('guest:guest')
 
 class TestCreditRatings(unittest.TestCase):
+
+    def tearDown(self):
+        time.sleep(2)
 
     def test_getCreditRatings_country(self):
         a = te.getCreditRatings(country='sweden', output_type='df')

@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import sys
 import requests
+import time
 
 sys.path.insert (0, '../tradingeconomics')
 import tradingeconomics as te
@@ -10,6 +11,9 @@ import tradingeconomics as te
 te.login('guest:guest')
 
 class TestgetCalendarId(unittest.TestCase):
+
+    def tearDown(self):
+        time.sleep(2)
 
     def test_getCalendarIdWithIds(self):
         a = te.getCalendarId(id = ['174108','160025','160030'], output_type = 'df')
@@ -358,6 +362,128 @@ class TestgetCalendarData(unittest.TestCase):
         a = a.sort_values(by=['CalendarId'])
         a = a.reset_index(drop=True)
         
+        b = b.sort_values(by=['CalendarId'])
+        b = b.reset_index(drop=True)
+
+        self.assertEqual(True, a.equals(b))
+
+    
+class TestgetCalendarEvents(unittest.TestCase):
+
+    def test_getCalendarEventsNoArguments(self):
+        a = te.getCalendarEvents(output_type = 'df')
+
+        url = f'https://api.tradingeconomics.com/calendar/events?c=guest:guest'
+        data = requests.get(url).json()
+
+        b = pd.DataFrame.from_dict(data, orient='columns')
+
+        a = a.sort_values(by=['Event'])
+        a = a.reset_index(drop=True)
+
+        b = b.sort_values(by=['Event'])
+        b = b.reset_index(drop=True)
+
+        self.assertEqual(True, a.equals(b))
+
+    
+    def test_getCalendarEventsCountry(self):
+        a = te.getCalendarEvents(country = 'united states', output_type = 'df')
+
+        url = f'https://api.tradingeconomics.com/calendar/events/country/united%20states?c=guest:guest'
+        data = requests.get(url).json()
+
+        b = pd.DataFrame.from_dict(data, orient='columns')
+
+        a = a.sort_values(by=['Event'])
+        a = a.reset_index(drop=True)
+
+        b = b.sort_values(by=['Event'])
+        b = b.reset_index(drop=True)
+
+        self.assertEqual(True, a.equals(b))
+
+    
+    def test_getCalendarEventsMultipleCountries(self):
+        a = te.getCalendarEvents(country = ['united states', 'china'], output_type = 'df')
+
+        url = f'https://api.tradingeconomics.com/calendar/events/country/united%20states,china?c=guest:guest'
+        data = requests.get(url).json()
+
+        b = pd.DataFrame.from_dict(data, orient='columns')
+
+        a = a.sort_values(by=['Event'])
+        a = a.reset_index(drop=True)
+
+        b = b.sort_values(by=['Event'])
+        b = b.reset_index(drop=True)
+
+        self.assertEqual(True, a.equals(b))
+
+
+
+class TestgetCalendarEventsByGroup(unittest.TestCase):
+
+    def test_getCalendarEventsByGroupNoArguments(self):
+        a = te.getCalendarEventsByGroup(group='bonds', output_type = 'df')
+
+        url = f'https://api.tradingeconomics.com/calendar/group/bonds?c=guest:guest'
+        data = requests.get(url).json()
+
+        b = pd.DataFrame.from_dict(data, orient='columns')
+
+        a = a.sort_values(by=['CalendarId'])
+        a = a.reset_index(drop=True)
+
+        b = b.sort_values(by=['CalendarId'])
+        b = b.reset_index(drop=True)
+
+        self.assertEqual(True, a.equals(b))
+
+    def test_getCalendarEventsByGroupWithDates(self):
+        a = te.getCalendarEventsByGroup(group='bonds', initDate='2023-01-01', endDate='2023-02-01', output_type = 'df')
+
+        url = f'https://api.tradingeconomics.com/calendar/group/bonds/2023-01-01/2023-02-01?c=guest:guest'
+        data = requests.get(url).json()
+
+        b = pd.DataFrame.from_dict(data, orient='columns')
+
+        a = a.sort_values(by=['CalendarId'])
+        a = a.reset_index(drop=True)
+
+        b = b.sort_values(by=['CalendarId'])
+        b = b.reset_index(drop=True)
+
+        self.assertEqual(True, a.equals(b))
+
+    
+    def test_getCalendarEventsByGroupWithDate(self):
+        a = te.getCalendarEventsByGroup(group='bonds', endDate='2023-02-01', output_type = 'df')
+
+        url = f'https://api.tradingeconomics.com/calendar/group/bonds/2023-02-01?c=guest:guest'
+        data = requests.get(url).json()
+
+        b = pd.DataFrame.from_dict(data, orient='columns')
+
+        a = a.sort_values(by=['CalendarId'])
+        a = a.reset_index(drop=True)
+
+        b = b.sort_values(by=['CalendarId'])
+        b = b.reset_index(drop=True)
+
+        self.assertEqual(True, a.equals(b))
+
+    def test_getCalendarEventByGroupWithCountry(self):
+        a = te.getCalendarEventsByGroup(group='bonds', country='united states', output_type = 'df')
+
+        url = f'https://api.tradingeconomics.com/calendar/country/united states/group/bonds?c=guest:guest'
+        data = requests.get(url).json()
+
+        b = pd.DataFrame.from_dict(data, orient='columns')
+
+        a = a.sort_values(by=['CalendarId'])
+        a = a.reset_index(drop=True)
+
         b = b.sort_values(by=['CalendarId'])
         b = b.reset_index(drop=True)
 
