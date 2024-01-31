@@ -33,7 +33,9 @@ jobs:
     - name: Build package
       run: python setup.py sdist bdist_wheel
     - name: Test package
-      run: python -m unittest discover tests
+      run: | 
+        pip install pandas
+        python -m unittest discover tests
     - name: Publish package
       env:
         TWINE_USERNAME: __token__
