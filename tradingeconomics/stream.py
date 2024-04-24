@@ -59,7 +59,7 @@ def start_socket(on_message_client, *args):
 
 def run(on_message_client, *args): ##passing on args ('on_close_client')
 
-    websocket.enableTrace(True)
+    websocket.enableTrace(False)
     function_to_restart[0] = on_message_client
     
     if (args):
