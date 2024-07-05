@@ -13,7 +13,7 @@ if PY3: # Python 3+
     from .calendar import getCalendarData, getCalendarId,getCalendarUpdates, getCalendarEventsByGroup, getCalendarEvents
     from .forecasts import getForecastData,getForecastByTicker
     from .indicators import getIndicatorData, getRatings, getLatestUpdates, getDiscontinuedIndicator, getIndicatorByCategoryGroup, getIndicatorByTicker, getPeers, getAllCountries
-    from .markets import getMarketsData, getMarketsBySymbol, getMarketsIntraday, getMarketsPeers, getMarketsComponents, getMarketsSearch, getMarketsForecasts, getCurrencyCross, getMarketsIntradayByInterval, getMarketsStockDescriptions,getMarketsSymbology,getStocksByCountry
+    from .markets import getMarketsData, getMarketsBySymbol, getMarketsIntraday, getMarketsPeers, getMarketsComponents, getMarketsSearch, getMarketsForecasts, getCurrencyCross, getMarketsIntradayByInterval, getMarketsStockDescriptions,getMarketsSymbology,getStocksByCountry,getMarketsByCountry
     from .historicalMarkets import fetchMarkets
     from .glob import login, subscribe
     from .stream import run
