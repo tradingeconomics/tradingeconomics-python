@@ -603,14 +603,14 @@ def getMarketsSymbology(symbol = None,ticker = None, isin=None, country=None ,ou
     except ValueError:
       raise WebRequestError ('Something went wrong.')   
 
-def getStocksByCountry (country:str,output_type=None):
+def getStocksByCountry (country = None,output_type=None):
     """
     Returns Stocks List to a specific country
     =================================================================================
     Parameters:
     -----------
         country: string 
-                symbol = 'United States'
+                country = 'United States'
                 
         output_type: string.
             'dict'(default) for dictionary format output, 'df' for data frame,
@@ -622,35 +622,32 @@ def getStocksByCountry (country:str,output_type=None):
     Example
     -------
             getStocksByCountry(country='United States',output_type='df')
+            getStocksByCountry(country = ['United States', 'Portugal'],output_type='df')
             
     """
     
-          
-
-    # d is a dictionary used for create the api url
-    d = {
-        'url_base': 'https://api.tradingeconomics.com/markets/country/',
-        'country': '',
-        'key': f'?c={glob.apikey}',
-        'output_type' : ''
-    }
+    try:
+        _create_unverified_https_context = ssl._create_unverified_context
+    except AttributeError:
+        pass
+    else:
+        ssl._create_default_https_context = _create_unverified_https_context
+    
+    if country == None:
+         return "A country is required!"
+    else:
+         linkAPI = checkCountry(country)
 
     try:
-        if type(country) == str:
-            d['country'] = f'{quote(country)}'
-        else:
-          raise AttributeError ('country must be a string')
+        linkAPI += '?c=' + glob.apikey
+    except AttributeError:
+        raise LoginError('You need to do login before making any request.')
+
+    try:
+        #print(linkAPI)
+        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
     except Exception as e:
-      raise e
-    
-    
-
-    api_url_request = "%s%s%s" % (d['url_base'], d['country'],d['key']) 
-    try:
-      output = fn.dataRequest(api_url_request, output_type)
-      return output
-    except ValueError:
-      raise WebRequestError ('Something went wrong.') 
+        print(e) 
     
 def getMarketsByCountry (country:str,output_type=None):
     """
@@ -673,12 +670,11 @@ def getMarketsByCountry (country:str,output_type=None):
             getMarketsByCountry(country='United States',output_type='df')
             
     """
-    
           
 
     # d is a dictionary used for create the api url
     d = {
-        'url_base': 'https://api.tradingeconomics.com/markets/stocks/country/',
+        'url_base': 'https://api.tradingeconomics.com/markets/country/',
         'country': '',
         'key': f'?c={glob.apikey}',
         'output_type' : ''
@@ -692,11 +688,17 @@ def getMarketsByCountry (country:str,output_type=None):
     except Exception as e:
       raise e
     
-    
-
     api_url_request = "%s%s%s" % (d['url_base'], d['country'],d['key']) 
     try:
       output = fn.dataRequest(api_url_request, output_type)
       return output
     except ValueError:
       raise WebRequestError ('Something went wrong.') 
+
+def checkCountry(country):
+    linkAPI = 'https://api.tradingeconomics.com/markets/stocks/country/'   
+    if type(country) is str:
+        linkAPI += quote(country.lower())
+    else:
+        linkAPI += quote(",".join(country), safe='')
+    return linkAPI
