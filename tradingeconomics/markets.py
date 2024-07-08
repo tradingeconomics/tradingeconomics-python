@@ -645,7 +645,16 @@ def getStocksByCountry (country = None,output_type=None):
 
     try:
         #print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
+        data = fn.dataRequest(api_request=linkAPI, output_type=output_type)
+
+        if output_type==None:
+            data = pd.DataFrame(data)
+            data = data.rename(columns={'decimals': 'Decimals', 'unit': 'Unit', 'frequency': 'Frequency'}) 	
+            data = data.to_dict(orient='records')
+        else:  
+            data = data.rename(columns={'decimals': 'Decimals', 'unit': 'Unit', 'frequency': 'Frequency'}) 	
+            
+        return data
     except Exception as e:
         print(e) 
     
