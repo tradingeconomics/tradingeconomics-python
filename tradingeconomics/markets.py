@@ -649,10 +649,10 @@ def getStocksByCountry (country = None,output_type=None):
 
         if output_type==None:
             data = pd.DataFrame(data)
-            data = data.rename(columns={'decimals': 'Decimals', 'unit': 'Unit', 'frequency': 'Frequency'}) 	
+            data = data.rename(columns={'unit': 'Unit', 'frequency': 'Frequency'}) 	
             data = data.to_dict(orient='records')
         else:  
-            data = data.rename(columns={'decimals': 'Decimals', 'unit': 'Unit', 'frequency': 'Frequency'}) 	
+            data = data.rename(columns={'unit': 'Unit', 'frequency': 'Frequency'}) 	
             
         return data
     except Exception as e:
