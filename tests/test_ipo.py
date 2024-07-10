@@ -24,12 +24,13 @@ class TestgetIpo(unittest.TestCase):
         b = pd.DataFrame.from_dict(data, orient='columns')
         
         a['Ticker'] = a['Ticker'].str.strip()
-        a = a.sort_values(by=['Ticker'])
+        a = a.sort_values(by=['Ticker', 'Exchange'])
         a = a.reset_index(drop=True)
 
         b['Ticker'] = b['Ticker'].str.strip()
-        b = b.sort_values(by=['Ticker'])
+        b = b.sort_values(by=['Ticker', 'Exchange'])
         b = b.reset_index(drop=True)
+
         self.assertEqual(True, a.equals(b))
 
 
