@@ -10,7 +10,7 @@ def readme():
 setup(
   name = 'tradingeconomics',
   packages = find_packages(exclude=['tests*']),  
-  version = '4.3.6',
+  version = '4.3.7',
   description = 'Trading Economics API',
   long_description =readme(),
   long_description_content_type='text/x-rst',
