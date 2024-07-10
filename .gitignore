@@ -15,6 +15,7 @@ __pycache__/
 tradingeconomics/__pycache__/
 build/
 .vscode/
+testChanges.py
 
 
 ## Ignore Visual Studio temporary files, build results, and
