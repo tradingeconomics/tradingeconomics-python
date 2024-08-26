@@ -107,7 +107,7 @@ def getCalendarId(id = None, output_type = None):
         print(e)
         
 
-def getCalendarData(country = None, category = None, initDate = None, endDate = None, importance=None, ticker=None, output_type = None, values=None):
+def getCalendarData(country = None, category = None, initDate = None, endDate = None, importance=None, ticker=None, event=None, output_type = None, values=None):
     """
     Returns Lastest Updates by country, by country and initial date, by initial date only.
     =================================================================================
@@ -123,6 +123,9 @@ def getCalendarData(country = None, category = None, initDate = None, endDate = 
                 ticker=['IJCUSA','SPAINFACORD','BAHRAININFNRATE']
         importance: string.
                 importance = '2'
+        event: string or list.
+                event = 'GDP Growth Rate QoQ Final GDP'
+                event =['GDP Growth Rate QoQ Final GDP','Industrial Production MoM']
         values: boolean.
                 values = True
                 values = False
@@ -159,7 +162,9 @@ def getCalendarData(country = None, category = None, initDate = None, endDate = 
             getCalendarData(country = 'United States', category = 'initial jobless claims', output_type='df')
             getCalendarData(country = 'United States', category = 'initial jobless claims',initDate = '2011-01-01', endDate = '2016-01-01', output_type='df')
             getCalendarData(ticker=['IJCUSA','SPAINFACORD','BAHRAININFNRATE'], output_type='df')
-            getCalendarData(ticker=['IJCUSA','SPAINFACORD','BAHRAININFNRATE'], initDate = '2021-01-01', endDate = '2021-01-03',utput_type='df')
+            getCalendarData(ticker=['IJCUSA','SPAINFACORD','BAHRAININFNRATE'], initDate = '2021-01-01', endDate = '2021-01-03', output_type='df')
+            getCalendarData(country= 'United States', event = 'GDP Growth Rate QoQ Final GDP', output_type='df')
+            getCalendarData(country= 'United States', event = 'GDP Growth Rate QoQ Final GDP', initDate = '2021-01-01', endDate = '2021-01-03', output_type='df')
     """
             
     
@@ -172,6 +177,7 @@ def getCalendarData(country = None, category = None, initDate = None, endDate = 
         'end_date':'',
         'importance':'',
         'ticker':'',
+        'event':'',
         'key': f'?c={glob.apikey}',
         'output_type' : '',
         'values': ''
@@ -195,6 +201,12 @@ def getCalendarData(country = None, category = None, initDate = None, endDate = 
         
     if category:
         d['category'] = f'/indicator/{fn.stringOrList(category)}'
+
+    if event and country:
+        d['event'] = f'/event/{fn.stringOrList(event)}'
+    elif event and not country:
+        return "The parameter 'country' must be provided!"
+        
     if importance:
         d['importance'] = f'&importance={importance}'
 
@@ -206,7 +218,7 @@ def getCalendarData(country = None, category = None, initDate = None, endDate = 
     elif values == False:
         d['values'] = f'&values=false'
 
-    api_url_request = "%s%s%s%s%s%s%s%s" % (d['url_base'], d['country'], d['category'],  d['init_date'],  d['end_date'],  d['key'], d['importance'], d['values']) 
+    api_url_request = "%s%s%s%s%s%s%s%s%s" % (d['url_base'], d['country'], d['category'],  d['event'], d['init_date'],  d['end_date'],  d['key'], d['importance'], d['values']) 
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
 
