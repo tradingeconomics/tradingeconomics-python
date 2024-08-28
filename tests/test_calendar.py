@@ -367,7 +367,73 @@ class TestgetCalendarData(unittest.TestCase):
 
         self.assertEqual(True, a.equals(b))
 
+    def test_getCalendarDataWithEvent(self):
+        a = te.getCalendarData(country='United States', event='GDP Growth Rate QoQ Final', initDate='2016-12-01', endDate='2024-02-25', output_type = 'df')
+
+        url = f'https://api.tradingeconomics.com/calendar/country/united%20states/event/GDP Growth Rate QoQ Final/2016-12-01/2024-02-25?c=guest:guest'
+        data = requests.get(url).json()
+
+        b = pd.DataFrame.from_dict(data, orient='columns')
+        
+        a = a.sort_values(by=['CalendarId'])
+        a = a.reset_index(drop=True)
+        
+        b = b.sort_values(by=['CalendarId'])
+        b = b.reset_index(drop=True)
+
+        self.assertEqual(True, a.equals(b))
+
     
+    def test_getCalendarDataWithCountryEventAndDates(self):
+        a = te.getCalendarData(country='United States', event='GDP Growth Rate QoQ Final', initDate='2016-12-01', endDate='2024-02-25', output_type = 'df')
+
+        url = f'https://api.tradingeconomics.com/calendar/country/united%20states/event/GDP Growth Rate QoQ Final/2016-12-01/2024-02-25?c=guest:guest'
+        data = requests.get(url).json()
+
+        b = pd.DataFrame.from_dict(data, orient='columns')
+        
+        a = a.sort_values(by=['CalendarId'])
+        a = a.reset_index(drop=True)
+        
+        b = b.sort_values(by=['CalendarId'])
+        b = b.reset_index(drop=True)
+
+        self.assertEqual(True, a.equals(b))
+
+    
+    def test_getCalendarDataWithCountriesEventAndDates(self):
+        a = te.getCalendarData(country=['United States'], event='GDP Growth Rate QoQ Final', initDate='2016-12-01', endDate='2024-02-25', output_type = 'df')
+
+        url = f'https://api.tradingeconomics.com/calendar/country/united%20states/event/GDP Growth Rate QoQ Final/2016-12-01/2024-02-25?c=guest:guest'
+        data = requests.get(url).json()
+
+        b = pd.DataFrame.from_dict(data, orient='columns')
+        
+        a = a.sort_values(by=['CalendarId'])
+        a = a.reset_index(drop=True)
+        
+        b = b.sort_values(by=['CalendarId'])
+        b = b.reset_index(drop=True)
+
+        self.assertEqual(True, a.equals(b))
+
+    def test_getCalendarDataWithEventAndDates(self):
+        a = te.getCalendarData(country=['United States'], event=['GDP Growth Rate QoQ Final', ], initDate='2016-12-01', endDate='2024-02-25', output_type = 'df')
+
+        url = f'https://api.tradingeconomics.com/calendar/country/united%20states/event/GDP Growth Rate QoQ Final/2016-12-01/2024-02-25?c=guest:guest'
+        data = requests.get(url).json()
+
+        b = pd.DataFrame.from_dict(data, orient='columns')
+        
+        a = a.sort_values(by=['CalendarId'])
+        a = a.reset_index(drop=True)
+        
+        b = b.sort_values(by=['CalendarId'])
+        b = b.reset_index(drop=True)
+
+        self.assertEqual(True, a.equals(b))
+    
+
 class TestgetCalendarEvents(unittest.TestCase):
 
     def test_getCalendarEventsNoArguments(self):
