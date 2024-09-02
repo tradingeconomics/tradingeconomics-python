@@ -101,11 +101,8 @@ def getCalendarId(id = None, output_type = None):
     except AttributeError:
         raise LoginError('You need to do login before making any request')
     
-    try:
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)
-        
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
+
 
 def getCalendarData(country = None, category = None, initDate = None, endDate = None, importance=None, ticker=None, event=None, output_type = None, values=None):
     """
@@ -255,8 +252,6 @@ def getCalendarUpdates(output_type = None):
     api_url_request = "%s%s" % (d['url_base'], d['key']) 
 
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
-    #return
-
 
 
 def getCalendarEventsByGroup(group: str, country: str=None, initDate = None, endDate = None, output_type = None):

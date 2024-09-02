@@ -100,13 +100,7 @@ def getCmtLastUpdates(output_type=None, country=None, start_date=None):
     if start_date:
         linkAPI += '&from=' + quote(start_date)
 
-    try:
-        # print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)
-
-
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
 def getCmtUpdates(output_type=None):
@@ -142,13 +136,7 @@ def getCmtUpdates(output_type=None):
     except AttributeError:
         raise LoginError('You need to do login before making any request')
 
-    try:
-        # print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)
-        
-
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
 def getCmtCategories(output_type=None):
@@ -185,11 +173,7 @@ def getCmtCategories(output_type=None):
     except AttributeError:
         raise LoginError('You need to do login before making any request')
 
-    try:
-        # print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
 def getCmtCountry(country=None, page_number=None, output_type=None):
@@ -242,11 +226,7 @@ def getCmtCountry(country=None, page_number=None, output_type=None):
     except AttributeError:
         raise LoginError('You need to do login before making any request')
 
-    try:
-        #print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
 def getCmtHistorical(symbol=None, output_type=None):
@@ -292,11 +272,7 @@ def getCmtHistorical(symbol=None, output_type=None):
     except AttributeError:
         raise LoginError('You need to do login before making any request')
 
-    try:
-        #print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
 def getCmtTwoCountries(country1=None, country2=None, page_number=None, output_type=None):
@@ -340,11 +316,7 @@ def getCmtTwoCountries(country1=None, country2=None, page_number=None, output_ty
     except AttributeError:
         raise LoginError('You need to do login before making any request')
 
-    try:
-        #print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
 def getCmtCountryByCategory(country=None, type=None, category=None, output_type=None):
@@ -407,11 +379,7 @@ def getCmtCountryByCategory(country=None, type=None, category=None, output_type=
     except AttributeError:
         raise LoginError('You need to do login before making any request')
 
-    try:
-        # print(link_api)
-        return fn.dataRequest(api_request=link_api, output_type=output_type)
-    except Exception as e:
-        print(e)
+    return fn.dataRequest(api_request=link_api, output_type=output_type)
         
 
 def getCmtTotalByType(country=None, type=None, output_type=None):
@@ -462,11 +430,8 @@ def getCmtTotalByType(country=None, type=None, output_type=None):
 
     link_api = getLinkApi(country, type)
 
-    try:
-        # print(link_api)
-        return fn.dataRequest(api_request=link_api, output_type=output_type)
-    except Exception as e:
-        print(e)
+    return fn.dataRequest(api_request=link_api, output_type=output_type)
+
 
 def getCmtCountryFilterByType(country1=None, country2=None, type=None, output_type=None):
     """
@@ -534,11 +499,7 @@ def getCmtCountryFilterByType(country1=None, country2=None, type=None, output_ty
     except AttributeError:
         raise TypeError('type is missing. Choose "import" or "export"')
 
-    try:
-        # print(link_api)
-        return fn.dataRequest(api_request=link_api, output_type=output_type)
-    except Exception as e:
-        print(e)
+    return fn.dataRequest(api_request=link_api, output_type=output_type)
 
 
 def getCmtSnapshotByType(country=None, type=None, output_type=None):
@@ -589,8 +550,5 @@ def getCmtSnapshotByType(country=None, type=None, output_type=None):
 
     link_api = getLinkApi(country, type)
 
-    try:
-        # print(link_api)
-        return fn.dataRequest(api_request=link_api, output_type=output_type)
-    except Exception as e:
-        print(e)
+    return fn.dataRequest(api_request=link_api, output_type=output_type)
+

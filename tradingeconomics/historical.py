@@ -193,11 +193,8 @@ def getHistoricalData(country = None, indicator = None, initDate= None, endDate=
     except AttributeError:
         raise LoginError('You need to do login before making any request')
     
-    try:
-        #print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)  
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
+
         
 
 def getHistoricalRatings(country = None, rating = None, initDate = None, endDate=None, output_type = None):
@@ -252,11 +249,8 @@ def getHistoricalRatings(country = None, rating = None, initDate = None, endDate
     except AttributeError:
         raise LoginError('You need to do login before making any request')
    
-    try:
-        #print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)   
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
+
 
 def getHistoricalByTicker(ticker=None, start_date=None, output_type=None):
     """

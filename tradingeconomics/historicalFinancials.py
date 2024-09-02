@@ -84,8 +84,5 @@ def getFinancialsHistorical(symbol=None, category=None, initDate=None, endDate=N
         raise LoginError('You need to do login before making any request')
 
     linkAPI = fn.checkDates(linkAPI, initDate, endDate)
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
-    try:
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)

@@ -6,9 +6,6 @@ from . import glob
 class LoginError(AttributeError):
     pass
 
-class WebRequestError(ValueError):
-    pass
-
 def getDividends(symbols: List[str]=None, startDate: str=None, endDate: str=None, output_type: str=None):
     """
     Returns dividends calendar data.
@@ -52,8 +49,6 @@ def getDividends(symbols: List[str]=None, startDate: str=None, endDate: str=None
 
     linkAPI = fn.checkDates(linkAPI, startDate, endDate)
 
-    try:
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        raise WebRequestError('Something went wrong with the request: ' + str(e))
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
+
 

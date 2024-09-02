@@ -151,12 +151,7 @@ def getEurostatData(country = None, category = None, category_group= None, lists
         #print(linkAPI)
     except AttributeError:
         raise LoginError('You need to do login before making any request')
-    try:
-        #print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)
-
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
 def getEurostatCountries(output_type=None):
@@ -168,7 +163,6 @@ def getEurostatCountries(output_type=None):
         te.getEurostatCountries(output_type='df')
     """
 
-
     # d is a dictionary used for create the api url
     d = {
         'url_base': 'https://api.tradingeconomics.com/eurostat/countries',
@@ -176,16 +170,8 @@ def getEurostatCountries(output_type=None):
         'output_type' : ''
     }
 
-    
-
-    
     api_url_request = "%s%s" % (d['url_base'],  d['key']) 
-
-    # print(api_url_request)
-    
-
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
-    # return
 
 
 def getEurostatCategoryGroups(output_type=None):
@@ -206,14 +192,8 @@ def getEurostatCategoryGroups(output_type=None):
         'output_type' : ''
     }
 
-    
-
-    
     api_url_request = "%s%s" % (d['url_base'],  d['key']) 
 
-    # print(api_url_request)
-    
-
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
-    # return
+
         

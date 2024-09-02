@@ -80,13 +80,8 @@ def getMarketsData(marketsField, output_type=None):
     except AttributeError:
         raise LoginError('You need to do login before making any request')
 
-    try:
-      output = fn.dataRequest(linkAPI, output_type)
-      return output
-    except ValueError:
-      raise WebRequestError ('Something went wrong.')  
-    
-    
+    return fn.dataRequest(linkAPI, output_type)
+
 
 def getCurrencyCross(cross, output_type=None):
     """
@@ -121,16 +116,11 @@ def getCurrencyCross(cross, output_type=None):
         linkAPI += '&c=' + glob.apikey
     except AttributeError:
         raise LoginError('You need to do login before making any request')
-    
-    try:
-      output = fn.dataRequest(linkAPI, output_type)
-      return output
-    except ValueError:
-      raise WebRequestError ('Something went wrong.')  
-    
-    
 
+    return fn.dataRequest(linkAPI, output_type)
 
+    
+    
 def getMarketsBySymbol(symbols, output_type=None):
     """
     Returns a markets information for specific symbols.
@@ -166,11 +156,7 @@ def getMarketsBySymbol(symbols, output_type=None):
     except AttributeError:
         raise LoginError('You need to do login before making any request')
     
-    try:
-      output = fn.dataRequest(linkAPI, output_type)
-      return output
-    except ValueError:
-      raise WebRequestError ('Something went wrong.')  
+    return fn.dataRequest(linkAPI, output_type)
 
 
 def getMarketsIntraday(symbols, initDate=None, endDate=None, output_type=None):
@@ -214,11 +200,8 @@ def getMarketsIntraday(symbols, initDate=None, endDate=None, output_type=None):
     
     linkAPI = fn.checkDates(linkAPI, initDate, endDate)
 
-    try:
-      output = fn.dataRequest(linkAPI, output_type)
-      return output
-    except ValueError:
-      raise WebRequestError ('Something went wrong.')  
+    return fn.dataRequest(linkAPI, output_type)
+
 
 def getMarketsPeers(symbols, output_type = None):
     """
@@ -254,11 +237,8 @@ def getMarketsPeers(symbols, output_type = None):
         linkAPI += '?c=' + glob.apikey
     except AttributeError:
         raise LoginError('You need to do login before making any request')
-    try:
-      output = fn.dataRequest(linkAPI, output_type)
-      return output
-    except ValueError:
-      raise WebRequestError ('Something went wrong.')  
+    return fn.dataRequest(linkAPI, output_type)
+  
 
 def getMarketsComponents(symbols, output_type = None):
     """
@@ -294,11 +274,8 @@ def getMarketsComponents(symbols, output_type = None):
         linkAPI += '?c=' + glob.apikey
     except AttributeError:
         raise LoginError('You need to do login before making any request')
-    try:
-      output = fn.dataRequest(linkAPI, output_type)
-      return output
-    except ValueError:
-      raise WebRequestError ('Something went wrong.')  
+    return fn.dataRequest(linkAPI, output_type)
+
 
 def getMarketsSearch(country=None, category = None, page = None, output_type = None):    
     """
@@ -344,11 +321,7 @@ def getMarketsSearch(country=None, category = None, page = None, output_type = N
     except AttributeError:
         raise LoginError('You need to do login before making any request')
     
-    try:
-      output = fn.dataRequest(linkAPI, output_type)
-      return output
-    except ValueError:
-      raise WebRequestError ('Something went wrong.')  
+    return fn.dataRequest(linkAPI, output_type)
 
 
 def getMarketsForecasts(category=None, symbol=None,  output_type = None):
@@ -395,12 +368,7 @@ def getMarketsForecasts(category=None, symbol=None,  output_type = None):
     except AttributeError:
         raise LoginError('You need to do login before making any request')
     
-    try:
-    #   output = fn.makeRequestAndParse(linkAPI, output_type)
-      output = fn.dataRequest(linkAPI, output_type)
-      return output
-    except ValueError:
-      raise WebRequestError ('Something went wrong.')   
+    return fn.dataRequest(linkAPI, output_type)
 
 
 def getMarketsIntradayByInterval(symbol, interval, initDate,endDate,output_type=None):
@@ -457,14 +425,8 @@ def getMarketsIntradayByInterval(symbol, interval, initDate,endDate,output_type=
 
     api_url_request = "%s%s%s%s%s%s" % (d['url_base'], d['symbol'], d['interval'],  d['init_date'],  d['end_date'],  d['key']) 
 
-    try:
-      # print(api_url_request)
-      output = fn.dataRequest(api_url_request, output_type)
-      return output
-    except ValueError:
-      raise WebRequestError ('Something went wrong.')   
-    
-
+    return fn.dataRequest(api_url_request, output_type)
+ 
 
 def getMarketsStockDescriptions(symbol = None,country = None, output_type=None):
     """
@@ -520,11 +482,7 @@ def getMarketsStockDescriptions(symbol = None,country = None, output_type=None):
     
 
     api_url_request = "%s%s%s%s" % (d['url_base'], d['symbol'],d['country'],  d['key']) 
-    try:
-      output = fn.dataRequest(api_url_request, output_type)
-      return output
-    except ValueError:
-      raise WebRequestError ('Something went wrong.')   
+    return fn.dataRequest(api_url_request, output_type)
 
 def getMarketsSymbology(symbol = None,ticker = None, isin=None, country=None ,output_type=None):
     """
@@ -597,11 +555,7 @@ def getMarketsSymbology(symbol = None,ticker = None, isin=None, country=None ,ou
         d['country'] = f'/country/{(fn.stringOrList(country))}'
 
     api_url_request = "%s%s%s%s%s%s" % (d['url_base'], d['symbol'],d['ticker'],  d['isin'],d['country'],d['key']) 
-    try:
-      output = fn.dataRequest(api_url_request, output_type)
-      return output
-    except ValueError:
-      raise WebRequestError ('Something went wrong.')   
+    return fn.dataRequest(api_url_request, output_type) 
 
 def getStocksByCountry (country = None,output_type=None):
     """
@@ -698,11 +652,7 @@ def getMarketsByCountry (country:str,output_type=None):
       raise e
     
     api_url_request = "%s%s%s" % (d['url_base'], d['country'],d['key']) 
-    try:
-      output = fn.dataRequest(api_url_request, output_type)
-      return output
-    except ValueError:
-      raise WebRequestError ('Something went wrong.') 
+    return fn.dataRequest(api_url_request, output_type)
 
 def checkCountry(country):
     linkAPI = 'https://api.tradingeconomics.com/markets/stocks/country/'   

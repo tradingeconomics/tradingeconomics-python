@@ -3,6 +3,11 @@ from . import glob
 import ssl
 from typing import List
 
+
+class LoginError(AttributeError):
+    pass
+
+
 def getCreditRatings(country: List[str]=None, output_type: str=None):
     """
     Returns a list of all countries credit ratings.
@@ -38,10 +43,7 @@ def getCreditRatings(country: List[str]=None, output_type: str=None):
     except AttributeError:
         raise LoginError('You need to do login before making any request')
 
-    try:
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
 def getHistoricalCreditRatings(country: List[str]=None, initDate: str=None, endDate: str=None, output_type: str=None):
@@ -86,8 +88,6 @@ def getHistoricalCreditRatings(country: List[str]=None, initDate: str=None, endD
 
     linkAPI = fn.checkDates(linkAPI, initDate, endDate)
 
-    try:
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
+
 

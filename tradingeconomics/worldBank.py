@@ -121,11 +121,7 @@ def getWBCategories(category = None, page_number = None, output_type = None):
     except AttributeError:
         raise LoginError('You need to do login before making any request')
     
-    try:
-        # print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e) 
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
         
 
 def getWBIndicator(series_code = None, url = None, output_type = None):
@@ -176,11 +172,7 @@ def getWBIndicator(series_code = None, url = None, output_type = None):
         linkAPI = 'https://api.tradingeconomics.com/worldBank/indicator' + '?c=' + glob.apikey + '&url=' + quote(str(url), safe='')
          
    
-    try:
-        # print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e) 
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
   
 def getWBCountry(country = None, page_number = None, output_type = None):
@@ -229,11 +221,7 @@ def getWBCountry(country = None, page_number = None, output_type = None):
     except AttributeError:
         raise LoginError('You need to do login before making any request')
     
-    try:
-        # print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e) 
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
 def getWBHistorical(series_code = None, output_type = None):
@@ -275,10 +263,6 @@ def getWBHistorical(series_code = None, output_type = None):
     else:
         linkAPI += '?c=' + glob.apikey + '&s=' + quote(str(series_code))   
     
-    try:
-        # print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e) 
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
   
     

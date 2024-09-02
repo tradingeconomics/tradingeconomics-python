@@ -127,13 +127,8 @@ def getFedRStates(county = None, output_type = None):
         linkAPI += '?c=' + glob.apikey
     except AttributeError:
         raise LoginError('You need to do login before making any request')
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
-   
-    try:
-        #print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)
 
 
 def getFedRSnaps(symbol = None, url = None, country = None, state = None, county = None, page_number = None, output_type = None):
@@ -212,11 +207,8 @@ def getFedRSnaps(symbol = None, url = None, country = None, state = None, county
     else:  
         linkAPI += '?c=' + glob.apikey
     
-    try:
-        #print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
+
 
 def getFedRCountyOld(state=None,county=None, output_type = None):
     """
@@ -257,11 +249,8 @@ def getFedRCountyOld(state=None,county=None, output_type = None):
         raise LoginError('You need to do login before making any request')
 
     
-    try:
-        #print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)     
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
+  
 
 def getFedRCounty(state=None,county=None, output_type = None):
     """
@@ -380,9 +369,5 @@ def getFedRHistorical(symbol = None, initDate=None,endDate=None, output_type = N
     if symbol:
         d['symbol'] = f'/{fn.stringOrList(symbol)}'
         
-    
     api_url_request = "%s%s%s%s%s" % (d['url_base'], d['symbol'],  d['key'],d['initDate'],d['endDate']) 
-    # print(api_url_request)
-    response = fn.dataRequest(api_request=api_url_request, output_type=output_type)
-    return response
-    # return
+    return fn.dataRequest(api_request=api_url_request, output_type=output_type)

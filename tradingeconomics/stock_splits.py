@@ -54,8 +54,4 @@ def getStockSplits(ticker: List[str]=None, country: List[str]=None, startDate: s
         raise LoginError('You need to do login before making any request')
 
     linkAPI = fn.checkDates(linkAPI, startDate, endDate)
-
-    try:
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        raise WebRequestError('Something went wrong with the request: ' + str(e))
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)

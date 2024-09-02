@@ -135,11 +135,8 @@ def getIndicatorData(country = None, indicators = None, output_type = None):
     except AttributeError:
         raise LoginError('You need to do login before making any request')
 
-    try:
-        #print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)  
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
+
  
 def getRatings(country=None, rating = None, output_type='df'):
     """
@@ -178,11 +175,7 @@ def getRatings(country=None, rating = None, output_type='df'):
     except AttributeError:
         raise LoginError('You need to do login before making any request')
   
-    try:
-        #print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
 
@@ -223,7 +216,7 @@ def getDiscontinuedIndicator(country=None, output_type=None):
         d['country'] = f'/{fn.stringOrList(country)}'
 
     api_url_request = "%s%s%s%s" % (d['url_base'], d['country'],d['discontinued_tag'],  d['key']) 
-    print(api_url_request)
+
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
 
@@ -273,8 +266,6 @@ def getIndicatorByCategoryGroup(country=None, category_group=None, output_type=N
         #print(api_url_request)
         return fn.dataRequest(api_request=api_url_request, output_type=output_type)
          
-
-
     return 'Country and category are required'
 
 
@@ -313,11 +304,10 @@ def getIndicatorByTicker(ticker=None, output_type=None):
     if ticker:
         d['ticker']=f'/ticker/{fn.stringOrList(ticker)}'
         api_url_request = "%s%s%s" % (d['url_base'], d['ticker'],  d['key']) 
-        #print(api_url_request)
+
         return fn.dataRequest(api_request=api_url_request, output_type=output_type)
         #return
          
-
     return 'Ticker is required'
 
     
@@ -381,7 +371,7 @@ def getLatestUpdates(country=None, init_date=None, time=None, output_type=None):
         
     
     api_url_request = "%s%s%s%s%s" % (d['url_base'], d['country'],  d['init_date'],  d['key'],  d['time']) 
-    print(api_url_request)
+
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
          
@@ -427,7 +417,7 @@ def getPeers(country=None, category=None, ticker=None, output_type=None):
         
     
     api_url_request = "%s%s%s%s%s" % (d['url_base'],d['ticker'], d['country'],  d['category'],  d['key']) 
-    print(api_url_request)
+
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
     
@@ -457,8 +447,4 @@ def getAllCountries(output_type=None):
     except AttributeError:
         raise LoginError('You need to do login before making any request')
 
-    try:
-        #print(linkAPI)
-        return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-    except Exception as e:
-        print(e)
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)
