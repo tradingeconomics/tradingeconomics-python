@@ -55,24 +55,23 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(string_1, string_2)
 
     def test_checkCountryRatings_single(self):
-        # import tradingeconomics.indicators as indicators
-        # linkAPI = 'https://api.tradingeconomics.com/ratings/'
-        # string_1 = indicators.checkCountryRatings('united states', linkAPI)
+        import tradingeconomics.indicators as indicators
+        linkAPI = 'https://api.tradingeconomics.com/ratings/'
+        string_1 = indicators.checkCountryRatings('united states')
 
-        # string_2 = 'https://api.tradingeconomics.com/ratings/united%20states'
+        string_2 = 'https://api.tradingeconomics.com/ratings/united%20states'
 
-        # self.assertEqual(string_1, string_2)
-        pass
+        self.assertEqual(string_1, string_2)
+
 
     def test_checkCountryRatings_multiple(self):
-        # import tradingeconomics.indicators as indicators
-        # linkAPI = 'https://api.tradingeconomics.com/ratings/'
-        # string_1 = indicators.checkCountryRatings(['united states', 'china'], linkAPI)
+        import tradingeconomics.indicators as indicators
+        linkAPI = 'https://api.tradingeconomics.com/ratings/'
+        string_1 = indicators.checkCountryRatings(['united states', 'china'])
 
-        # string_2 = 'https://api.tradingeconomics.com/ratings/united%20states%2Cchina'
+        string_2 = 'https://api.tradingeconomics.com/ratings/united%20states%2Cchina'
 
-        # self.assertEqual(string_1, string_2)
-        pass
+        self.assertEqual(string_1, string_2)
 
 
 class TestgetIndicatorsData(unittest.TestCase):
@@ -132,10 +131,6 @@ class TestgetIndicatorsData(unittest.TestCase):
         for col in b.columns:
             b[col] = b[col].str.strip()
 
-        a.to_csv('a.csv')
-        b.to_csv('b.csv')
-
-
         self.assertTrue(a.equals(b))
 
     
@@ -182,7 +177,7 @@ class TestgetIndicatorsData(unittest.TestCase):
     def test_getIndicatorData_calendar(self):
         a = te.getIndicatorData(calendar=1, output_type='df')
 
-        url = 'https://api.tradingeconomics.com/indicators?c=guest:guest&calendar=1'
+        url = 'https://api.tradingeconomics.com/indicators/?c=guest:guest&calendar=1'
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
