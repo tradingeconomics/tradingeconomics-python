@@ -34,8 +34,9 @@ class DateError(ValueError):
     pass
 
             
-def checkCountry(country):
-    linkAPI = 'https://api.tradingeconomics.com/country/'       
+def checkCountry(country, linkAPI=None):
+    if linkAPI is None:
+        linkAPI = 'https://api.tradingeconomics.com/indicators/'       
     if type(country) is str:
         linkAPI += quote(country.lower())
     else:
@@ -57,35 +58,8 @@ def checkIndic(indicators, linkAPI):
         linkAPI += '/' + quote(",".join(indicators), safe='')
     return linkAPI
 
-  
 
-def getResults(webResults, country):
-        names = ['country', 'category', 'title', 'latestvalue', 'latestvaluedate', 'source', 'unit', 'url', 'categorygroup', 'adjustment', 'frequency','historicaldatasymbol', 'createdate', 'previousvalue', 'previousvaluedate']
-        names2 = ['Country', 'Category', 'Title', 'LatestValue', 'LatestValueDate',  'Source', 'Unit', 'URL', 'CategoryGroup', 'Adjustment', 'Frequency', 'HistoricalDataSymbol', 'CreateDate', 'PreviousValue', 'PreviousValueDate']
-        maindf = pd.DataFrame() 
-        
-        for i in range(len(names)):
-            names[i] = [d[names2[i]]  for d in webResults]
-            maindf = pd.concat([maindf, pd.DataFrame(names[i], columns = [names2[i]])], axis = 1) 
-        maindf['Country'] =  maindf['Country'].map(lambda x: x.strip())
-        return maindf 
-
-
-
-def getUpdateResults(webResults, date):
-        names = ['country', 'category', 'historicalDataSymbol', 'lastUpdate']
-        names2 = ['Country', 'Category', 'HistoricalDataSymbol', 'LastUpdate']
-        maindf = pd.DataFrame() 
-        
-        for i in range(len(names)):
-            names[i] = [d[names2[i]]  for d in webResults]
-            maindf = pd.concat([maindf, pd.DataFrame(names[i], columns = [names2[i]])], axis = 1) 
-        maindf['date'] =  maindf['date'].map(lambda x: x.strip())
-        return maindf 
-
-
-
-def getIndicatorData(country = None, indicators = None, output_type = None):
+def getIndicatorData(country = None, indicators = None, calendar=None, output_type = None):
     """
     Return a list of all indicators, indicators by country or country-indicator pair.
     =================================================================================
@@ -93,11 +67,14 @@ def getIndicatorData(country = None, indicators = None, output_type = None):
     -----------
     country: string or list.
              String for one country information. List of strings for 
-             several countrys, for example country = ['country_name', 'country_name'].
+             several countries, for example country = ['country_name', 'country_name'].
     indicators: string or list.
              String for one indicator. List of strings for several indicators, for example 
              indicators = 'indicator_name' or 
              indicators = ['indicator_name', 'indicator_name']
+    calendar: string.
+                String to know the available indicators that have calendar events.
+                calendar=1
     output_type: string.
              'dict'(default) for dictionary format output, 'df' for data frame,
              'raw' for list of dictionaries directly from the web. 
@@ -108,6 +85,7 @@ def getIndicatorData(country = None, indicators = None, output_type = None):
     -------
     getIndicatorData(country = 'United States', indicators = 'Imports', output_type = 'df')
     getIndicatorData(country = ['United States', 'Portugal'], indicators = ['Imports','Exports'])
+    getIndicatorData(country = ['United States', 'Portugal'], indicators = ['Imports','Exports'], calendar = 1)
     """
     try:
         _create_unverified_https_context = ssl._create_unverified_context
@@ -117,9 +95,9 @@ def getIndicatorData(country = None, indicators = None, output_type = None):
         ssl._create_default_https_context = _create_unverified_https_context
     
     if country == None:
-         linkAPI = 'https://api.tradingeconomics.com/indicators/'
+            linkAPI = 'https://api.tradingeconomics.com/indicators/'
     else:
-         linkAPI = checkCountry(country)
+        linkAPI = checkCountry(country)
     
     if indicators == None:
          linkAPI = linkAPI
@@ -134,6 +112,11 @@ def getIndicatorData(country = None, indicators = None, output_type = None):
         linkAPI += '?c=' + glob.apikey
     except AttributeError:
         raise LoginError('You need to do login before making any request')
+    
+    if calendar:
+        linkAPI += '&calendar=1'
+        if country:
+            linkAPI += '&country=' + quote(country)
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -174,7 +157,7 @@ def getRatings(country=None, rating = None, output_type='df'):
         linkAPI += '?c=' + glob.apikey
     except AttributeError:
         raise LoginError('You need to do login before making any request')
-  
+    
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
@@ -200,7 +183,7 @@ def getDiscontinuedIndicator(country=None, output_type=None):
     -------
             getDiscontinuedIndicator()
 
-            getDiscontinuedIndicator(ountry = ['united states', 'china'], output_type = 'df')
+            getDiscontinuedIndicator(country = ['united states', 'china'], output_type = 'df')
     """
     
     # d is a dictionary used for create the api url
@@ -431,7 +414,7 @@ def getAllCountries(output_type=None):
     Example
     -------
     getAllCountries()
-    getAllCountries(out_type='df')
+    getAllCountries(output_type='df')
     """
     try:
         _create_unverified_https_context = ssl._create_unverified_context
