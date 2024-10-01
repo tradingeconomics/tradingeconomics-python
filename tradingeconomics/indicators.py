@@ -108,16 +108,19 @@ def getIndicatorData(country = None, indicators = None, calendar=None, output_ty
         linkAPI = 'https://api.tradingeconomics.com/country/all'
         linkAPI = checkIndic(indicators, linkAPI)
 
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
-    
     if calendar:
-        linkAPI += '&calendar=1'
+        linkAPI = 'https://api.tradingeconomics.com/indicators?calendar=1'
         if country:
             linkAPI += '&country=' + quote(country)
 
+    try:
+        if '?' in linkAPI:
+            linkAPI += '&c=' + glob.apikey
+        else:
+            linkAPI += '?c=' + glob.apikey
+    except AttributeError:
+        raise LoginError('You need to do login before making any request')
+    
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
  
