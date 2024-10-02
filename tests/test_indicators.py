@@ -334,7 +334,7 @@ class TestgetLatestUpdates(unittest.TestCase):
         self.assertTrue(a.equals(b))
 
     def test_getLatestUpdates_countries(self):
-        a = te.getLatestUpdates(country = 'united states',init_date = '2021-06-01', output_type = 'df')
+        a = te.getLatestUpdates(country =['united states', 'portugal'],init_date = '2021-06-01', output_type = 'df')
 
         url = "https://api.tradingeconomics.com/updates/country/united%20states%2Cportugal/2021-06-01?c=guest:guest"
         data = requests.get(url).json()
