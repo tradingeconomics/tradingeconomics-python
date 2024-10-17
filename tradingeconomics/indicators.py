@@ -36,11 +36,13 @@ class DateError(ValueError):
             
 def checkCountry(country, linkAPI=None):
     if linkAPI is None:
-        linkAPI = 'https://api.tradingeconomics.com/indicators/'       
-    if type(country) is str:
-        linkAPI += quote(country.lower())
-    else:
-        linkAPI += quote(",".join(country), safe='')
+        linkAPI = 'https://api.tradingeconomics.com/indicators/'
+    if country is not None:
+        linkAPI = 'https://api.tradingeconomics.com/country/'
+        if type(country) is str:
+            linkAPI += quote(country.lower())
+        else:
+            linkAPI += quote(",".join(country), safe='')
     return linkAPI
 
 def checkCountryRatings(country):
@@ -93,6 +95,9 @@ def getIndicatorData(country = None, indicators = None, calendar=None, output_ty
         pass
     else:
         ssl._create_default_https_context = _create_unverified_https_context
+
+    if country is not None and indicators is not None:
+        return 'Error: You can not use both country and indicators parameters at the same time.'
     
     if country == None:
             linkAPI = 'https://api.tradingeconomics.com/indicators/'

@@ -96,9 +96,9 @@ class TestgetIndicatorsData(unittest.TestCase):
 
     
     def test_getIndicatorData_country(self):
-        a = te.getIndicatorData(country='portugal', output_type='df')
+        a = te.getIndicatorData(country='sweden', output_type='df')
         
-        url = 'https://api.tradingeconomics.com/indicators/portugal?c=guest:guest'
+        url = 'https://api.tradingeconomics.com/country/sweden?c=guest:guest'
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -110,26 +110,28 @@ class TestgetIndicatorsData(unittest.TestCase):
         b = b.reset_index(drop=True)
 
         for col in b.columns:
-            b[col] = b[col].str.strip()
+            if b[col].dtype == 'object':
+                b[col] = b[col].str.strip()
 
         self.assertTrue(a.equals(b))
 
     def test_getIndicatorData_countries(self):
-        a = te.getIndicatorData(country=['portugal', 'sweden'], output_type='df')
+        a = te.getIndicatorData(country=['mexico', 'sweden'], output_type='df')
 
-        url = 'https://api.tradingeconomics.com/indicators/portugal%2Csweden?c=guest:guest'
+        url = 'https://api.tradingeconomics.com/country/mexico%2Csweden?c=guest:guest'
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
 
-        a = a.sort_values(by=['Country', 'Ticker', 'LatestValueDate', 'Source', 'Category'])
+        a = a.sort_values(by=['Country', 'LatestValueDate', 'Source', 'Category'])
         a = a.reset_index(drop=True)
 
-        b = b.sort_values(by=['Country', 'Ticker',  'LatestValueDate', 'Source', 'Category'])
+        b = b.sort_values(by=['Country', 'LatestValueDate', 'Source', 'Category'])
         b = b.reset_index(drop=True)
 
         for col in b.columns:
-            b[col] = b[col].str.strip()
+            if b[col].dtype == 'object':
+                b[col] = b[col].str.strip()
 
         self.assertTrue(a.equals(b))
 
@@ -137,41 +139,44 @@ class TestgetIndicatorsData(unittest.TestCase):
     def test_getIndicatorData_countries_indicator(self):
         a = te.getIndicatorData(country=['portugal', 'sweden'], indicators='gdp', output_type='df')
 
-        url = 'https://api.tradingeconomics.com/indicators/portugal%2Csweden/gdp?c=guest:guest'
-        data = requests.get(url).json()
+        # url = 'https://api.tradingeconomics.com/indicators/portugal%2Csweden/gdp?c=guest:guest'
+        # data = requests.get(url).json()
 
-        b = pd.DataFrame.from_dict(data, orient='columns')
+        # b = pd.DataFrame.from_dict(data, orient='columns')
 
-        a = a.sort_values(by=['Country', 'Ticker', 'LatestValueDate', 'Source', 'Category'])
-        a = a.reset_index(drop=True)
+        # a = a.sort_values(by=['Country', 'Ticker', 'LatestValueDate', 'Source', 'Category'])
+        # a = a.reset_index(drop=True)
 
-        b = b.sort_values(by=['Country', 'Ticker',  'LatestValueDate', 'Source', 'Category'])
-        b = b.reset_index(drop=True)
+        # b = b.sort_values(by=['Country', 'Ticker',  'LatestValueDate', 'Source', 'Category'])
+        # b = b.reset_index(drop=True)
 
-        for col in b.columns:
-            b[col] = b[col].str.strip()
+        # for col in b.columns:
+        #     b[col] = b[col].str.strip()
 
-        self.assertTrue(a.equals(b))
+        # self.assertTrue(a.equals(b))
+        b = 'Error: You can not use both country and indicators parameters at the same time.'
+        self.assertEqual(a, b)
 
 
     def test_getIndicatorData_country_indicator(self):
-        a = te.getIndicatorData(country='portugal', indicators='gdp', output_type='df')
+        a = te.getIndicatorData(country='sweden', indicators='gdp', output_type='df')
 
-        url = 'https://api.tradingeconomics.com/indicators/portugal/gdp?c=guest:guest'
-        data = requests.get(url).json()
+        # url = 'https://api.tradingeconomics.com/indicators/sweden/gdp?c=guest:guest'
+        # data = requests.get(url).json()
 
-        b = pd.DataFrame.from_dict(data, orient='columns')
+        # b = pd.DataFrame.from_dict(data, orient='columns')
 
-        a = a.sort_values(by=['Country', 'Ticker', 'LatestValueDate', 'Source', 'Category'])
-        a = a.reset_index(drop=True)
+        # a = a.sort_values(by=['Country', 'Ticker', 'LatestValueDate', 'Source', 'Category'])
+        # a = a.reset_index(drop=True)
 
-        b = b.sort_values(by=['Country', 'Ticker',  'LatestValueDate', 'Source', 'Category'])
-        b = b.reset_index(drop=True)
+        # b = b.sort_values(by=['Country', 'Ticker',  'LatestValueDate', 'Source', 'Category'])
+        # b = b.reset_index(drop=True)
 
-        for col in b.columns:
-            b[col] = b[col].str.strip()
-
-        self.assertTrue(a.equals(b))
+        # for col in b.columns:
+        #     b[col] = b[col].str.strip()
+        b = 'Error: You can not use both country and indicators parameters at the same time.'
+        self.assertEqual(a, b)
+        # self.assertTrue(a.equals(b))
 
 
     def test_getIndicatorData_calendar(self):
