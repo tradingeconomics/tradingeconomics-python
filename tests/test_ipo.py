@@ -13,7 +13,7 @@ te.login('guest:guest')
 class TestgetIpo(unittest.TestCase):
 
     def tearDown(self):
-        time.sleep(2)
+        time.sleep(3)
 
     def test_getIpo(self):
         a = te.getIpo(output_type='df')

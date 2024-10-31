@@ -439,3 +439,42 @@ def getAllCountries(output_type=None):
         raise LoginError('You need to do login before making any request')
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
+
+
+def getIndicatorChanges(start_date=None, output_type=None):
+
+    """
+    Return a list of all recent changes. Changes can be filtered by start date.
+    =================================================================================
+    Parameters:
+    -----------
+        start_date: filter changes to start from start_date.
+                start_date = '2024-10-01'
+
+        output_type: string.
+             'dict'(default) for dictionary format output, 'df' for data frame,
+             'raw' for list of dictionaries directly from the web. 
+    Example
+    -------
+    getIndicatorChanges()
+    getIndicatorChanges(start_date='2024-10-01', output_type='df')
+    """
+    try:
+        _create_unverified_https_context = ssl._create_unverified_context
+    except AttributeError:
+        pass
+    else:
+        ssl._create_default_https_context = _create_unverified_https_context
+    
+    linkAPI = 'https://api.tradingeconomics.com/changes'
+
+    if start_date:
+        fn.checkDates(linkAPI, start_date)
+        linkAPI += f'/{start_date}'
+
+    try:
+        linkAPI += '?c=' + glob.apikey
+    except AttributeError:
+        raise LoginError('You need to do login before making any request')
+
+    return fn.dataRequest(api_request=linkAPI, output_type=output_type)

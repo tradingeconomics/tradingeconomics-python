@@ -213,7 +213,7 @@ def checkDates(baseLink, initDate=None, endDate=None):
         try: 
             initDateFormat = validate(initDate)
         except ValueError:
-            raise DateError ('Incorrect initDate format, should be YYYY-MM-DD or MM-DD-YYYY.')
+            raise DateError ('Incorrect initDate format, should be YYYY-MM-DD.')
         # if initDate > str(date.today()):
         #     raise DateError ('Initial date out of range.')
         baseLink += '&d1=' + quote(initDate)
@@ -222,11 +222,11 @@ def checkDates(baseLink, initDate=None, endDate=None):
         try: 
             initDateFormat = validate(initDate)
         except ValueError:
-            raise DateError ('Incorrect initDate format, should be YYYY-MM-DD or MM-DD-YYYY.')
+            raise DateError ('Incorrect initDate format, should be YYYY-MM-DD.')
         try: 
             endDateFormat = validate(endDate)
         except ValueError:
-            raise DateError ('Incorrect endDate format, should be YYYY-MM-DD or MM-DD-YYYY.')
+            raise DateError ('Incorrect endDate format, should be YYYY-MM-DD.')
         try:        
             validatePeriod(initDate, initDateFormat, endDate, endDateFormat)
         except ValueError:

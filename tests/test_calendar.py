@@ -13,7 +13,7 @@ te.login('guest:guest')
 class TestgetCalendarId(unittest.TestCase):
 
     def tearDown(self):
-        time.sleep(2)
+        time.sleep(3)
 
     def test_getCalendarIdWithIds(self):
         a = te.getCalendarId(id = ['174108','160025','160030'], output_type = 'df')
@@ -64,6 +64,8 @@ class TestgetCalendarId(unittest.TestCase):
 
 
 class TestgetCalendarData(unittest.TestCase):
+    def tearDown(self):
+        time.sleep(3)
     
     def test_getCalendarDataNoArguments(self):
         a = te.getCalendarData(output_type = 'df')
@@ -435,6 +437,8 @@ class TestgetCalendarData(unittest.TestCase):
     
 
 class TestgetCalendarEvents(unittest.TestCase):
+    def tearDown(self):
+        time.sleep(3)
 
     def test_getCalendarEventsNoArguments(self):
         a = te.getCalendarEvents(output_type = 'df')
@@ -489,6 +493,8 @@ class TestgetCalendarEvents(unittest.TestCase):
 
 
 class TestgetCalendarEventsByGroup(unittest.TestCase):
+    def tearDown(self):
+        time.sleep(3)
 
     def test_getCalendarEventsByGroupNoArguments(self):
         a = te.getCalendarEventsByGroup(group='bonds', output_type = 'df')

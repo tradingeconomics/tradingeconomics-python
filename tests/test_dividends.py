@@ -13,7 +13,7 @@ te.login('guest:guest')
 class TestgetDividends(unittest.TestCase):
 
     def tearDown(self):
-        time.sleep(2)
+        time.sleep(3)
         
     def test_getDividends_startDate_endDate(self):
         a = te.getDividends(startDate='2017-01-01', endDate='2018-01-01', output_type='df')
