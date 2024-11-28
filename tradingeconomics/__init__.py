@@ -11,7 +11,7 @@ if PY3: # Python 3+
     from .historicalDB import getHistorical
     from .historical import getHistoricalData, getHistoricalRatings,getHistoricalByTicker,getHistoricalUpdates
     from .calendar import getCalendarData, getCalendarId,getCalendarUpdates, getCalendarEventsByGroup, getCalendarEvents
-    from .forecasts import getForecastData,getForecastByTicker
+    from .forecasts import getForecastData,getForecastByTicker,getForecastUpdates
     from .indicators import getIndicatorData, getRatings, getLatestUpdates, getDiscontinuedIndicator, getIndicatorByCategoryGroup, getIndicatorByTicker, getPeers, getAllCountries, getIndicatorChanges
     from .markets import getMarketsData, getMarketsBySymbol, getMarketsIntraday, getMarketsPeers, getMarketsComponents, getMarketsSearch, getMarketsForecasts, getCurrencyCross, getMarketsIntradayByInterval, getMarketsStockDescriptions,getMarketsSymbology,getStocksByCountry,getMarketsByCountry
     from .historicalMarkets import fetchMarkets
@@ -37,7 +37,7 @@ else: # Python 2.X
     from historicalDB import getHistorical
     from historical import getHistoricalData, getHistoricalRatings,getHistoricalByTicker
     from calendar import getCalendarData, getCalendarId, getCalendarUpdates, getCalendarEventsByGroup, getCalendarEvents
-    from forecasts import getForecastData,getForecastByTicker
+    from forecasts import getForecastData,getForecastByTicker,getForecastUpdates
     from indicators import getIndicatorData, getRatings, getLatestUpdates, getDiscontinuedIndicator, getIndicatorByCategoryGroup,getIndicatorByTicker, getPeers, getIndicatorChanges
     from markets import getMarketsData, getMarketsBySymbol, getMarketsIntraday, getMarketsPeers, getMarketsComponents, getMarketsSearch, getMarketsForecasts, getCurrencyCross, getMarketsIntradayByInterval, getMarketsStockDescriptions
     from historicalMarkets import fetchMarkets

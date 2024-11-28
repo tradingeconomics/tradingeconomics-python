@@ -156,3 +156,40 @@ def getForecastByTicker(ticker=None, output_type=None):
     return 'Ticker is required'
         
 
+def getForecastUpdates(country=None, init_date=None, output_type=None):
+    """
+    Returns a list of updated forecasts.
+    =================================================================================
+    Parameters:
+    -----------
+        country: string or list.
+                country = 'france'
+                ticker = ['sweden', 'mexico']
+        init_date: string format (yyyy-mm-dd)..
+                init_date = '2024-11-13'
+        output_type: string.
+             'dict'(default) for dictionary format output, 'df' for data frame,
+             'raw' for list of dictionaries directly from the web. 
+    Notes
+    -----
+     
+    
+    Example
+    -------
+            getForecastUpdates()
+
+            getForecastUpdates(country = ['france', 'sweden'], output_type = 'df')
+
+            getForecastUpdates(country = 'mexico', init_date='2024-11-15', output_type = 'df')
+    """
+    
+    url_base = 'https://api.tradingeconomics.com/forecast/updates'
+    api_url_request = f'{url_base}?c={glob.apikey}'
+
+    if country:
+        api_url_request += f'&country={fn.stringOrList(country)}'
+    if init_date:
+        fn.validate(init_date)
+        api_url_request += f'&date={init_date}'
+
+    return fn.dataRequest(api_request=api_url_request, output_type=output_type)
