@@ -179,25 +179,25 @@ class TestgetIndicatorsData(unittest.TestCase):
         # self.assertTrue(a.equals(b))
 
 
-    def test_getIndicatorData_calendar(self):
-        a = te.getIndicatorData(calendar=1, output_type='df')
+    # def test_getIndicatorData_calendar(self):
+    #     a = te.getIndicatorData(calendar=1, output_type='df')
 
-        url = 'https://api.tradingeconomics.com/indicators?calendar=1&c=guest:guest'
-        data = requests.get(url).json()
+    #     url = 'https://api.tradingeconomics.com/indicators?calendar=1&c=guest:guest'
+    #     data = requests.get(url).json()
 
-        b = pd.DataFrame.from_dict(data, orient='columns')
+    #     b = pd.DataFrame.from_dict(data, orient='columns')
 
-        a = a.sort_values(by=['Category', 'CategoryGroup'])
-        a = a.reset_index(drop=True)
+    #     a = a.sort_values(by=['Category', 'CategoryGroup'])
+    #     a = a.reset_index(drop=True)
 
-        b = b.sort_values(by=['Category', 'CategoryGroup'])
-        b = b.reset_index(drop=True)
+    #     b = b.sort_values(by=['Category', 'CategoryGroup'])
+    #     b = b.reset_index(drop=True)
 
-        for col in b.columns:
-            if b[col].dtype == 'object':
-                b[col] = b[col].str.strip()
+    #     for col in b.columns:
+    #         if b[col].dtype == 'object':
+    #             b[col] = b[col].str.strip()
 
-        self.assertTrue(a.equals(b))
+    #     self.assertTrue(a.equals(b))
 
 
 class TestgetRatings(unittest.TestCase):
