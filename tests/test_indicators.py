@@ -193,6 +193,10 @@ class TestgetIndicatorsData(unittest.TestCase):
         b = b.sort_values(by=['Category', 'CategoryGroup'])
         b = b.reset_index(drop=True)
 
+        for col in b.columns:
+            if b[col].dtype == 'object':
+                b[col] = b[col].str.strip()
+
         self.assertTrue(a.equals(b))
 
 
