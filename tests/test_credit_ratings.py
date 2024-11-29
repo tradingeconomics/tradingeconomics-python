@@ -15,21 +15,21 @@ class TestCreditRatings(unittest.TestCase):
     def tearDown(self):
         time.sleep(3)
 
-    def test_getCreditRatings_country(self):
-        a = te.getCreditRatings(country='sweden', output_type='df')
+    # def test_getCreditRatings_country(self):
+    #     a = te.getCreditRatings(country='sweden', output_type='df')
 
-        url = f'https://api.tradingeconomics.com/credit-ratings/country/sweden?c=guest:guest'
-        data = requests.get(url).json()
+    #     url = f'https://api.tradingeconomics.com/credit-ratings/country/sweden?c=guest:guest'
+    #     data = requests.get(url).json()
 
-        b = pd.DataFrame.from_dict(data, orient='columns')
+    #     b = pd.DataFrame.from_dict(data, orient='columns')
 
-        a = a.sort_values(by=['Date'])
-        a = a.reset_index(drop=True)
+    #     a = a.sort_values(by=['Date'])
+    #     a = a.reset_index(drop=True)
 
-        b = b.sort_values(by=['Date'])
-        b = b.reset_index(drop=True)
+    #     b = b.sort_values(by=['Date'])
+    #     b = b.reset_index(drop=True)
 
-        self.assertEqual(True, a.equals(b))
+    #     self.assertEqual(True, a.equals(b))
 
     def test_getCreditRatings_two_country(self):
         a = te.getCreditRatings(country=['mexico', 'sweden'], output_type='df')

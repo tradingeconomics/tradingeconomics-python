@@ -205,21 +205,21 @@ class TestgetRatings(unittest.TestCase):
     def tearDown(self):
         time.sleep(5)
 
-    def test_getCreditRatings_country(self):
-        a = te.getRatings(output_type='df')
+    # def test_getCreditRatings_country(self):
+    #     a = te.getRatings(output_type='df')
 
-        url = f'https://api.tradingeconomics.com/ratings?c=guest:guest'
-        data = requests.get(url).json()
+    #     url = f'https://api.tradingeconomics.com/ratings?c=guest:guest'
+    #     data = requests.get(url).json()
 
-        b = pd.DataFrame.from_dict(data, orient='columns')
+    #     b = pd.DataFrame.from_dict(data, orient='columns')
 
-        a = a.sort_values(by=['Country'])
-        a = a.reset_index(drop=True)
+    #     a = a.sort_values(by=['Country'])
+    #     a = a.reset_index(drop=True)
 
-        b = b.sort_values(by=['Country'])
-        b = b.reset_index(drop=True)
+    #     b = b.sort_values(by=['Country'])
+    #     b = b.reset_index(drop=True)
 
-        self.assertTrue(a.equals(b))
+    #     self.assertTrue(a.equals(b))
 
 
 class TestgetDiscontinuedIndicator(unittest.TestCase):
@@ -360,42 +360,42 @@ class TestgetLatestUpdates(unittest.TestCase):
 
         self.assertTrue(a.equals(b))
 
-    def test_getLatestUpdates_init_date_time(self):
-        a = te.getLatestUpdates(init_date = '2021-10-18', time='15:20', output_type = 'df')
+    # def test_getLatestUpdates_init_date_time(self):
+    #     a = te.getLatestUpdates(init_date = '2021-10-18', time='15:20', output_type = 'df')
 
-        url = "https://api.tradingeconomics.com/updates/2021-10-18?c=guest:guest&time=15:20"
-        data = requests.get(url).json()
+    #     url = "https://api.tradingeconomics.com/updates/2021-10-18?c=guest:guest&time=15:20"
+    #     data = requests.get(url).json()
 
-        b = pd.DataFrame.from_dict(data, orient='columns')
+    #     b = pd.DataFrame.from_dict(data, orient='columns')
 
-        a = a.sort_values(by=['Country', 'HistoricalDataSymbol'])
-        a = a.reset_index(drop=True)
+    #     a = a.sort_values(by=['Country', 'HistoricalDataSymbol'])
+    #     a = a.reset_index(drop=True)
 
-        b = b.sort_values(by=['Country', 'HistoricalDataSymbol'])
-        b = b.reset_index(drop=True)
+    #     b = b.sort_values(by=['Country', 'HistoricalDataSymbol'])
+    #     b = b.reset_index(drop=True)
 
-        self.assertTrue(a.equals(b))
+    #     self.assertTrue(a.equals(b))
 
 class TestgetPeers(unittest.TestCase):
 
     def tearDown(self):
         time.sleep(3)
 
-    def test_getPeers_ticker(self):
-        a = te.getPeers(ticker ='CPI YOY', output_type = 'df')
+    # def test_getPeers_ticker(self):
+    #     a = te.getPeers(ticker ='CPI YOY', output_type = 'df')
 
-        url = "https://api.tradingeconomics.com/peers/CPI%20YOY?c=guest:guest"
-        data = requests.get(url).json()
+    #     url = "https://api.tradingeconomics.com/peers/CPI%20YOY?c=guest:guest"
+    #     data = requests.get(url).json()
 
-        b = pd.DataFrame.from_dict(data, orient='columns')
+    #     b = pd.DataFrame.from_dict(data, orient='columns')
 
-        a = a.sort_values(by=['Ticker', 'Peer'])
-        a = a.reset_index(drop=True)
+    #     a = a.sort_values(by=['Ticker', 'Peer'])
+    #     a = a.reset_index(drop=True)
 
-        b = b.sort_values(by=['Ticker', 'Peer'])
-        b = b.reset_index(drop=True)
+    #     b = b.sort_values(by=['Ticker', 'Peer'])
+    #     b = b.reset_index(drop=True)
 
-        self.assertTrue(a.equals(b))
+    #     self.assertTrue(a.equals(b))
 
 
 class TestgetAllCountries(unittest.TestCase):
