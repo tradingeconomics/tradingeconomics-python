@@ -46,6 +46,11 @@ mydata = te.getHistoricalByTicker(ticker='USURTOT', output_type='df')
 print(mydata)
 print("===============================================================================================================")
 
+# To get latest historical
+mydata = te.getHistoricalLatest(output_type='df')
+print(mydata)
+print("===============================================================================================================")
+
 # To get historical latest updates
 mydata = te.getHistoricalUpdates(output_type='df')
 print(mydata)
