@@ -9,7 +9,7 @@ PY3 = sys.version_info[0] == 3
 
 if PY3: # Python 3+
     from .historicalDB import getHistorical
-    from .historical import getHistoricalData, getHistoricalRatings,getHistoricalByTicker,getHistoricalUpdates
+    from .historical import getHistoricalData, getHistoricalRatings,getHistoricalByTicker,getHistoricalLatest,getHistoricalUpdates
     from .calendar import getCalendarData, getCalendarId,getCalendarUpdates, getCalendarEventsByGroup, getCalendarEvents
     from .forecasts import getForecastData,getForecastByTicker,getForecastUpdates
     from .indicators import getIndicatorData, getRatings, getLatestUpdates, getDiscontinuedIndicator, getIndicatorByCategoryGroup, getIndicatorByTicker, getPeers, getAllCountries, getIndicatorChanges
