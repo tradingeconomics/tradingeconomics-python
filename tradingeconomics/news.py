@@ -280,7 +280,7 @@ def getArticleId(id = None, output_type = None):
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
-def getNews(country = None,  indicator = None, start= None, limit = None, output_type = None, start_date=None, end_date=None):
+def getNews(country = None,  indicator = None, start= None, limit = None, output_type = None, start_date=None, end_date=None, type=None):
     """
     Return a list of all news, indicators by country, limit and start index or start_date
     and end_date.
@@ -343,36 +343,40 @@ def getNews(country = None,  indicator = None, start= None, limit = None, output
         'limit':'',
         'start_date':'',
         'end_date':'',
+        'type':'',
 
         'key': f'?c={glob.apikey}',
         'output_type' : ''
     }
 
-    if start and start_date:
-        return 'Please, enter the pair "start" and "limit" or the pair "start_date" and "end_date"'
-
-    if start and limit:
-        d['start'] = f'&start={start}'
+    if type:
+        d['type'] = '&type='+type
         
-        d['limit'] = f'&limit={limit}'
+    else:
+        if start and start_date:
+            return 'Please, enter the pair "start" and "limit" or the pair "start_date" and "end_date"'
+
+        if start and limit:
+            d['start'] = f'&start={start}'
+            
+            d['limit'] = f'&limit={limit}'
         
-    
+            
+        if start_date and end_date and not start and not limit:
+            d['start_date'] = f'&d1={fn.checkDates(start_date)}'
+            d['end_date'] = f'&d2={fn.checkDates(end_date)}'
+
+        if indicator:
+            d['indicator'] = f'/indicator/{(fn.stringOrList(indicator))}'
         
-    if start_date and end_date and not start and not limit:
-        d['start_date'] = f'&d1={fn.checkDates(start_date)}'
-        d['end_date'] = f'&d2={fn.checkDates(end_date)}'
+        if country:
+            d['country'] = f'/country/{(fn.stringOrList(country))}'
 
-    if indicator:
-        d['indicator'] = f'/indicator/{(fn.stringOrList(indicator))}'
-    
-    if country:
-        d['country'] = f'/country/{(fn.stringOrList(country))}'
-
-    if country and indicator:
-        d['indicator'] = f'/{fn.stringOrList(indicator)}'
+        if country and indicator:
+            d['indicator'] = f'/{fn.stringOrList(indicator)}'
 
 
-    api_url_request = "%s%s%s%s%s%s%s%s" % (d['url_base'], d['country'],d['indicator'], d['key'],d['limit'],d['start'],d['start_date'],d['end_date']) 
+    api_url_request = "%s%s%s%s%s%s%s%s%s" % (d['url_base'], d['country'],d['indicator'], d['key'],d['limit'],d['start'],d['start_date'],d['end_date'],d['type']) 
 
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
