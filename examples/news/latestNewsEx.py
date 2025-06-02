@@ -37,7 +37,7 @@ print(mydata)
 print("===============================================================================================================")
 
 # To get news by indicator and dates.
-mydata = te.getNews(indicator='inflation rate', start_date='2021-02-02', end_date='2021-03-03', output_type='df')
+mydata = te.getNews(indicator='inflation rate', start_date='2021-02-02', end_date='2021-03-03', output_type='df') 
 print(mydata)
 print("===============================================================================================================")
 
