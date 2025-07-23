@@ -280,7 +280,7 @@ def getArticleId(id = None, output_type = None):
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
-def getNews(country = None,  indicator = None, start= None, limit = None, output_type = None, start_date=None, end_date=None, type=None):
+def getNews(country = None,  indicator = None, start= None, limit = None, output_type = None, start_date=None, end_date=None, type=None, ticker=None):
     """
     Return a list of all news, indicators by country, limit and start index or start_date
     and end_date.
@@ -344,6 +344,7 @@ def getNews(country = None,  indicator = None, start= None, limit = None, output
         'start_date':'',
         'end_date':'',
         'type':'',
+        'ticker':'',
 
         'key': f'?c={glob.apikey}',
         'output_type' : ''
@@ -351,6 +352,9 @@ def getNews(country = None,  indicator = None, start= None, limit = None, output
 
     if type:
         d['type'] = '&type='+type
+
+    elif ticker:
+            d['ticker'] =  f'/ticker/{(fn.stringOrList(ticker))}'
         
     else:
         if start and start_date:
@@ -360,7 +364,6 @@ def getNews(country = None,  indicator = None, start= None, limit = None, output
             d['start'] = f'&start={start}'
             
             d['limit'] = f'&limit={limit}'
-        
             
         if start_date and end_date and not start and not limit:
             d['start_date'] = f'&d1={fn.checkDates(start_date)}'
@@ -376,8 +379,8 @@ def getNews(country = None,  indicator = None, start= None, limit = None, output
             d['indicator'] = f'/{fn.stringOrList(indicator)}'
 
 
-    api_url_request = "%s%s%s%s%s%s%s%s%s" % (d['url_base'], d['country'],d['indicator'], d['key'],d['limit'],d['start'],d['start_date'],d['end_date'],d['type']) 
-
+    api_url_request = "%s%s%s%s%s%s%s%s%s%s" % (d['url_base'], d['country'],d['indicator'],d['ticker'], d['key'],d['limit'],d['start'],d['start_date'],d['end_date'],d['type']) 
+    print(api_url_request)
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
 
