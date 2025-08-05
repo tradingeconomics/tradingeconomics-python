@@ -304,6 +304,39 @@ def getHistoricalByTicker(ticker=None, start_date=None, output_type=None):
     return 'Ticker is required'
 
 
+def getHistoricalLatest(output_type=None):
+    """
+    Returns latest historical.
+    =================================================================================
+    Parameters:
+    -----------
+        
+        output_type: string.
+             'dict'(default) for dictionary format output, 'df' for data frame,
+             'raw' for list of dictionaries directly from the web. 
+    Notes
+    -----
+    
+    
+    Example
+    -------
+            getHistoricalLatest(output_type = 'df')
+
+
+    """
+    
+    # d is a dictionary used for create the api url
+    d = {
+        'url_base': 'https://api.tradingeconomics.com/historical/latest',
+        'key': f'?c={glob.apikey}',
+        'output_type' : ''
+    }
+    
+    api_url_request = "%s%s" % (d['url_base'], d['key']) 
+    #print(api_url_request)
+    return fn.dataRequest(api_request=api_url_request, output_type=output_type)
+    
+
 def getHistoricalUpdates(output_type=None):
     """
     Returns historical Update.

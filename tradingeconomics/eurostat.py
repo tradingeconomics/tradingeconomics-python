@@ -37,6 +37,14 @@ def checkLists(lists):
         linkAPI += 'countries'
     return linkAPI
 
+def getLinkSymbol(symbol):
+    linkAPI = 'https://api.tradingeconomics.com/eurostat/symbol/'       
+    if type(symbol) is str:
+        linkAPI += quote(symbol, safe='')
+    else:
+        linkAPI += quote(",".join(symbol), safe='')
+    return linkAPI
+
 def checkCountry(country):
     linkAPI = 'https://api.tradingeconomics.com/eurostat/country/'       
     if type(country) is str:
@@ -83,7 +91,7 @@ def getLinkcategory_group(country, category_group):
     return linkAPI
 
     
-def getEurostatData(country = None, category = None, category_group= None, lists= None, output_type = None):
+def getEurostatData(country = None, category = None, category_group= None, lists= None, symbol= None, output_type = None):
     """
      Return Eurostat data by country, category and category_group, also lists with countries and categoreies available.
     ===========================================================================
@@ -98,6 +106,9 @@ def getEurostatData(country = None, category = None, category_group= None, lists
     category_group: string.
              String  to get data for one category_group.
              For example, category_group = 'Poverty'.
+    symbol: string.
+             String  to get data for one symbol
+             For example, symbol = '51640'.
     output_type: string.
              'dict'(default) for dictionary format output, 'df' for data frame,
              'raw' for list of dictionaries without any parsing.  
@@ -118,6 +129,8 @@ def getEurostatData(country = None, category = None, category_group= None, lists
     
     getEurostatData(category_group = 'Poverty',output_type='df')
 
+    getEurostatData(symbol = '51640',output_type='df')
+
     getEurostatData(lists='categories',output_type='df')
 
     getEurostatData(lists='countries',output_type='df')
@@ -129,10 +142,12 @@ def getEurostatData(country = None, category = None, category_group= None, lists
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    if country == None and category == None and category_group == None and lists == None:
+    if country == None and category == None and category_group == None and lists == None and symbol == None:
         raise ValueError ('At least one of the parameters, needs to be supplied.')
     elif lists != None:
         linkAPI =checkLists(lists)
+    elif symbol != None:
+        linkAPI = getLinkSymbol(symbol)
     elif country != None and category == None and category_group == None:
         linkAPI = checkCountry(country)
     elif country == None and category != None:
