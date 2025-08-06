@@ -13,7 +13,7 @@ te.login('guest:guest')
 class TestgetStockSplits(unittest.TestCase):
 
     def tearDown(self):
-        time.sleep(3)
+        time.sleep(5)
 
     def test_getStockSplits(self):
         a = te.getStockSplits(output_type='df')

@@ -13,7 +13,7 @@ te.login('guest:guest')
 class TestCreditRatings(unittest.TestCase):
 
     def tearDown(self):
-        time.sleep(3)
+        time.sleep(5)
 
     def test_getCreditRatings_country(self):
         a = te.getCreditRatings(country='sweden', output_type='df')

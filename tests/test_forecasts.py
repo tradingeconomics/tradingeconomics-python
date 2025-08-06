@@ -13,7 +13,7 @@ te.login('guest:guest')
 class TestForecastsUpdates(unittest.TestCase):
 
     def tearDown(self):
-        time.sleep(3)
+        time.sleep(5)
 
     def test_getForecastUpdates(self):
         a = te.getForecastUpdates(output_type='df')
@@ -92,7 +92,7 @@ class TestForecastsUpdates(unittest.TestCase):
 class TestForecastsMarkets(unittest.TestCase):
 
     def tearDown(self):
-        time.sleep(3)
+        time.sleep(5)
 
     def test_getForecastsMarkets_category(self):
 
@@ -153,7 +153,7 @@ class TestForecastsMarkets(unittest.TestCase):
 class TestForecastsIndicators(unittest.TestCase):
 
     def tearDown(self):
-        time.sleep(3)
+        time.sleep(5)
 
     def test_getForecastsIndicators_country(self):
         a = te.getForecastData(country=['mexico', 'sweden'], output_type='df')
