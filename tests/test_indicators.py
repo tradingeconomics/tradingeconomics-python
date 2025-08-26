@@ -12,7 +12,7 @@ te.login('guest:guest')
 class TestHelpers(unittest.TestCase):
 
     def tearDown(self):
-        time.sleep(3)
+        time.sleep(5)
 
     def test_checkCountry_single(self):
 
@@ -77,7 +77,7 @@ class TestHelpers(unittest.TestCase):
 class TestgetIndicatorsData(unittest.TestCase):
 
     def tearDown(self):
-        time.sleep(3)
+        time.sleep(5)
 
     def test_getIndicatorData_indicator(self):
         a = te.getIndicatorData(indicators='gdp', output_type='df')
@@ -224,7 +224,7 @@ class TestgetRatings(unittest.TestCase):
 
 class TestgetDiscontinuedIndicator(unittest.TestCase):
     def tearDown(self):
-        time.sleep(3)
+        time.sleep(5)
 
     def test_getDiscontinuedIndicator(self):
         a = te.getDiscontinuedIndicator(output_type='df')
@@ -261,7 +261,7 @@ class TestgetDiscontinuedIndicator(unittest.TestCase):
     
 class TestgetIndicatorByCategoryGroup(unittest.TestCase):
     def tearDown(self):
-        time.sleep(3)
+        time.sleep(5)
 
     def test_getIndicatorByCategoryGroup_country_category(self):
         a = te.getIndicatorByCategoryGroup(country='sweden', category_group = 'gdp', output_type='df')
@@ -288,7 +288,7 @@ class TestgetIndicatorByCategoryGroup(unittest.TestCase):
 
 class TestgetIndicatorByTicker(unittest.TestCase):
     def tearDown(self):
-        time.sleep(3)
+        time.sleep(5)
 
     def test_getIndicatorByTicker(self):
         a = te.getIndicatorByTicker(ticker = 'USURTOT', output_type = 'df')
@@ -310,7 +310,7 @@ class TestgetIndicatorByTicker(unittest.TestCase):
 class TestgetLatestUpdates(unittest.TestCase):
 
     def tearDown(self):
-        time.sleep(3)
+        time.sleep(5)
 
     def test_getLatestUpdates_country(self):
         a = te.getLatestUpdates(country = 'united states', output_type = 'df')
@@ -379,7 +379,7 @@ class TestgetLatestUpdates(unittest.TestCase):
 class TestgetPeers(unittest.TestCase):
 
     def tearDown(self):
-        time.sleep(3)
+        time.sleep(5)
 
     # def test_getPeers_ticker(self):
     #     a = te.getPeers(ticker ='CPI YOY', output_type = 'df')
@@ -400,7 +400,7 @@ class TestgetPeers(unittest.TestCase):
 
 class TestgetAllCountries(unittest.TestCase):
     def tearDown(self):
-        time.sleep(3)
+        time.sleep(5)
 
     def test_getAllCountries(self):
         a = te.getAllCountries(output_type='df')
@@ -422,7 +422,7 @@ class TestgetAllCountries(unittest.TestCase):
 class TestgetIndicatorChanges(unittest.TestCase):
 
     def tearDown(self):
-        time.sleep(3)
+        time.sleep(5)
 
     def test_getIndicatorChanges(self):
         a = te.getIndicatorChanges(output_type='df')
