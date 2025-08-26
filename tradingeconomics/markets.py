@@ -46,7 +46,7 @@ def checkCategory(linkAPI, category):
     return linkAPI
    
    
-def getMarketsData(marketsField, output_type=None):
+def getMarketsData(marketsField, type, output_type=None):
     """
     Returns a list of available commodities, currencies, indexes or 
     bonds and their latest values.
@@ -56,7 +56,10 @@ def getMarketsData(marketsField, output_type=None):
     marketsField: string.
             Takes either one of 'commodity','currency',
             'index' or 'bond' as options.
-             
+
+    type: string 
+            Works for bonds only (2Y, 5Y, 10Y, 15Y, 20Y, 30Y)
+
     output_type: string.
              'dict'(default), 'df' for data frame,
              'raw' for list of unparsed data. 
@@ -74,11 +77,19 @@ def getMarketsData(marketsField, output_type=None):
     fields =['commodities', 'currency', 'index', 'bond', 'crypto']
     if marketsField not in fields:
         raise ParametersError ('Accepted values for marketsField are \'commodities\', \'currency\', \'index\', \'crypto\' or \'bond\'.')
-    linkAPI = 'https://api.tradingeconomics.com/markets/' + quote(marketsField, safe='') 
+
+    if marketsField.lower() != 'bond' and type is not None:
+        raise ParametersError ('The type parameter is only available for bonds. Accepted values are 2Y, 5Y, 10Y, 15Y, 20Y, 30Y')
+    
+    linkAPI = 'https://api.tradingeconomics.com/markets/' + quote(marketsField, safe='')
+
     try:
         linkAPI += '?c=' + glob.apikey
     except AttributeError:
         raise LoginError('You need to do login before making any request')
+    
+    if type is not None:
+        linkAPI += '&type=' + quote(type, safe='')
 
     return fn.dataRequest(linkAPI, output_type)
 
