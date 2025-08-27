@@ -46,7 +46,7 @@ def checkCategory(linkAPI, category):
     return linkAPI
    
    
-def getMarketsData(marketsField, type, output_type=None):
+def getMarketsData(marketsField, type=None, output_type=None):
     """
     Returns a list of available commodities, currencies, indexes or 
     bonds and their latest values.
