@@ -18,7 +18,10 @@ def getStockSplits(ticker: List[str]=None, country: List[str]=None, startDate: s
     -----------
     ticker: string or list of strings, optional
             Get stock splits for the ticker/s specified.
-    
+
+    country: string or list of strings, optional
+            Get stock splits for the country/s specified.
+
     startDate: string with format: YYYY-MM-DD.
             For example: '2023-09-01'
 

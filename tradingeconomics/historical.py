@@ -8,6 +8,7 @@ from dateutil.relativedelta import relativedelta
 from . import functions as fn
 from . import glob
 import ssl
+from typing import List
 
 PY3 = sys.version_info[0] == 3
 
@@ -304,13 +305,19 @@ def getHistoricalByTicker(ticker=None, start_date=None, output_type=None):
     return 'Ticker is required'
 
 
-def getHistoricalLatest(output_type=None):
+def getHistoricalLatest(country: List[str]=None, date = None, output_type=None):
     """
     Returns latest historical.
     =================================================================================
     Parameters:
     -----------
-        
+
+        country: string or list of strings, optional
+            Get latest historical data for the country/s specified.
+
+        date: string with format: YYYY-MM-DD, optional
+            For example: '2023-09-01'
+
         output_type: string.
              'dict'(default) for dictionary format output, 'df' for data frame,
              'raw' for list of dictionaries directly from the web. 
@@ -320,6 +327,10 @@ def getHistoricalLatest(output_type=None):
     
     Example
     -------
+            getHistoricalLatest(country='Brazil')
+            getHistoricalLatest(date='2025-08-26')
+            getHistoricalLatest(country=['Brazil', 'United States'])
+            getHistoricalLatest(country=['Brazil', 'United States'], date='2025-08-26')
             getHistoricalLatest(output_type = 'df')
 
 
@@ -331,9 +342,19 @@ def getHistoricalLatest(output_type=None):
         'key': f'?c={glob.apikey}',
         'output_type' : ''
     }
-    
+
     api_url_request = "%s%s" % (d['url_base'], d['key']) 
-    #print(api_url_request)
+
+    if country and fn.isStringOrList(country):
+        d['country'] = f'&country={fn.stringOrList(country)}'
+        api_url_request = f'{api_url_request}{d["country"]}'
+
+    if date:
+        d['date'] = f'&date={date}'
+        api_url_request = f'{api_url_request}{d["date"]}'
+
+    
+    # print(api_url_request) 
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
     
 
