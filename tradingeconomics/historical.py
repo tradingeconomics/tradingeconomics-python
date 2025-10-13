@@ -253,7 +253,7 @@ def getHistoricalRatings(country = None, rating = None, initDate = None, endDate
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
-def getHistoricalByTicker(ticker=None, start_date=None, output_type=None):
+def getHistoricalByTicker(ticker=None, start_date=None, end_date=None, output_type=None):
     """
     Returns historical data by ticker.
     =================================================================================
@@ -262,7 +262,9 @@ def getHistoricalByTicker(ticker=None, start_date=None, output_type=None):
         ticker: string.
                 ticker = 'USURTOT'
         start_date: string.
-                start_date = '2015-03-01
+                start_date = '2015-03-01'
+        end_date: string.
+                end_date = '2015-09-30'
         output_type: string.
              'dict'(default) for dictionary format output, 'df' for data frame,
              'raw' for list of dictionaries directly from the web. 
@@ -274,7 +276,9 @@ def getHistoricalByTicker(ticker=None, start_date=None, output_type=None):
     -------
             getIndicatorByTicker(ticker = 'USURTOT', output_type = 'df')
 
-            getIndicatorByTicker(ticker = 'USURTOT', start_date = '2015-03-01, output_type = 'df')
+            getIndicatorByTicker(ticker = 'USURTOT', start_date = '2015-03-01', output_type = 'df')
+
+            getIndicatorByTicker(ticker = 'USURTOT', start_date = '2015-03-01', end_date='2015-09-30', output_type = 'df')
     """
     
     # d is a dictionary used for create the api url
@@ -283,6 +287,7 @@ def getHistoricalByTicker(ticker=None, start_date=None, output_type=None):
         'country': '',
         'ticker' : '',
         'start_date': '',
+        'end_date': '',
         'key': f'?c={glob.apikey}',
         'output_type' : ''
     }
@@ -291,13 +296,25 @@ def getHistoricalByTicker(ticker=None, start_date=None, output_type=None):
             fn.validate(start_date)
         except ValueError:
             raise DateError ('Incorrect initDate format, should be YYYY-MM-DD or MM-DD-YYYY.')
-            
+        
+    if end_date :
+        try: 
+            fn.validate(end_date)
+        except ValueError:
+            raise DateError ('Incorrect endDate format, should be YYYY-MM-DD or MM-DD-YYYY.')
+
 
     if ticker:
         d['ticker']=f'/ticker/{fn.stringOrList(ticker)}'
         d['start_date']=f'/{start_date}'
-        api_url_request = "%s%s%s%s" % (d['url_base'], d['ticker'],  d['start_date'],  d['key']) 
-        #print(api_url_request)
+        if start_date is None and end_date:
+            raise ParametersError('start_date is required if end_date is provided')
+        
+        if end_date:
+            d['end_date']=f'/{end_date}'
+        
+        api_url_request = "%s%s%s%s%s" % (d['url_base'], d['ticker'],  d['start_date'], d['end_date'], d['key']) 
+        # print(api_url_request)
         return fn.dataRequest(api_request=api_url_request, output_type=output_type)
         #return
          
