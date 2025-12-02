@@ -13,7 +13,7 @@ te.login('guest:guest')
 class TestgetCalendarId(unittest.TestCase):
 
     def tearDown(self):
-        time.sleep(5)
+        time.sleep(1)
 
     def test_getCalendarIdWithIds(self):
         a = te.getCalendarId(id = ['174108','160025','160030'], output_type = 'df')
