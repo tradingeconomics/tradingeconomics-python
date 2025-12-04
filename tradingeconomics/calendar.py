@@ -9,9 +9,9 @@ from typing import List, Union, Optional
 PY3 = sys.version_info[0] == 3
 
 if PY3:  # Python 3+
-    from urllib.parse import quote
+    from urllib.parse import quote  # type: ignore
 else:  # Python 2.X
-    from urllib import quote
+    from urllib import quote  # type: ignore
 
 
 class ParametersError(ValueError):
@@ -69,8 +69,8 @@ def paramCheck(country, indicator=None):
 
     # both lists
     else:
-        encoded_country = [quote(c) for c in country]
-        encoded_ind = [quote(i) for i in indicator]
+        encoded_country = [quote(c) for c in country]  # type: ignore
+        encoded_ind = [quote(i) for i in indicator]  # type: ignore
         multiCountry = ",".join(encoded_country)
         multiInd = ",".join(encoded_ind)
         return "/calendar/country/" + multiCountry + "/indicator/" + multiInd
