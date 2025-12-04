@@ -169,17 +169,17 @@ def dataRequest(api_request, output_type):
         if hasattr(glob, "apikey") and glob.apikey:
             request.add_header("Authorization", glob.apikey)
 
-        response = urlopen(request)
-        code = response.getcode()
-        # JSON is already properly parsed by json.loads() - no trimming needed
-        webResults = json.loads(response.read().decode("utf-8"))
+        with urlopen(request) as response:
+            code = response.getcode()
+            # JSON is already properly parsed by json.loads() - no trimming needed
+            webResults = json.loads(response.read().decode("utf-8"))
     except Exception as e:
         # Handle errors more robustly - code may not be defined if error occurs early
         try:
-            error_response = urlopen(api_request)
-            error_code = error_response.getcode()
-            error_message = error_response.read().decode("utf-8")
-            print(f"API Error (HTTP {error_code}): {error_message}")
+            with urlopen(api_request) as error_response:
+                error_code = error_response.getcode()
+                error_message = error_response.read().decode("utf-8")
+                print(f"API Error (HTTP {error_code}): {error_message}")
         except:
             pass
         raise WebRequestError(f"Request failed: {str(e)}")
@@ -206,9 +206,9 @@ def dataRequest(api_request, output_type):
 
 def makeRequestAndParse(api_request, output_type):
     try:
-        response = urlopen(api_request)
-        code = response.getcode()
-        webResults = json.loads(response.read().decode("utf-8"))
+        with urlopen(api_request) as response:
+            code = response.getcode()
+            webResults = json.loads(response.read().decode("utf-8"))
     except ValueError:
         if code != 200:
             print(urlopen(api_request).read().decode("utf-8"))
