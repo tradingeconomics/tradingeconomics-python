@@ -140,20 +140,18 @@ def dataRequest(api_request, output_type):
     Parameters:
     -----------
     api_request : str
-        Full API URL including endpoint and query parameters (without API key)
+        Full API URL including endpoint and query parameters
     output_type : str or None
-        Desired output format: None/'dict' (list of dicts), 'df' (DataFrame), 'raw' (unparsed)
+        Output format: None/'dict' (list of dicts), 'df' (DataFrame), 'raw' (JSON)
 
     Returns:
     --------
     list, DataFrame, or dict depending on output_type
 
-    Notes:
-    ------
-    - API key is automatically added via Authorization header from glob.apikey
-    - Removed unnecessary trimTheResponse() function that was previously used here
-    - The JSON response from json.loads() is already clean and properly parsed
-    - Direct use of parsed JSON improves performance significantly
+    Raises:
+    -------
+    ParametersError: Invalid output_type or no data returned
+    WebRequestError: HTTP request failure or connection error
     """
     from . import glob
 
@@ -164,17 +162,17 @@ def dataRequest(api_request, output_type):
     outputTypeCheck(output_type)
 
     try:
-        # Create request with Authorization header
+        # Build HTTP request and add authentication header if available
         request = Request(api_request)
         if hasattr(glob, "apikey") and glob.apikey:
             request.add_header("Authorization", glob.apikey)
 
+        # Execute HTTP request and parse JSON response
         with urlopen(request) as response:
             code = response.getcode()
-            # JSON is already properly parsed by json.loads() - no trimming needed
             webResults = json.loads(response.read().decode("utf-8"))
     except Exception as e:
-        # Handle errors more robustly - code may not be defined if error occurs early
+        # Attempt to retrieve error details from API response
         try:
             with urlopen(api_request) as error_response:
                 error_code = error_response.getcode()
@@ -185,11 +183,11 @@ def dataRequest(api_request, output_type):
         raise WebRequestError(f"Request failed: {str(e)}")
 
     if code == 200:
-        # Validate data availability first
+        # Check if response contains data
         if len(webResults) == 0:
             raise ParametersError("No data available for the provided parameters.")
 
-        # Only create DataFrame when explicitly requested (performance optimization)
+        # Convert response to requested output format
         if output_type == "df":
             return pd.DataFrame(webResults)
         elif output_type == "raw":
