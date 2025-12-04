@@ -71,7 +71,7 @@ def multiParsedData(countryDict):
     answer = []
     for i, j in itertools.product(range(len(CNTRY)), range(len(INDCTR))):
         answer.append(
-            parseData(countryDict[CNTRY[i]][INDCTR[j]]).to_dict("Series").values()
+            parseData(countryDict[CNTRY[i]][INDCTR[j]]).to_dict("Series").values()  # type: ignore
         )
     empty_dict2 = dict.fromkeys(CNTRY)
     for i in range(len(CNTRY)):
