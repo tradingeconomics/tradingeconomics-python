@@ -77,7 +77,7 @@ def multiParsedData(countryDict):
     for i in range(len(CNTRY)):
         empty_dict2[CNTRY[i]] = dict.fromkeys(INDCTR)
     for i, j in itertools.product(range(len(CNTRY)), range(len(INDCTR))):
-        empty_dict2[CNTRY[i]][INDCTR[j]] = answer[:1]
+        empty_dict2[CNTRY[i]][INDCTR[j]] = answer[:1]  # type: ignore
         del answer[0]
     return empty_dict2
 
@@ -127,7 +127,7 @@ def getRatingResults(webResults, rating):
     names2 = ["Country", "Date", "Agency", "Rating", "Outlook"]
     maindf = pd.DataFrame()
     for i in range(len(names)):
-        names[i] = [d[names2[i]] for d in webResults]
+        names[i] = [d[names2[i]] for d in webResults]  # type: ignore
         maindf = pd.concat(
             [maindf, pd.DataFrame(names[i], columns=[names2[i]])], axis=1
         )
