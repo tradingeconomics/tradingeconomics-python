@@ -118,6 +118,9 @@ def finalLink(link, prmtr):
 
 
 def stringOrListWithAppend(string_or_list_1, string_or_list_2):
+    _list_1 = []
+    _list_2 = []
+    
     if type(string_or_list_1) is list:
         _list_1 = [s for s in string_or_list_1]
     elif type(string_or_list_1) is str:
