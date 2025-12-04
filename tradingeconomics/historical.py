@@ -8,7 +8,7 @@ from dateutil.relativedelta import relativedelta
 from . import functions as fn
 from . import glob
 import ssl
-from typing import List
+from typing import List, Union, Optional
 
 PY3 = sys.version_info[0] == 3
 
@@ -355,7 +355,9 @@ def getHistoricalByTicker(
     return "Ticker is required"
 
 
-def getHistoricalLatest(country: List[str] = None, date=None, output_type=None):
+def getHistoricalLatest(
+    country: Optional[Union[str, List[str]]] = None, date=None, output_type=None
+):
     """
     Returns latest historical.
     =================================================================================
