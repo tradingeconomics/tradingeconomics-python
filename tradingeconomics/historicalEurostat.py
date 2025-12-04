@@ -3,7 +3,7 @@ import itertools
 import urllib
 import pandas as pd
 import sys
-from datetime import *
+from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
 from . import functions as fn
 from . import glob

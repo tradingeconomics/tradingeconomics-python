@@ -2,7 +2,7 @@ import json
 import urllib
 import pandas as pd
 import sys
-from datetime import *
+from datetime import datetime, date
 
 from . import functions as fn
 from . import glob
