@@ -1,4 +1,4 @@
-from datetime import *
+from datetime import datetime
 import re
 import itertools
 import urllib
@@ -213,6 +213,8 @@ def dataRequest(api_request, output_type):
 
 
 def makeRequestAndParse(api_request, output_type):
+    code = None
+    webResults = None
     try:
         with urlopen(api_request) as response:
             code = response.getcode()
@@ -225,10 +227,10 @@ def makeRequestAndParse(api_request, output_type):
     if code == 200:
         try:
 
-            if len(webResults) > 0:
+            if len(webResults) > 0:  # type: ignore
                 # names = ['country', 'category', 'historicalDataSymbol', 'lastUpdate']
                 # names2 = ['Country', 'Category', 'HistoricalDataSymbol', 'LastUpdate']
-                maindf = pd.DataFrame.from_records(webResults)  # columns=names2
+                maindf = pd.DataFrame.from_records(webResults)  # type: ignore  # columns=names2
 
             else:
                 raise ParametersError("No data available for the provided parameters.")
