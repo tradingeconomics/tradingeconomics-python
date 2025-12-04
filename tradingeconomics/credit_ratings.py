@@ -1,14 +1,16 @@
 from . import functions as fn
 from . import glob
 import ssl
-from typing import List
+from typing import List, Union, Optional
 
 
 class LoginError(AttributeError):
     pass
 
 
-def getCreditRatings(country: List[str] = None, output_type: str = None):
+def getCreditRatings(
+    country: Optional[Union[str, List[str]]] = None, output_type: Optional[str] = None
+):
     """
     Returns a list of all countries credit ratings.
 
@@ -42,10 +44,10 @@ def getCreditRatings(country: List[str] = None, output_type: str = None):
 
 
 def getHistoricalCreditRatings(
-    country: List[str] = None,
-    initDate: str = None,
-    endDate: str = None,
-    output_type: str = None,
+    country: Optional[Union[str, List[str]]] = None,
+    initDate: Optional[str] = None,
+    endDate: Optional[str] = None,
+    output_type: Optional[str] = None,
 ):
     """
     Returns historical credit ratings by country and date.
