@@ -76,14 +76,14 @@ def getHistorical(symbol=None, initDate=None, endDate=None, output_type=None, *a
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    if symbol[-10:] == ":worldbank":
-        linkAPI += "worldBank/historical?" + "s=" + quote(symbol[:-10], safe=":")
+    if symbol[-10:] == ":worldbank":  # type: ignore
+        linkAPI += "worldBank/historical?" + "s=" + quote(symbol[:-10], safe=":")  # type: ignore
 
-    elif symbol[-9:] == ":comtrade":
-        linkAPI += "comtrade/historical/" + quote(symbol[:-9], safe=":")
+    elif symbol[-9:] == ":comtrade":  # type: ignore
+        linkAPI += "comtrade/historical/" + quote(symbol[:-9], safe=":")  # type: ignore
 
-    elif symbol[-5:] == ":fred":
-        linkAPI += "fred/historical/" + quote(symbol[:-5], safe=":")
+    elif symbol[-5:] == ":fred":  # type: ignore
+        linkAPI += "fred/historical/" + quote(symbol[:-5], safe=":")  # type: ignore
 
     elif ":" not in symbol and type(symbol) is str:
         linkAPI += "historical/ticker/" + quote(symbol, safe="")
