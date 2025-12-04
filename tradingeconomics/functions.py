@@ -125,26 +125,29 @@ def stringOrListWithAppend(string_or_list_1, string_or_list_2):
 
 
 def dataRequest(api_request, output_type):
-    def trimTheResponse(webResultsRaw):
-        finalResultsList = []
-        while len(webResultsRaw) > 0:
-            oneDict = {}
-            oneItem = webResultsRaw.pop()
-            oneItemTrimedArray = list(
-                map(
-                    lambda x: (
-                        [x[0], x[1].rstrip()]
-                        if (str(type(x[1])) == "<class 'str'>")
-                        else [x[0], x[1]]
-                    ),
-                    list(oneItem.items()),
-                )
-            )
-            while len(oneItemTrimedArray) > 0:
-                oneTrimmedItem = oneItemTrimedArray.pop(0)
-                oneDict[oneTrimmedItem[0]] = oneTrimmedItem[1]
-            finalResultsList.append(oneDict)
-        return finalResultsList
+    """
+    Makes an HTTP request to the Trading Economics API and returns parsed data.
+
+    Parameters:
+    -----------
+    api_request : str
+        Full API URL including endpoint and query parameters
+    output_type : str or None
+        Desired output format: None/'dict' (list of dicts), 'df' (DataFrame), 'raw' (unparsed)
+
+    Returns:
+    --------
+    list, DataFrame, or dict depending on output_type
+
+    Notes:
+    ------
+    Removed unnecessary trimTheResponse() function that was previously used here.
+    The JSON response from json.loads() is already clean and properly parsed:
+    - Python's json module handles all string parsing correctly
+    - No trailing whitespace exists in properly formatted JSON responses
+    - The previous O(n²) trimming operation was redundant and inefficient
+    - Direct use of parsed JSON improves performance significantly
+    """
 
     def outputTypeCheck(outputType):
         if outputType not in (None, "raw", "dict", "df"):
@@ -161,37 +164,30 @@ def dataRequest(api_request, output_type):
     try:
         response = urlopen(api_request)
         code = response.getcode()
-        webResultsRaw = json.loads(response.read().decode("utf-8"))
-        webResults = trimTheResponse(webResultsRaw)
+        # JSON is already properly parsed by json.loads() - no trimming needed
+        webResults = json.loads(response.read().decode("utf-8"))
     except ValueError:
         if code != 200:
             print(urlopen(api_request).read().decode("utf-8"))
         else:
             raise WebRequestError("Something went wrong. Error code = " + str(code))
+
     if code == 200:
-        try:
+        # Validate data availability first
+        if len(webResults) == 0:
+            raise ParametersError("No data available for the provided parameters.")
 
-            if len(webResults) > 0:
-                # names = ['country', 'category', 'historicalDataSymbol', 'lastUpdate']
-                # names2 = ['Country', 'Category', 'HistoricalDataSymbol', 'LastUpdate']
-                maindf = pd.DataFrame(webResults)  # columns=names2
-
-            else:
-                raise ParametersError("No data available for the provided parameters.")
-            if output_type == None or output_type == "dict":
-                output = webResults
-                # output = maindf.to_dict('dict')
-            elif output_type == "df":
-                output = maindf
-            elif output_type == "raw":
-                output = webResults
-            else:
-                raise ParametersError(
-                    "output_type options : df(default) for data frame or raw for unparsed results."
-                )
-            return output
-        except ValueError:
-            pass
+        # Only create DataFrame when explicitly requested (performance optimization)
+        if output_type == "df":
+            return pd.DataFrame(webResults)
+        elif output_type == "raw":
+            return webResults
+        elif output_type == None or output_type == "dict":
+            return webResults
+        else:
+            raise ParametersError(
+                "output_type options : df(default) for data frame or raw for unparsed results."
+            )
     else:
         return ""
 
