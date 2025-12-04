@@ -26,6 +26,14 @@ class CredentialsError(ValueError):
     pass
 
 
+class ParametersError(ValueError):
+    pass
+
+
+class WebRequestError(ValueError):
+    pass
+
+
 def credCheck(credentials):
     # pattern = re.compile("^:$")
     # if not(pattern.match(credentials)):
@@ -153,12 +161,6 @@ def dataRequest(api_request, output_type):
         if outputType not in (None, "raw", "dict", "df"):
             raise ParametersError("invalid output_type")
 
-    class ParametersError(ValueError):
-        pass
-
-    class WebRequestError(ValueError):
-        pass
-
     outputTypeCheck(output_type)
 
     try:
@@ -203,12 +205,6 @@ def dataRequest(api_request, output_type):
 
 
 def makeRequestAndParse(api_request, output_type):
-    class ParametersError(ValueError):
-        pass
-
-    class WebRequestError(ValueError):
-        pass
-
     try:
         response = urlopen(api_request)
         code = response.getcode()
