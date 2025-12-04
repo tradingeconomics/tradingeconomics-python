@@ -3,7 +3,7 @@ from datetime import *
 from . import functions as fn
 from . import glob
 import ssl
-from typing import List
+from typing import List, Union, Optional
 
 
 PY3 = sys.version_info[0] == 3
@@ -299,7 +299,11 @@ def getCalendarUpdates(output_type=None):
 
 
 def getCalendarEventsByGroup(
-    group: str, country: str = None, initDate=None, endDate=None, output_type=None
+    group: Optional[str] = None,
+    country: Optional[Union[str, List[str]]] = None,
+    initDate=None,
+    endDate=None,
+    output_type=None,
 ):
     """
     Returns calendar events of the specified group
@@ -358,7 +362,9 @@ def getCalendarEventsByGroup(
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
 
-def getCalendarEvents(country: List[str] = None, output_type=None):
+def getCalendarEvents(
+    country: Optional[Union[str, List[str]]] = None, output_type=None
+):
     """
     Returns all calendar events or of the specific country passed as parameter.
     =================================================================================
