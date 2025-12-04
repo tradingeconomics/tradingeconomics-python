@@ -11,11 +11,11 @@ import ssl
 PY3 = sys.version_info[0] == 3
 
 if PY3:  # Python 3+
-    from urllib.request import urlopen
-    from urllib.parse import quote
+    from urllib.request import urlopen  # type: ignore
+    from urllib.parse import quote  # type: ignore
 else:  # Python 2.X
-    from urllib import urlopen
-    from urllib import quote
+    from urllib import urlopen  # type: ignore
+    from urllib import quote  # type: ignore
 
 
 class ParametersError(ValueError):
@@ -65,7 +65,7 @@ def checkIndicator(linkAPI, indicator):
     if type(indicator) is str:
         linkAPI += quote(str(indicator), safe="")
     else:
-        linkAPI += quote(",".join(str(indicator), safe=""))
+        linkAPI += quote(",".join(indicator), safe="")
 
     return linkAPI
 
