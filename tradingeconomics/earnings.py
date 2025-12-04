@@ -89,7 +89,7 @@ def getEarnings(
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/earnings-revenues"
+    linkAPI = "/earnings-revenues"
     # Symbols must NOT be URL-encoded; TE API expects literal format like "msft:us"
     if symbols:
         if isinstance(symbols, list):
@@ -125,7 +125,7 @@ def getEarningsType(type=None, output_type=None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/earnings?type="
+    linkAPI = "/earnings?type="
     if type:
         linkAPI += quote((type), safe="")
 

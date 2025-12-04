@@ -15,7 +15,7 @@ class TestGetSearchBasic(unittest.TestCase):
         # Get all search categories
         result = getSearch()
 
-        expected_url = "https://api.tradingeconomics.com/search/categories"
+        expected_url = "/search/categories"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"search": "all_categories"})
@@ -28,7 +28,7 @@ class TestGetSearchBasic(unittest.TestCase):
         # Get search with dict output type
         result = getSearch(term="gold", output_type="dict")
 
-        expected_url = "https://api.tradingeconomics.com/search/gold"
+        expected_url = "/search/gold"
 
         mock_request.assert_called_once_with(
             api_request=expected_url, output_type="dict"
@@ -41,7 +41,7 @@ class TestGetSearchBasic(unittest.TestCase):
         # Get search with DataFrame output type
         result = getSearch(term="japan", output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/search/japan"
+        expected_url = "/search/japan"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, "df_output")
@@ -52,7 +52,7 @@ class TestGetSearchBasic(unittest.TestCase):
         # Get search with raw output type
         result = getSearch(term="inflation", output_type="raw")
 
-        expected_url = "https://api.tradingeconomics.com/search/inflation"
+        expected_url = "/search/inflation"
 
         mock_request.assert_called_once_with(
             api_request=expected_url, output_type="raw"

@@ -14,7 +14,7 @@ class TestGetHistoricalWorldBank(unittest.TestCase):
         # Get historical data for World Bank symbol
         result = getHistorical(symbol="are.fr.inr.rinr:worldbank")
 
-        expected_url = "https://api.tradingeconomics.com/worldBank/historical?s=are.fr.inr.rinr"
+        expected_url = "/worldBank/historical?s=are.fr.inr.rinr"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"worldbank": "ok"})
@@ -36,7 +36,9 @@ class TestGetHistoricalWorldBank(unittest.TestCase):
             endDate="2020-01-01",
         )
 
-        expected_url = "https://api.tradingeconomics.com/worldBank/historical?s=are.fr.inr.rinr&d1=2010-01-01&d2=2020-01-01"
+        expected_url = (
+            "/worldBank/historical?s=are.fr.inr.rinr&d1=2010-01-01&d2=2020-01-01"
+        )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"worldbank": "with_dates"})

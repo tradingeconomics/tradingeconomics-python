@@ -67,7 +67,7 @@ def getHistorical(symbol=None, initDate=None, endDate=None, output_type=None, *a
     te.getHistorical("RACEDISPARITY005007:fred")
     te.getHistorical("PRTESP24031:comtrade")
     """
-    linkAPI = "https://api.tradingeconomics.com/"
+    linkAPI = "/"
 
     try:
         _create_unverified_https_context = ssl._create_unverified_context

@@ -17,7 +17,7 @@ class TestGetHistoricalEndDateOnly(unittest.TestCase):
         result = getHistorical(symbol="aapl:us", endDate="2020-02-01")
 
         # initDate should be 2020-01-01 (1 month before endDate)
-        expected_url = "https://api.tradingeconomics.com/markets/historical/aapl%3Aus?d1=2020-01-01&d2=2020-02-01"
+        expected_url = "/markets/historical/aapl%3Aus?d1=2020-01-01&d2=2020-02-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"enddate": "ok"})

@@ -13,7 +13,7 @@ class TestGetIpoDates(unittest.TestCase):
         # Get IPO data with start date
         result = getIpo(startDate="2023-10-01")
 
-        expected_url = "https://api.tradingeconomics.com/ipo?d1=2023-10-01"
+        expected_url = "/ipo?d1=2023-10-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ipo": "start_date"})
@@ -28,9 +28,7 @@ class TestGetIpoDates(unittest.TestCase):
         # Get IPO data with date range
         result = getIpo(startDate="2023-10-01", endDate="2023-10-31")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/ipo?d1=2023-10-01&d2=2023-10-31"
-        )
+        expected_url = "/ipo?d1=2023-10-01&d2=2023-10-31"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ipo": "date_range"})
@@ -45,7 +43,7 @@ class TestGetIpoDates(unittest.TestCase):
         # Get IPO data for ticker with date range
         result = getIpo(ticker="SWIN", startDate="2023-10-01", endDate="2023-10-31")
 
-        expected_url = "https://api.tradingeconomics.com/ipo/ticker/SWIN?d1=2023-10-01&d2=2023-10-31"
+        expected_url = "/ipo/ticker/SWIN?d1=2023-10-01&d2=2023-10-31"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ipo": "ticker_dates"})
@@ -57,7 +55,7 @@ class TestGetIpoDates(unittest.TestCase):
         # Get IPO data for countries with start date
         result = getIpo(country=["United States", "Hong Kong"], startDate="2023-10-31")
 
-        expected_url = "https://api.tradingeconomics.com/ipo/country/United%20States,Hong%20Kong?d1=2023-10-31"
+        expected_url = "/ipo/country/United%20States,Hong%20Kong?d1=2023-10-31"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ipo": "country_date"})

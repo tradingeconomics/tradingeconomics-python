@@ -12,9 +12,7 @@ class TestGetCurrencyCross(unittest.TestCase):
         # Get currency cross for EUR
         result = getCurrencyCross(cross="EUR")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/markets/currency?cross=EUR"
-        )
+        expected_url = "/markets/currency?cross=EUR"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"currency": "eur"})
@@ -25,12 +23,24 @@ class TestGetCurrencyCross(unittest.TestCase):
         # Get currency cross with output type
         result = getCurrencyCross(cross="EUR", output_type="df")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/markets/currency?cross=EUR"
-        )
+        expected_url = "/markets/currency?cross=EUR"
 
         mock_request.assert_called_once_with(expected_url, "df")
         self.assertEqual(result, {"currency": "usd"})
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch(
+        "tradingeconomics.markets.fn.dataRequest",
+        return_value={"raw": "json", "currency": "data"},
+    )
+    def test_get_currency_cross_with_output_type_raw(self, mock_request):
+        # Test with output_type='raw'
+        result = getCurrencyCross(cross="EUR", output_type="raw")
+
+        expected_url = "/markets/currency?cross=EUR"
+
+        mock_request.assert_called_once_with(expected_url, "raw")
+        self.assertEqual(result, {"raw": "json", "currency": "data"})
 
     def test_get_currency_cross_no_cross(self):
         # Test error when cross is not provided

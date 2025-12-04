@@ -1,17 +1,23 @@
 import unittest
 from unittest.mock import patch
-from tradingeconomics.stock_splits import getStockSplits, LoginError
+from tradingeconomics.stock_splits import getStockSplits, LoginError, WebRequestError
 from tradingeconomics import glob
 
 
 class TestGetStockSplitsErrors(unittest.TestCase):
 
-    @patch("tradingeconomics.stock_splits.glob.apikey", "")
-    def test_get_stock_splits_no_credentials(self):
-        # Test that HTTPError is raised when no API key is set (API returns 401)
-        from urllib.error import HTTPError
-
-        with self.assertRaises(HTTPError):
+    @patch.object(glob, "apikey", "")
+    @patch(
+        "tradingeconomics.stock_splits.fn.dataRequest",
+        side_effect=WebRequestError("Request failed: HTTP Error 401: Unauthorized"),
+    )
+    @patch(
+        "tradingeconomics.stock_splits.fn.checkDates",
+        side_effect=lambda url, d1, d2: url,
+    )
+    def test_get_stock_splits_no_credentials(self, mock_check_dates, mock_request):
+        # Test that WebRequestError is raised when no API key is set (API returns 401)
+        with self.assertRaises(WebRequestError):
             getStockSplits()
 
 

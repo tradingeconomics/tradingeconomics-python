@@ -14,7 +14,7 @@ class TestGetFedRSnapsCountry(unittest.TestCase):
         # Get snapshot by country
         result = getFedRSnaps(country="united states")
 
-        expected_url = "https://api.tradingeconomics.com/fred/snapshot/country/united%20states"
+        expected_url = "/fred/snapshot/country/united%20states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "ok"})
@@ -28,7 +28,20 @@ class TestGetFedRSnapsCountry(unittest.TestCase):
         # Get snapshots by multiple countries (though only US is supported)
         result = getFedRSnaps(country=["united states", "usa"])
 
-        expected_url = "https://api.tradingeconomics.com/fred/snapshot/country/united%20states%2Fusa"
+        expected_url = "/fred/snapshot/country/united%20states%2Fusa"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "multiple"})
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch(
+        "tradingeconomics.federalReserve.fn.dataRequest",
+        return_value=[{"country": "df"}],
+    )
+    def test_snaps_country_output_type_df(self, mock_request):
+        result = getFedRSnaps(country="united states", output_type="df")
+
+        expected_url = "/fred/snapshot/country/united%20states"
+
+        mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
+        self.assertEqual(result, [{"country": "df"}])

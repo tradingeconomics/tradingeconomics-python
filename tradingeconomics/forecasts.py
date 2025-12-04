@@ -34,7 +34,7 @@ class WebRequestError(ValueError):
 
 
 def checkCountry(country):
-    linkAPI = "https://api.tradingeconomics.com/forecast/country/"
+    linkAPI = "/forecast/country/"
     if type(country) is str:
         linkAPI += quote(country, safe="")
     else:
@@ -44,7 +44,7 @@ def checkCountry(country):
 
 
 def checkIndic(indicator):
-    linkAPI = "https://api.tradingeconomics.com/forecast/indicator/"
+    linkAPI = "/forecast/indicator/"
     if type(indicator) is str:
         linkAPI += quote(indicator, safe="")
     else:
@@ -54,7 +54,7 @@ def checkIndic(indicator):
 
 
 def getLink(country, indicator):
-    linkAPI = "https://api.tradingeconomics.com/forecast/country/"
+    linkAPI = "/forecast/country/"
     if type(country) is str:
         linkAPI += quote(country)
     else:
@@ -141,7 +141,7 @@ def getForecastByTicker(ticker=None, output_type=None):
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/forecast",
+        "url_base": "/forecast",
         "country": "",
         "ticker": "",
         "output_type": "",
@@ -183,7 +183,7 @@ def getForecastUpdates(country=None, init_date=None, output_type=None):
             getForecastUpdates(country = 'mexico', init_date='2024-11-15', output_type = 'df')
     """
 
-    url_base = "https://api.tradingeconomics.com/forecast/updates"
+    url_base = "/forecast/updates"
     api_url_request = url_base
 
     if country:

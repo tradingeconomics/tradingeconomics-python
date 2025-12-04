@@ -12,7 +12,7 @@ class TestGetHistoricalRatings(unittest.TestCase):
         # Get historical ratings for single country
         result = getHistoricalRatings(country="United States")
 
-        expected_url = "https://api.tradingeconomics.com/ratings/historical/united%20states"
+        expected_url = "/ratings/historical/united%20states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ratings": "ok"})
@@ -26,7 +26,7 @@ class TestGetHistoricalRatings(unittest.TestCase):
         # Get historical ratings for multiple countries
         result = getHistoricalRatings(country=["United States", "United Kingdom"])
 
-        expected_url = "https://api.tradingeconomics.com/ratings/historical/united%20states%2Cunited%20kingdom"
+        expected_url = "/ratings/historical/united%20states%2Cunited%20kingdom"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ratings": "multiple"})
@@ -40,7 +40,7 @@ class TestGetHistoricalRatings(unittest.TestCase):
         # Get historical ratings with init date
         result = getHistoricalRatings(country="United States", initDate="2011-01-01")
 
-        expected_url = "https://api.tradingeconomics.com/ratings/historical/united%20states/2011-01-01"
+        expected_url = "/ratings/historical/united%20states/2011-01-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ratings": "with_date"})
@@ -56,7 +56,7 @@ class TestGetHistoricalRatings(unittest.TestCase):
             country="United States", initDate="2011-01-01", endDate="2012-01-01"
         )
 
-        expected_url = "https://api.tradingeconomics.com/ratings/historical/united%20states/2011-01-01/2012-01-01"
+        expected_url = "/ratings/historical/united%20states/2011-01-01/2012-01-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ratings": "with_dates"})
@@ -69,7 +69,23 @@ class TestGetHistoricalRatings(unittest.TestCase):
         # Test with output_type parameter
         result = getHistoricalRatings(country="United States", output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/ratings/historical/united%20states"
+        expected_url = "/ratings/historical/united%20states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"rating": "AAA"}])
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch(
+        "tradingeconomics.historical.fn.dataRequest",
+        return_value={"raw": "json", "rating": "AAA"},
+    )
+    def test_historical_ratings_output_type_raw(self, mock_request):
+        # Test with output_type='raw' parameter
+        result = getHistoricalRatings(country="United States", output_type="raw")
+
+        expected_url = "/ratings/historical/united%20states"
+
+        mock_request.assert_called_once_with(
+            api_request=expected_url, output_type="raw"
+        )
+        self.assertEqual(result, {"raw": "json", "rating": "AAA"})

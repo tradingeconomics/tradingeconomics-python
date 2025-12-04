@@ -12,7 +12,7 @@ class TestGetHistoricalLatest(unittest.TestCase):
         # Get latest historical data with no parameters
         result = getHistoricalLatest()
 
-        expected_url = "https://api.tradingeconomics.com/historical/latest"
+        expected_url = "/historical/latest"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"latest": "ok"})
@@ -24,9 +24,7 @@ class TestGetHistoricalLatest(unittest.TestCase):
         # Get latest historical data for single country
         result = getHistoricalLatest(country="Brazil")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/historical/latest?country=Brazil"
-        )
+        expected_url = "/historical/latest?country=Brazil"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "ok"})
@@ -46,7 +44,7 @@ class TestGetHistoricalLatest(unittest.TestCase):
         # Get latest historical data for multiple countries
         result = getHistoricalLatest(country=["Brazil", "United States"])
 
-        expected_url = "https://api.tradingeconomics.com/historical/latest?country=Brazil%2CUnited%20States"
+        expected_url = "/historical/latest?country=Brazil%2CUnited%20States"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "multiple"})
@@ -57,9 +55,7 @@ class TestGetHistoricalLatest(unittest.TestCase):
         # Get latest historical data for specific date
         result = getHistoricalLatest(date="2025-08-26")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/historical/latest?date=2025-08-26"
-        )
+        expected_url = "/historical/latest?date=2025-08-26"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"date": "ok"})
@@ -80,7 +76,9 @@ class TestGetHistoricalLatest(unittest.TestCase):
             country=["Brazil", "United States"], date="2025-08-26"
         )
 
-        expected_url = "https://api.tradingeconomics.com/historical/latest?country=Brazil%2CUnited%20States&date=2025-08-26"
+        expected_url = (
+            "/historical/latest?country=Brazil%2CUnited%20States&date=2025-08-26"
+        )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"combined": "ok"})
@@ -91,7 +89,23 @@ class TestGetHistoricalLatest(unittest.TestCase):
         # Test with output_type parameter
         result = getHistoricalLatest(output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/historical/latest"
+        expected_url = "/historical/latest"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"value": 100}])
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch(
+        "tradingeconomics.historical.fn.dataRequest",
+        return_value={"raw": "json", "latest": "data"},
+    )
+    def test_historical_latest_output_type_raw(self, mock_request):
+        # Test with output_type='raw' parameter
+        result = getHistoricalLatest(output_type="raw")
+
+        expected_url = "/historical/latest"
+
+        mock_request.assert_called_once_with(
+            api_request=expected_url, output_type="raw"
+        )
+        self.assertEqual(result, {"raw": "json", "latest": "data"})

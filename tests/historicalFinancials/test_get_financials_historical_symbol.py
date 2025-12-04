@@ -15,7 +15,7 @@ class TestGetFinancialsHistoricalSymbol(unittest.TestCase):
         # Get historical financials data for single symbol and category
         result = getFinancialsHistorical(symbol="aapl:us", category="assets")
 
-        expected_url = "http://api.tradingeconomics.com/financials/historical/aapl%3Aus%3Aassets"
+        expected_url = "/financials/historical/aapl%3Aus%3Aassets"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"financials": "ok"})
@@ -31,7 +31,7 @@ class TestGetFinancialsHistoricalSymbol(unittest.TestCase):
             symbol=["aapl:us", "tsla:us"], category="assets"
         )
 
-        expected_url = "http://api.tradingeconomics.com/financials/historical/aapl%3Aus%3Aassets%2Ctsla%3Aus%3Aassets"
+        expected_url = "/financials/historical/aapl%3Aus%3Aassets%2Ctsla%3Aus%3Aassets"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"financials": "multiple"})
@@ -45,7 +45,7 @@ class TestGetFinancialsHistoricalSymbol(unittest.TestCase):
         # Get historical financials data for single symbol and multiple categories
         result = getFinancialsHistorical(symbol="aapl:us", category=["assets", "debt"])
 
-        expected_url = "http://api.tradingeconomics.com/financials/historical/aapl%3Aus%3Aassets%2Caapl%3Aus%3Adebt"
+        expected_url = "/financials/historical/aapl%3Aus%3Aassets%2Caapl%3Aus%3Adebt"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"financials": "categories"})
@@ -61,7 +61,7 @@ class TestGetFinancialsHistoricalSymbol(unittest.TestCase):
             symbol=["aapl:us", "tsla:us"], category=["assets", "debt"]
         )
 
-        expected_url = "http://api.tradingeconomics.com/financials/historical/aapl%3Aus%3Aassets%2Caapl%3Aus%3Adebt%2Ctsla%3Aus%3Aassets%2Ctsla%3Aus%3Adebt"
+        expected_url = "/financials/historical/aapl%3Aus%3Aassets%2Caapl%3Aus%3Adebt%2Ctsla%3Aus%3Aassets%2Ctsla%3Aus%3Adebt"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"financials": "both"})

@@ -14,7 +14,7 @@ class TestGetPeers(unittest.TestCase):
         # Get peers by ticker
         result = getPeers(ticker="CPI YOY")
 
-        expected_url = "https://api.tradingeconomics.com/peers/CPI%20YOY"
+        expected_url = "/peers/CPI%20YOY"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"peers": "ticker"})
@@ -27,9 +27,7 @@ class TestGetPeers(unittest.TestCase):
         # Get peers by country
         result = getPeers(country="united states")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/peers/country/united%20states"
-        )
+        expected_url = "/peers/country/united%20states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"peers": "country"})
@@ -43,7 +41,7 @@ class TestGetPeers(unittest.TestCase):
         # Get peers by country and category
         result = getPeers(country="united states", category="money")
 
-        expected_url = "https://api.tradingeconomics.com/peers/country/united%20states/money"
+        expected_url = "/peers/country/united%20states/money"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"peers": "country_category"})
@@ -54,9 +52,23 @@ class TestGetPeers(unittest.TestCase):
         # Get peers with output type
         result = getPeers(country="united states", output_type="df")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/peers/country/united%20states"
-        )
+        expected_url = "/peers/country/united%20states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, {"peers": "df"})
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch(
+        "tradingeconomics.indicators.fn.dataRequest",
+        return_value={"raw": "json", "peers": "data"},
+    )
+    def test_get_peers_with_output_type_raw(self, mock_request):
+        # Test with output_type='raw'
+        result = getPeers(country="united states", output_type="raw")
+
+        expected_url = "/peers/country/united%20states"
+
+        mock_request.assert_called_once_with(
+            api_request=expected_url, output_type="raw"
+        )
+        self.assertEqual(result, {"raw": "json", "peers": "data"})

@@ -14,7 +14,7 @@ class TestGetIndicatorData(unittest.TestCase):
         # Get all indicators
         result = getIndicatorData()
 
-        expected_url = "https://api.tradingeconomics.com/indicators/"
+        expected_url = "/indicators/"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"indicators": "all"})
@@ -28,9 +28,7 @@ class TestGetIndicatorData(unittest.TestCase):
         # Get indicators by country
         result = getIndicatorData(country="United States")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/country/united%20states"
-        )
+        expected_url = "/country/united%20states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"indicators": "country"})
@@ -44,7 +42,7 @@ class TestGetIndicatorData(unittest.TestCase):
         # Get indicators by multiple countries
         result = getIndicatorData(country=["United States", "Portugal"])
 
-        expected_url = "https://api.tradingeconomics.com/country/United%20States%2CPortugal"
+        expected_url = "/country/United%20States%2CPortugal"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"indicators": "countries"})
@@ -58,7 +56,7 @@ class TestGetIndicatorData(unittest.TestCase):
         # Get data for specific indicators across all countries
         result = getIndicatorData(indicators="Imports")
 
-        expected_url = "https://api.tradingeconomics.com/country/all/Imports"
+        expected_url = "/country/all/Imports"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"indicators": "indicator"})
@@ -72,12 +70,26 @@ class TestGetIndicatorData(unittest.TestCase):
         # Get data for multiple indicators across all countries
         result = getIndicatorData(indicators=["Imports", "Exports"])
 
-        expected_url = (
-            "https://api.tradingeconomics.com/country/all/Imports%2CExports"
-        )
+        expected_url = "/country/all/Imports%2CExports"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"indicators": "indicators"})
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch(
+        "tradingeconomics.indicators.fn.dataRequest",
+        return_value={"raw": "json", "indicators": "data"},
+    )
+    def test_get_indicator_data_with_output_type_raw(self, mock_request):
+        # Test with output_type='raw'
+        result = getIndicatorData(country="United States", output_type="raw")
+
+        expected_url = "/country/united%20states"
+
+        mock_request.assert_called_once_with(
+            api_request=expected_url, output_type="raw"
+        )
+        self.assertEqual(result, {"raw": "json", "indicators": "data"})
 
     def test_get_indicator_data_country_and_indicators_error(self):
         # Test that error is returned when both country and indicators are provided

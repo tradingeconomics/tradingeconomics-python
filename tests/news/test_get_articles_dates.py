@@ -18,7 +18,7 @@ class TestGetArticlesDates(unittest.TestCase):
             country="United States", initDate="2015-10-10", endDate="2017-10-10"
         )
 
-        expected_url = "https://api.tradingeconomics.com/articles/country/United%20States/from/2015-10-10/2017-10-10"
+        expected_url = "/articles/country/United%20States/from/2015-10-10/2017-10-10"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"articles": "dates"})
@@ -40,7 +40,9 @@ class TestGetArticlesDates(unittest.TestCase):
             endDate="2017-10-10",
         )
 
-        expected_url = "https://api.tradingeconomics.com/articles/country/United%20States,Portugal/from/2015-10-10/2017-10-10"
+        expected_url = (
+            "/articles/country/United%20States,Portugal/from/2015-10-10/2017-10-10"
+        )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"articles": "countries_dates"})

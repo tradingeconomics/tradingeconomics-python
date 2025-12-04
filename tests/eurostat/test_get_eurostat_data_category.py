@@ -14,7 +14,7 @@ class TestGetEurostatDataCategory(unittest.TestCase):
             category="People at risk of income poverty after social transfers"
         )
 
-        expected_url = "https://api.tradingeconomics.com/eurostat?category=People%20at%20risk%20of%20income%20poverty%20after%20social%20transfers"
+        expected_url = "/eurostat?category=People%20at%20risk%20of%20income%20poverty%20after%20social%20transfers"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"category": "ok"})
@@ -28,7 +28,20 @@ class TestGetEurostatDataCategory(unittest.TestCase):
         # Provide multiple categories and ensure URL is built correctly
         result = getEurostatData(category=["Category1", "Category2"])
 
-        expected_url = "https://api.tradingeconomics.com/eurostat?category=Category1%2CCategory2"
+        expected_url = "/eurostat?category=Category1%2CCategory2"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"category": "multiple"})
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch("tradingeconomics.eurostat.fn.dataRequest", return_value={"category": "df"})
+    def test_category_output_type_df(self, mock_request):
+        result = getEurostatData(
+            category="People at risk of income poverty after social transfers",
+            output_type="df",
+        )
+
+        expected_url = "/eurostat?category=People%20at%20risk%20of%20income%20poverty%20after%20social%20transfers"
+
+        mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
+        self.assertEqual(result, {"category": "df"})

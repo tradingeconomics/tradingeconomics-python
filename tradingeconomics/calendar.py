@@ -38,46 +38,33 @@ def paramCheck(country, indicator=None):
     # country is string, no indicator
     if isinstance(country, str) and indicator is None:
         encoded_country = quote(country)
-        return "https://api.tradingeconomics.com/calendar/country/" + encoded_country
+        return "/calendar/country/" + encoded_country
 
     # country is list, no indicator
     elif isinstance(country, list) and indicator is None:
         encoded = [quote(c) for c in country]
         multiCountry = ",".join(encoded)
-        return "https://api.tradingeconomics.com/calendar/country/" + multiCountry
+        return "/calendar/country/" + multiCountry
 
     # country list + indicator string
     elif isinstance(country, list) and isinstance(indicator, str):
         encoded_country = [quote(c) for c in country]
         encoded_indicator = quote(indicator)
         multiCountry = ",".join(encoded_country)
-        return (
-            "https://api.tradingeconomics.com/calendar/country/"
-            + multiCountry
-            + "/indicator/"
-            + encoded_indicator
-        )
+        return "/calendar/country/" + multiCountry + "/indicator/" + encoded_indicator
 
     # country string + indicator list
     elif isinstance(country, str) and isinstance(indicator, list):
         encoded_indicator = [quote(i) for i in indicator]
         multiInd = ",".join(encoded_indicator)
-        return (
-            "https://api.tradingeconomics.com/calendar/country/"
-            + quote(country)
-            + "/indicator/"
-            + multiInd
-        )
+        return "/calendar/country/" + quote(country) + "/indicator/" + multiInd
 
     # country string + indicator string  <<<<<< CORREÇÃO IMPORTANTE
     elif isinstance(country, str) and isinstance(indicator, str):
         encoded_country = quote(country)
         encoded_indicator = quote(indicator)
         return (
-            "https://api.tradingeconomics.com/calendar/country/"
-            + encoded_country
-            + "/indicator/"
-            + encoded_indicator
+            "/calendar/country/" + encoded_country + "/indicator/" + encoded_indicator
         )
 
     # both lists
@@ -86,16 +73,11 @@ def paramCheck(country, indicator=None):
         encoded_ind = [quote(i) for i in indicator]
         multiCountry = ",".join(encoded_country)
         multiInd = ",".join(encoded_ind)
-        return (
-            "https://api.tradingeconomics.com/calendar/country/"
-            + multiCountry
-            + "/indicator/"
-            + multiInd
-        )
+        return "/calendar/country/" + multiCountry + "/indicator/" + multiInd
 
 
 def checkCalendarId(id):
-    linkAPI = "https://api.tradingeconomics.com/calendar/calendarid"
+    linkAPI = "/calendar/calendarid"
     if isinstance(id, str):
         linkAPI += "/" + quote(id)
     else:
@@ -139,7 +121,7 @@ def getCalendarId(id=None, output_type=None):
         ssl._create_default_https_context = _create_unverified_https_context
 
     if id == None:
-        linkAPI = "https://api.tradingeconomics.com/calendar"
+        linkAPI = "/calendar"
     else:
         linkAPI = checkCalendarId(id)
 
@@ -218,7 +200,7 @@ def getCalendarData(
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/calendar",
+        "url_base": "/calendar",
         "country": "",
         "category": "",
         "init_date": "",
@@ -307,7 +289,7 @@ def getCalendarUpdates(output_type=None):
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/calendar/updates",
+        "url_base": "/calendar/updates",
         "output_type": "",
     }
 
@@ -348,7 +330,7 @@ def getCalendarEventsByGroup(
 
     """
 
-    d = {"url_base": "https://api.tradingeconomics.com/calendar", "output_type": ""}
+    d = {"url_base": "/calendar", "output_type": ""}
 
     api_url_request = d["url_base"]
 
@@ -404,7 +386,7 @@ def getCalendarEvents(country: List[str] = None, output_type=None):
     """
 
     d = {
-        "url_base": "https://api.tradingeconomics.com/calendar/events",
+        "url_base": "/calendar/events",
         "output_type": "",
     }
 

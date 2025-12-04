@@ -15,9 +15,7 @@ class TestFetchMarketsOutputType(unittest.TestCase):
         # Test with output_type='df'
         result = fetchMarkets(symbol="indu:ind", output_type="df")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/markets/historical/indu%3Aind"
-        )
+        expected_url = "/markets/historical/indu%3Aind"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"value": 100}])
@@ -31,9 +29,7 @@ class TestFetchMarketsOutputType(unittest.TestCase):
         # Test with output_type='raw'
         result = fetchMarkets(symbol="indu:ind", output_type="raw")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/markets/historical/indu%3Aind"
-        )
+        expected_url = "/markets/historical/indu%3Aind"
 
         mock_request.assert_called_once_with(
             api_request=expected_url, output_type="raw"

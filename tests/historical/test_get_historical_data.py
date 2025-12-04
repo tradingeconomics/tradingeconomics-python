@@ -47,7 +47,7 @@ class TestGetHistoricalData(unittest.TestCase):
             endDate="2016-01-01",
         )
 
-        expected_url = "https://api.tradingeconomics.com/historical/country/United%20States/indicator/Imports/2011-01-01/2016-01-01"
+        expected_url = "/historical/country/United%20States/indicator/Imports/2011-01-01/2016-01-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"historical": "with_dates"})
@@ -70,7 +70,7 @@ class TestGetHistoricalData(unittest.TestCase):
             country="United States", indicator="GDP", initDate="2020-01-01"
         )
 
-        expected_url = "https://api.tradingeconomics.com/historical/country/United%20States/indicator/GDP/2020-01-01"
+        expected_url = "/historical/country/United%20States/indicator/GDP/2020-01-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"historical": "init_only"})
@@ -92,3 +92,24 @@ class TestGetHistoricalData(unittest.TestCase):
         call_args = mock_request.call_args[1]
         assert call_args["output_type"] == "df"
         self.assertEqual(result, [{"value": 100}])
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch(
+        "tradingeconomics.historical.fn.finalLink",
+        side_effect=lambda url, dates: url + "/" + "/".join(dates),
+    )
+    @patch(
+        "tradingeconomics.historical.fn.dataRequest",
+        return_value={"raw": "json", "data": "test"},
+    )
+    def test_historical_with_output_type_raw(self, mock_request, mock_final_link):
+        # Test with output_type='raw' parameter
+        result = getHistoricalData(
+            country="United States", indicator="GDP", output_type="raw"
+        )
+
+        # Verify output_type was passed correctly
+        assert mock_request.called
+        call_args = mock_request.call_args[1]
+        assert call_args["output_type"] == "raw"
+        self.assertEqual(result, {"raw": "json", "data": "test"})

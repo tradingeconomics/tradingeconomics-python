@@ -40,7 +40,7 @@ class WebRequestError(ValueError):
 
 
 def checkFedRSymbol(linkAPI, symbol):
-    linkAPI = "https://api.tradingeconomics.com/fred/snapshot/symbol/"
+    linkAPI = "/fred/snapshot/symbol/"
     if symbol != None:
         if type(symbol) == str:
             linkAPI += quote(symbol)
@@ -51,7 +51,7 @@ def checkFedRSymbol(linkAPI, symbol):
 
 
 def checkFedRCountry(linkAPI, country):
-    linkAPI = "https://api.tradingeconomics.com/fred/snapshot/country/"
+    linkAPI = "/fred/snapshot/country/"
     if country != None:
         if type(country) == str:
             linkAPI += quote(country)
@@ -62,7 +62,7 @@ def checkFedRCountry(linkAPI, country):
 
 
 def checkFedRState(linkAPI, state):
-    linkAPI = "https://api.tradingeconomics.com/fred/snapshot/state/"
+    linkAPI = "/fred/snapshot/state/"
     if state != None:
         if type(state) == str:
             linkAPI += quote(state)
@@ -73,7 +73,7 @@ def checkFedRState(linkAPI, state):
 
 
 def checkFedRCounty(linkAPI, county):
-    linkAPI = "https://api.tradingeconomics.com/fred/snapshot/county/"
+    linkAPI = "/fred/snapshot/county/"
     if county != None:
         if type(county) == str:
             linkAPI += quote(county)
@@ -125,15 +125,13 @@ def getFedRStates(county=None, output_type=None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/fred/states"
+    linkAPI = "/fred/states"
 
     if county != None:
-        linkAPI = "https://api.tradingeconomics.com/fred/counties/" + quote(
-            "".join(county)
-        )
+        linkAPI = "/fred/counties/" + quote("".join(county))
 
     if name == None and county == None:
-        linkAPI = "https://api.tradingeconomics.com/fred/states"
+        linkAPI = "/fred/states"
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -202,16 +200,12 @@ def getFedRSnaps(
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/fred/snapshot/"
+    linkAPI = "/fred/snapshot/"
 
     if symbol != None:
         linkAPI = checkFedRSymbol(linkAPI, symbol)
     elif url != None:
-        linkAPI = (
-            "https://api.tradingeconomics.com/fred/snapshot/url/"
-            + "?url="
-            + quote(str(url))
-        )
+        linkAPI = "/fred/snapshot/url/" + "?url=" + quote(str(url))
         return fn.dataRequest(api_request=linkAPI, output_type=output_type)
     elif country != None:
         linkAPI = checkFedRCountry(linkAPI, country)
@@ -258,9 +252,7 @@ def getFedRCountyOld(state=None, county=None, output_type=None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = (
-        "https://api.tradingeconomics.com/fred/snapshot/county/Pike%20County,%20AR"
-    )
+    linkAPI = "/fred/snapshot/county/Pike%20County,%20AR"
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -301,7 +293,7 @@ def getFedRCounty(state=None, county=None, output_type=None):
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/fred/snapshot/county/",
+        "url_base": "/fred/snapshot/county/",
         "state": "",
         "county": "",
         "output_type": "",
@@ -355,7 +347,7 @@ def getFedRHistorical(symbol=None, initDate=None, endDate=None, output_type=None
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/fred/historical",
+        "url_base": "/fred/historical",
         "symbol": "",
         "initDate": "",
         "endDate": "",

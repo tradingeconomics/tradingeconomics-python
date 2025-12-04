@@ -40,9 +40,9 @@ class DateError(ValueError):
 
 def checkCountry(country, linkAPI=None):
     if linkAPI is None:
-        linkAPI = "https://api.tradingeconomics.com/indicators/"
+        linkAPI = "/indicators/"
     if country is not None:
-        linkAPI = "https://api.tradingeconomics.com/country/"
+        linkAPI = "/country/"
         if type(country) is str:
             linkAPI += quote(country.lower())
         else:
@@ -51,7 +51,7 @@ def checkCountry(country, linkAPI=None):
 
 
 def checkCountryRatings(country):
-    linkAPI = "https://api.tradingeconomics.com/ratings/"
+    linkAPI = "/ratings/"
     if type(country) is str:
         linkAPI += quote(country.lower())
     else:
@@ -106,7 +106,7 @@ def getIndicatorData(country=None, indicators=None, calendar=None, output_type=N
         return "Error: You can not use both country and indicators parameters at the same time."
 
     if country == None:
-        linkAPI = "https://api.tradingeconomics.com/indicators/"
+        linkAPI = "/indicators/"
     else:
         linkAPI = checkCountry(country)
 
@@ -116,11 +116,11 @@ def getIndicatorData(country=None, indicators=None, calendar=None, output_type=N
         linkAPI = checkIndic(indicators, linkAPI)
 
     if indicators and country is None:
-        linkAPI = "https://api.tradingeconomics.com/country/all"
+        linkAPI = "/country/all"
         linkAPI = checkIndic(indicators, linkAPI)
 
     if calendar:
-        linkAPI = "https://api.tradingeconomics.com/indicators?calendar=1"
+        linkAPI = "/indicators?calendar=1"
         if country:
             linkAPI += "&country=" + quote(country)
 
@@ -155,7 +155,7 @@ def getRatings(country=None, rating=None, output_type="df"):
         ssl._create_default_https_context = _create_unverified_https_context
 
     if country == None:
-        linkAPI = "https://api.tradingeconomics.com/ratings"
+        linkAPI = "/ratings"
     else:
         linkAPI = checkCountryRatings(country)
 
@@ -193,7 +193,7 @@ def getCreditRatingsUpdates(output_type=None):
         ssl._create_default_https_context = _create_unverified_https_context
 
     # Base endpoint for credit rating updates
-    linkAPI = "https://api.tradingeconomics.com/credit-ratings/updates"
+    linkAPI = "/credit-ratings/updates"
 
     # Delegate HTTP call + parsing to the common helper
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
@@ -225,7 +225,7 @@ def getDiscontinuedIndicator(country=None, output_type=None):
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/country",
+        "url_base": "/country",
         "country": "/all",
         "discontinued_tag": "/discontinued",
         "output_type": "",
@@ -273,7 +273,7 @@ def getIndicatorByCategoryGroup(country=None, category_group=None, output_type=N
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/country",
+        "url_base": "/country",
         "country": "",
         "category_group": "",
         "output_type": "",
@@ -319,7 +319,7 @@ def getIndicatorByTicker(ticker=None, output_type=None):
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/country",
+        "url_base": "/country",
         "country": "/country",
         "ticker": "",
         "output_type": "",
@@ -368,7 +368,7 @@ def getLatestUpdates(country=None, init_date=None, time=None, output_type=None):
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/updates",
+        "url_base": "/updates",
         "country": "",
         "ticker": "",
         "time": "",
@@ -424,7 +424,7 @@ def getPeers(country=None, category=None, ticker=None, output_type=None):
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/peers/",
+        "url_base": "/peers/",
         "country": "",
         "ticker": "",
         "category": "",
@@ -469,7 +469,7 @@ def getAllCountries(output_type=None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/country/"
+    linkAPI = "/country/"
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -498,7 +498,7 @@ def getIndicatorChanges(start_date=None, output_type=None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/changes"
+    linkAPI = "/changes"
 
     if start_date:
         fn.checkDates(linkAPI, start_date)

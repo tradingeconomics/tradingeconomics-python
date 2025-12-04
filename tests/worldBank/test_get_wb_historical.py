@@ -14,7 +14,7 @@ class TestGetWBHistorical(unittest.TestCase):
         # Get historical data by series code
         result = getWBHistorical(series_code="usa.fr.inr.rinr")
 
-        expected_url = "https://api.tradingeconomics.com/worldBank/historical?s=usa.fr.inr.rinr"
+        expected_url = "/worldBank/historical?s=usa.fr.inr.rinr"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"historical": "data"})
@@ -31,10 +31,26 @@ class TestGetWBHistorical(unittest.TestCase):
         # Get historical data with DataFrame output type
         result = getWBHistorical(series_code="usa.fr.inr.rinr", output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/worldBank/historical?s=usa.fr.inr.rinr"
+        expected_url = "/worldBank/historical?s=usa.fr.inr.rinr"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, "df_output")
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch(
+        "tradingeconomics.worldBank.fn.dataRequest",
+        return_value=[{"raw": "historical_data"}],
+    )
+    def test_get_wb_historical_output_type_raw(self, mock_request):
+        # Get historical data with raw output type
+        result = getWBHistorical(series_code="usa.fr.inr.rinr", output_type="raw")
+
+        expected_url = "/worldBank/historical?s=usa.fr.inr.rinr"
+
+        mock_request.assert_called_once_with(
+            api_request=expected_url, output_type="raw"
+        )
+        self.assertEqual(result, [{"raw": "historical_data"}])
 
 
 if __name__ == "__main__":

@@ -14,7 +14,7 @@ class TestNoParameters(unittest.TestCase):
         result = getEarnings()
 
         # Base URL expected
-        expected_url = "https://api.tradingeconomics.com/earnings-revenues"
+        expected_url = "/earnings-revenues"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ok": True})

@@ -84,16 +84,12 @@ def fetchMarkets(symbol=None, initDate=None, endDate=None, output_type=None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/markets/historical/"
+    linkAPI = "/markets/historical/"
 
     if type(symbol) is not str:
-        linkAPI = "https://api.tradingeconomics.com/markets/historical/" + quote(
-            ",".join(symbol), safe=""
-        )
+        linkAPI = "/markets/historical/" + quote(",".join(symbol), safe="")
     else:
-        linkAPI = "https://api.tradingeconomics.com/markets/historical/" + quote(
-            symbol, safe=""
-        )
+        linkAPI = "/markets/historical/" + quote(symbol, safe="")
 
     if (initDate is not None) and (endDate is not None):
         try:

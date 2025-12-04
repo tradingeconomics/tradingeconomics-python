@@ -12,9 +12,7 @@ class TestGetEurostatDataSymbol(unittest.TestCase):
         # Provide a single symbol and ensure URL is built correctly
         result = getEurostatData(symbol="51640")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/eurostat/symbol/51640"
-        )
+        expected_url = "/eurostat/symbol/51640"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"symbol": "ok"})
@@ -27,9 +25,17 @@ class TestGetEurostatDataSymbol(unittest.TestCase):
         # Provide multiple symbols and ensure URL is built correctly
         result = getEurostatData(symbol=["51640", "51641"])
 
-        expected_url = (
-            "https://api.tradingeconomics.com/eurostat/symbol/51640%2C51641"
-        )
+        expected_url = "/eurostat/symbol/51640%2C51641"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"symbol": "multiple"})
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch("tradingeconomics.eurostat.fn.dataRequest", return_value={"symbol": "df"})
+    def test_symbol_output_type_df(self, mock_request):
+        result = getEurostatData(symbol="51640", output_type="df")
+
+        expected_url = "/eurostat/symbol/51640"
+
+        mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
+        self.assertEqual(result, {"symbol": "df"})

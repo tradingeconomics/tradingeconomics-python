@@ -14,7 +14,7 @@ class TestGetWBCategoriesBasic(unittest.TestCase):
         # Get all World Bank categories
         result = getWBCategories()
 
-        expected_url = "https://api.tradingeconomics.com/worldBank/categories"
+        expected_url = "/worldBank/categories"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"categories": "all"})
@@ -28,7 +28,7 @@ class TestGetWBCategoriesBasic(unittest.TestCase):
         # Get categories with dict output type
         result = getWBCategories(output_type="dict")
 
-        expected_url = "https://api.tradingeconomics.com/worldBank/categories"
+        expected_url = "/worldBank/categories"
 
         mock_request.assert_called_once_with(
             api_request=expected_url, output_type="dict"
@@ -41,7 +41,7 @@ class TestGetWBCategoriesBasic(unittest.TestCase):
         # Get categories with DataFrame output type
         result = getWBCategories(output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/worldBank/categories"
+        expected_url = "/worldBank/categories"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, "df_output")
@@ -52,7 +52,7 @@ class TestGetWBCategoriesBasic(unittest.TestCase):
         # Get categories with raw output type
         result = getWBCategories(output_type="raw")
 
-        expected_url = "https://api.tradingeconomics.com/worldBank/categories"
+        expected_url = "/worldBank/categories"
 
         mock_request.assert_called_once_with(
             api_request=expected_url, output_type="raw"

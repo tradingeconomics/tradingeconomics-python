@@ -12,7 +12,7 @@ class TestGetNewsBasic(unittest.TestCase):
         # Get all news
         result = getNews()
 
-        expected_url = "https://api.tradingeconomics.com/news"
+        expected_url = "/news"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"news": "all"})
@@ -23,7 +23,23 @@ class TestGetNewsBasic(unittest.TestCase):
         # Get news with output type
         result = getNews(output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/news"
+        expected_url = "/news"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, {"news": "df"})
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch(
+        "tradingeconomics.news.fn.dataRequest",
+        return_value={"raw": "json", "news": "data"},
+    )
+    def test_get_news_with_output_type_raw(self, mock_request):
+        # Test with output_type='raw'
+        result = getNews(output_type="raw")
+
+        expected_url = "/news"
+
+        mock_request.assert_called_once_with(
+            api_request=expected_url, output_type="raw"
+        )
+        self.assertEqual(result, {"raw": "json", "news": "data"})

@@ -15,7 +15,7 @@ class TestGetFinancialsDataCountry(unittest.TestCase):
         # Get financials data for single country
         result = getFinancialsData(country="united states")
 
-        expected_url = "https://api.tradingeconomics.com/financials/companies?country=united%20states"
+        expected_url = "/financials/companies?country=united%20states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "ok"})
@@ -33,7 +33,7 @@ class TestGetFinancialsDataCountry(unittest.TestCase):
         # Get financials data for multiple countries
         result = getFinancialsData(country=["united states", "china"])
 
-        expected_url = "https://api.tradingeconomics.com/financials/companies?country=united%20states%2Cchina"
+        expected_url = "/financials/companies?country=united%20states%2Cchina"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "multiple"})
@@ -52,7 +52,25 @@ class TestGetFinancialsDataCountry(unittest.TestCase):
         # Test with output_type parameter
         result = getFinancialsData(country="united states", output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/financials/companies?country=united%20states"
+        expected_url = "/financials/companies?country=united%20states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"country": "United States"}])
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch("tradingeconomics.financials.fn.stringOrList", return_value="china")
+    @patch(
+        "tradingeconomics.financials.fn.dataRequest",
+        return_value=[{"country": "China"}],
+    )
+    def test_financials_country_output_type_raw(
+        self, mock_request, mock_string_or_list
+    ):
+        result = getFinancialsData(country="china", output_type="raw")
+
+        expected_url = "/financials/companies?country=china"
+
+        mock_request.assert_called_once_with(
+            api_request=expected_url, output_type="raw"
+        )
+        self.assertEqual(result, [{"country": "China"}])

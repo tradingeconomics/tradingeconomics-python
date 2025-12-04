@@ -75,7 +75,9 @@ def getFinancialsHistorical(
     if symbol is not None and category is not None:
         if category.__contains__(" "):
             category = category.replace(" ", "-")
-        linkAPI = f"http://api.tradingeconomics.com/financials/historical/{fn.stringOrListWithAppend(symbol, category)}"
+        linkAPI = (
+            f"/financials/historical/{fn.stringOrListWithAppend(symbol, category)}"
+        )
     else:
         return "symbol and category arguments are required"
 

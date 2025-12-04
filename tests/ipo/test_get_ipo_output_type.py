@@ -12,7 +12,7 @@ class TestGetIpoOutputType(unittest.TestCase):
         # Test with output_type='df'
         result = getIpo(output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/ipo"
+        expected_url = "/ipo"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"value": 100}])
@@ -23,7 +23,7 @@ class TestGetIpoOutputType(unittest.TestCase):
         # Test with output_type='raw'
         result = getIpo(ticker="SWIN", output_type="raw")
 
-        expected_url = "https://api.tradingeconomics.com/ipo/ticker/SWIN"
+        expected_url = "/ipo/ticker/SWIN"
 
         mock_request.assert_called_once_with(
             api_request=expected_url, output_type="raw"

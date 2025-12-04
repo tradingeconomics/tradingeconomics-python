@@ -14,9 +14,7 @@ class TestGetHistoricalMarkets(unittest.TestCase):
         # Get historical data for markets symbol (contains colon)
         result = getHistorical(symbol="aapl:us")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/markets/historical/aapl%3Aus"
-        )
+        expected_url = "/markets/historical/aapl%3Aus"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"markets": "ok"})
@@ -30,7 +28,7 @@ class TestGetHistoricalMarkets(unittest.TestCase):
         # Get historical data for multiple markets symbols
         result = getHistorical(symbol=["aapl:us", "indu:ind"])
 
-        expected_url = "https://api.tradingeconomics.com/markets/historical/aapl%3Aus%2Cindu%3Aind"
+        expected_url = "/markets/historical/aapl%3Aus%2Cindu%3Aind"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"markets": "multiple"})
@@ -45,7 +43,7 @@ class TestGetHistoricalMarkets(unittest.TestCase):
         # Get historical data with init date
         result = getHistorical(symbol="indu:ind", initDate="2015-01-01")
 
-        expected_url = "https://api.tradingeconomics.com/markets/historical/indu%3Aind?d1=2015-01-01"
+        expected_url = "/markets/historical/indu%3Aind?d1=2015-01-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"markets": "with_date"})
@@ -65,7 +63,7 @@ class TestGetHistoricalMarkets(unittest.TestCase):
             symbol="indu:ind", initDate="2015-01-01", endDate="2017-01-01"
         )
 
-        expected_url = "https://api.tradingeconomics.com/markets/historical/indu%3Aind?d1=2015-01-01&d2=2017-01-01"
+        expected_url = "/markets/historical/indu%3Aind?d1=2015-01-01&d2=2017-01-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"markets": "with_dates"})

@@ -14,7 +14,7 @@ class TestGetRatings(unittest.TestCase):
         # Get all ratings
         result = getRatings()
 
-        expected_url = "https://api.tradingeconomics.com/ratings"
+        expected_url = "/ratings"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, {"ratings": "all"})
@@ -28,9 +28,7 @@ class TestGetRatings(unittest.TestCase):
         # Get ratings for specific country
         result = getRatings(country="United States")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/ratings/united%20states"
-        )
+        expected_url = "/ratings/united%20states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, {"ratings": "country"})
@@ -44,7 +42,7 @@ class TestGetRatings(unittest.TestCase):
         # Get ratings for multiple countries
         result = getRatings(country=["United States", "Portugal"])
 
-        expected_url = "https://api.tradingeconomics.com/ratings/United%20States%2CPortugal"
+        expected_url = "/ratings/United%20States%2CPortugal"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, {"ratings": "countries"})
@@ -57,9 +55,7 @@ class TestGetRatings(unittest.TestCase):
         # Get ratings with custom output type
         result = getRatings(country="United States", output_type="raw")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/ratings/united%20states"
-        )
+        expected_url = "/ratings/united%20states"
 
         mock_request.assert_called_once_with(
             api_request=expected_url, output_type="raw"

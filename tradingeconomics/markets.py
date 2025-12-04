@@ -91,7 +91,7 @@ def getMarketsData(marketsField, type=None, output_type=None):
             "The type parameter is only available for bonds. Accepted values are 2Y, 5Y, 10Y, 15Y, 20Y, 30Y"
         )
 
-    linkAPI = "https://api.tradingeconomics.com/markets/" + quote(marketsField, safe="")
+    linkAPI = "/markets/" + quote(marketsField, safe="")
 
     if type is not None:
         linkAPI += "?type=" + quote(type, safe="")
@@ -124,9 +124,7 @@ def getCurrencyCross(cross, output_type=None):
         ssl._create_default_https_context = _create_unverified_https_context
 
     if cross is not None:
-        linkAPI = "https://api.tradingeconomics.com/markets/currency?cross=" + quote(
-            cross, safe=""
-        )
+        linkAPI = "/markets/currency?cross=" + quote(cross, safe="")
     else:
         raise ParametersError("You must provide a cross for your currency pair")
 
@@ -159,13 +157,9 @@ def getMarketsBySymbol(symbols, output_type=None):
         ssl._create_default_https_context = _create_unverified_https_context
 
     if type(symbols) is not str:
-        linkAPI = "https://api.tradingeconomics.com/markets/symbol/" + quote(
-            ",".join(symbols), safe=""
-        )
+        linkAPI = "/markets/symbol/" + quote(",".join(symbols), safe="")
     else:
-        linkAPI = "https://api.tradingeconomics.com/markets/symbol/" + quote(
-            symbols, safe=""
-        )
+        linkAPI = "/markets/symbol/" + quote(symbols, safe="")
 
     return fn.dataRequest(linkAPI, output_type)
 
@@ -200,13 +194,9 @@ def getMarketsIntraday(symbols, initDate=None, endDate=None, output_type=None):
         ssl._create_default_https_context = _create_unverified_https_context
 
     if type(symbols) is not str:
-        linkAPI = "https://api.tradingeconomics.com/markets/intraday/" + quote(
-            ",".join(symbols), safe=""
-        )
+        linkAPI = "/markets/intraday/" + quote(",".join(symbols), safe="")
     else:
-        linkAPI = "https://api.tradingeconomics.com/markets/intraday/" + quote(
-            symbols, safe=""
-        )
+        linkAPI = "/markets/intraday/" + quote(symbols, safe="")
 
     linkAPI = fn.checkDates(linkAPI, initDate, endDate)
 
@@ -239,13 +229,9 @@ def getMarketsPeers(symbols, output_type=None):
         ssl._create_default_https_context = _create_unverified_https_context
 
     if type(symbols) is not str:
-        linkAPI = "https://api.tradingeconomics.com/markets/peers/" + quote(
-            ",".join(symbols), safe=""
-        )
+        linkAPI = "/markets/peers/" + quote(",".join(symbols), safe="")
     else:
-        linkAPI = "https://api.tradingeconomics.com/markets/peers/" + quote(
-            symbols, safe=""
-        )
+        linkAPI = "/markets/peers/" + quote(symbols, safe="")
 
     return fn.dataRequest(linkAPI, output_type)
 
@@ -276,13 +262,9 @@ def getMarketsComponents(symbols, output_type=None):
         ssl._create_default_https_context = _create_unverified_https_context
 
     if type(symbols) is not str:
-        linkAPI = "https://api.tradingeconomics.com/markets/components/" + quote(
-            ",".join(symbols), safe=""
-        )
+        linkAPI = "/markets/components/" + quote(",".join(symbols), safe="")
     else:
-        linkAPI = "https://api.tradingeconomics.com/markets/components/" + quote(
-            symbols, safe=""
-        )
+        linkAPI = "/markets/components/" + quote(symbols, safe="")
 
     return fn.dataRequest(linkAPI, output_type)
 
@@ -315,13 +297,9 @@ def getMarketsSearch(country=None, category=None, page=None, output_type=None):
         ssl._create_default_https_context = _create_unverified_https_context
 
     if type(country) is not str:
-        linkAPI = "https://api.tradingeconomics.com/markets/search/" + quote(
-            ",".join(country), safe=""
-        )
+        linkAPI = "/markets/search/" + quote(",".join(country), safe="")
     else:
-        linkAPI = "https://api.tradingeconomics.com/markets/search/" + quote(
-            country, safe=""
-        )
+        linkAPI = "/markets/search/" + quote(country, safe="")
     if (category) is not None:
         linkAPI = checkCategory(linkAPI, category)
     if (page) is not None:
@@ -360,21 +338,13 @@ def getMarketsForecasts(category=None, symbol=None, output_type=None):
         ssl._create_default_https_context = _create_unverified_https_context
 
     if type(symbol) is list:
-        linkAPI = (
-            "http://api.tradingeconomics.com/markets/forecasts"
-            + "/symbol/"
-            + quote(",".join(symbol), safe="")
-        )
+        linkAPI = "/markets/forecasts" + "/symbol/" + quote(",".join(symbol), safe="")
 
     else:
-        linkAPI = (
-            "http://api.tradingeconomics.com/markets/forecasts"
-            + "/symbol/"
-            + quote(str(symbol))
-        )
+        linkAPI = "/markets/forecasts" + "/symbol/" + quote(str(symbol))
 
     if category is not None:
-        linkAPI = "http://api.tradingeconomics.com/markets/forecasts/" + quote(category)
+        linkAPI = "/markets/forecasts/" + quote(category)
 
     return fn.dataRequest(linkAPI, output_type)
 
@@ -410,7 +380,7 @@ def getMarketsIntradayByInterval(symbol, interval, initDate, endDate, output_typ
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/markets/intraday",
+        "url_base": "/markets/intraday",
         "symbol": f"/{fn.stringOrList(symbol)}",
         "interval": f"?agr={fn.stringOrList(interval)}",
         "init_date": "",
@@ -475,7 +445,7 @@ def getMarketsStockDescriptions(symbol=None, country=None, output_type=None):
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/markets/stockdescriptions",
+        "url_base": "/markets/stockdescriptions",
         "symbol": "",
         "country": "",
         "output_type": "",
@@ -543,7 +513,7 @@ def getMarketsSymbology(
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/markets/symbology",
+        "url_base": "/markets/symbology",
         "symbol": "",
         "ticker": "",
         "isin": "",
@@ -648,7 +618,7 @@ def getMarketsByCountry(country: str, output_type=None):
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/markets/country/",
+        "url_base": "/markets/country/",
         "country": "",
         "output_type": "",
     }
@@ -666,7 +636,7 @@ def getMarketsByCountry(country: str, output_type=None):
 
 
 def checkCountry(country):
-    linkAPI = "https://api.tradingeconomics.com/markets/stocks/country/"
+    linkAPI = "/markets/stocks/country/"
     if type(country) is str:
         linkAPI += quote(country.lower())
     else:

@@ -15,9 +15,7 @@ class TestGetHistoricalEurostatID(unittest.TestCase):
         # Get historical Eurostat data for single ID
         result = getHistoricalEurostat(ID="24804")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/eurostat/historical/24804"
-        )
+        expected_url = "/eurostat/historical/24804"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"historical": "ok"})
@@ -31,7 +29,7 @@ class TestGetHistoricalEurostatID(unittest.TestCase):
         # Get historical Eurostat data for multiple IDs
         result = getHistoricalEurostat(ID=["24804", "24805"])
 
-        expected_url = "https://api.tradingeconomics.com/eurostat/historical/24804%2C24805"
+        expected_url = "/eurostat/historical/24804%2C24805"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"historical": "multiple"})

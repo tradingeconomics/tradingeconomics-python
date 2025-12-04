@@ -16,16 +16,16 @@ class TestCheckCmtPage(unittest.TestCase):
         When page_number is provided, it must be appended as '/<page>'
         to the existing URL.
         """
-        base = "https://api.tradingeconomics.com/comtrade/country/china"
+        base = "/comtrade/country/china"
         result = checkCmtPage(base, 3)
-        expected = "https://api.tradingeconomics.com/comtrade/country/china/3"
+        expected = "/comtrade/country/china/3"
         self.assertEqual(result, expected)
 
     def test_page_number_none(self):
         """
         If page_number is None, the function must return the base URL unchanged.
         """
-        base = "https://api.tradingeconomics.com/comtrade/country/china"
+        base = "/comtrade/country/china"
         result = checkCmtPage(base, None)
         self.assertEqual(result, base)
 

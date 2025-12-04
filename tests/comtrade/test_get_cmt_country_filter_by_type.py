@@ -14,13 +14,17 @@ class TestGetCmtCountryFilterByType(unittest.TestCase):
     # --- missing parameters ---
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_missing_country1(self, mock_request):
-        result = getCmtCountryFilterByType(country1=None, country2="Spain", type="import")
+        result = getCmtCountryFilterByType(
+            country1=None, country2="Spain", type="import"
+        )
         self.assertEqual(result, "country is missing")
         mock_request.assert_not_called()
 
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_missing_type(self, mock_request):
-        result = getCmtCountryFilterByType(country1="Portugal", country2=None, type=None)
+        result = getCmtCountryFilterByType(
+            country1="Portugal", country2=None, type=None
+        )
         self.assertEqual(result, "type is missing. Choose 'import' or 'export'")
         mock_request.assert_not_called()
 
@@ -28,11 +32,11 @@ class TestGetCmtCountryFilterByType(unittest.TestCase):
     @patch.object(glob, "apikey", "TESTKEY")
     @patch("tradingeconomics.comtrade.fn.dataRequest", return_value={"ok": True})
     def test_only_country1(self, mock_request):
-        result = getCmtCountryFilterByType(country1="Portugal", country2=None, type="import")
-    
-        expected_url = (
-            "https://api.tradingeconomics.com/comtrade/country/Portugal?type=import"
+        result = getCmtCountryFilterByType(
+            country1="Portugal", country2=None, type="import"
         )
+
+        expected_url = "/comtrade/country/Portugal?type=import"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ok": True})
@@ -41,14 +45,38 @@ class TestGetCmtCountryFilterByType(unittest.TestCase):
     @patch.object(glob, "apikey", "TESTKEY")
     @patch("tradingeconomics.comtrade.fn.dataRequest", return_value={"ok": True})
     def test_two_countries(self, mock_request):
-        result = getCmtCountryFilterByType(country1="Portugal", country2="Spain", type="export")
-
-        expected_url = (
-            "https://api.tradingeconomics.com/comtrade/country/Portugal/Spain?type=export"
+        result = getCmtCountryFilterByType(
+            country1="Portugal", country2="Spain", type="export"
         )
+
+        expected_url = "/comtrade/country/Portugal/Spain?type=export"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ok": True})
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch("tradingeconomics.comtrade.fn.dataRequest", return_value={"ok": True})
+    def test_country_with_spaces(self, mock_request):
+        result = getCmtCountryFilterByType(
+            country1="United States", country2=None, type="import"
+        )
+
+        expected_url = "/comtrade/country/United%20States?type=import"
+
+        mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
+        self.assertEqual(result, {"ok": True})
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch("tradingeconomics.comtrade.fn.dataRequest", return_value="DataFrame")
+    def test_with_output_type_df(self, mock_request):
+        result = getCmtCountryFilterByType(
+            country1="Portugal", country2="Spain", type="export", output_type="df"
+        )
+
+        expected_url = "/comtrade/country/Portugal/Spain?type=export"
+
+        mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
+        self.assertEqual(result, "DataFrame")
 
 
 if __name__ == "__main__":

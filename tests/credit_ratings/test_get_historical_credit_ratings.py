@@ -27,9 +27,7 @@ class TestGetHistoricalCreditRatings(unittest.TestCase):
     def test_single_country(self, mock_dates, mock_request):
         result = getHistoricalCreditRatings(country="mexico")
 
-        expected_start = (
-            "https://api.tradingeconomics.com/credit-ratings/historical/country/mexico"
-        )
+        expected_start = "/credit-ratings/historical/country/mexico"
 
         mock_dates.assert_called_once_with(expected_start, None, None)
         mock_request.assert_called_once_with(api_request="FINALURL", output_type=None)
@@ -42,9 +40,7 @@ class TestGetHistoricalCreditRatings(unittest.TestCase):
     def test_multiple_countries(self, mock_dates, mock_request):
         result = getHistoricalCreditRatings(country=["mexico", "sweden"])
 
-        expected_start = (
-            "https://api.tradingeconomics.com/credit-ratings/historical/country/mexico,sweden"
-        )
+        expected_start = "/credit-ratings/historical/country/mexico,sweden"
 
         mock_dates.assert_called_once_with(expected_start, None, None)
         mock_request.assert_called_once_with(api_request="FINALURL", output_type=None)
@@ -53,20 +49,90 @@ class TestGetHistoricalCreditRatings(unittest.TestCase):
     # --- With dates ---
     @patch.object(glob, "apikey", "TESTKEY")
     @patch("tradingeconomics.credit_ratings.fn.dataRequest", return_value={"ok": True})
-    @patch("tradingeconomics.credit_ratings.fn.checkDates", return_value="URL_WITH_DATES")
+    @patch(
+        "tradingeconomics.credit_ratings.fn.checkDates", return_value="URL_WITH_DATES"
+    )
     def test_with_dates(self, mock_dates, mock_request):
         result = getHistoricalCreditRatings(
-            country="mexico",
-            initDate="2010-01-01",
-            endDate="2011-01-01"
+            country="mexico", initDate="2010-01-01", endDate="2011-01-01"
         )
 
-        expected_base = (
-            "https://api.tradingeconomics.com/credit-ratings/historical/country/mexico"
-        )
+        expected_base = "/credit-ratings/historical/country/mexico"
 
         mock_dates.assert_called_once_with(expected_base, "2010-01-01", "2011-01-01")
-        mock_request.assert_called_once_with(api_request="URL_WITH_DATES", output_type=None)
+        mock_request.assert_called_once_with(
+            api_request="URL_WITH_DATES", output_type=None
+        )
+        self.assertEqual(result, {"ok": True})
+
+    # --- output_type tests ---
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch("tradingeconomics.credit_ratings.fn.dataRequest", return_value="DataFrame")
+    @patch("tradingeconomics.credit_ratings.fn.checkDates", return_value="URL_FINAL")
+    def test_with_output_type_df(self, mock_dates, mock_request):
+        result = getHistoricalCreditRatings(
+            country="mexico", initDate="2010-01-01", output_type="df"
+        )
+
+        expected_base = "/credit-ratings/historical/country/mexico"
+
+        mock_dates.assert_called_once_with(expected_base, "2010-01-01", None)
+        mock_request.assert_called_once_with(api_request="URL_FINAL", output_type="df")
+        self.assertEqual(result, "DataFrame")
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch(
+        "tradingeconomics.credit_ratings.fn.dataRequest", return_value=[{"raw": "data"}]
+    )
+    @patch("tradingeconomics.credit_ratings.fn.checkDates", return_value="URL_FINAL")
+    def test_with_output_type_raw(self, mock_dates, mock_request):
+        result = getHistoricalCreditRatings(country="sweden", output_type="raw")
+
+        expected_base = "/credit-ratings/historical/country/sweden"
+
+        mock_dates.assert_called_once_with(expected_base, None, None)
+        mock_request.assert_called_once_with(api_request="URL_FINAL", output_type="raw")
+        self.assertEqual(result, [{"raw": "data"}])
+
+    # --- only initDate (no endDate) ---
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch("tradingeconomics.credit_ratings.fn.dataRequest", return_value={"ok": True})
+    @patch("tradingeconomics.credit_ratings.fn.checkDates", return_value="URL_FINAL")
+    def test_with_only_init_date(self, mock_dates, mock_request):
+        result = getHistoricalCreditRatings(country="mexico", initDate="2010-01-01")
+
+        expected_base = "/credit-ratings/historical/country/mexico"
+
+        mock_dates.assert_called_once_with(expected_base, "2010-01-01", None)
+        mock_request.assert_called_once_with(api_request="URL_FINAL", output_type=None)
+        self.assertEqual(result, {"ok": True})
+
+    # --- only endDate (no initDate) ---
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch("tradingeconomics.credit_ratings.fn.dataRequest", return_value={"ok": True})
+    @patch("tradingeconomics.credit_ratings.fn.checkDates", return_value="URL_FINAL")
+    def test_with_only_end_date(self, mock_dates, mock_request):
+        result = getHistoricalCreditRatings(country="mexico", endDate="2011-01-01")
+
+        expected_base = "/credit-ratings/historical/country/mexico"
+
+        mock_dates.assert_called_once_with(expected_base, None, "2011-01-01")
+        mock_request.assert_called_once_with(api_request="URL_FINAL", output_type=None)
+        self.assertEqual(result, {"ok": True})
+
+    # --- country with spaces and dates ---
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch("tradingeconomics.credit_ratings.fn.dataRequest", return_value={"ok": True})
+    @patch("tradingeconomics.credit_ratings.fn.checkDates", return_value="URL_FINAL")
+    def test_country_with_spaces_and_dates(self, mock_dates, mock_request):
+        result = getHistoricalCreditRatings(
+            country="United States", initDate="2010-01-01", endDate="2011-01-01"
+        )
+
+        expected_base = "/credit-ratings/historical/country/United%20States"
+
+        mock_dates.assert_called_once_with(expected_base, "2010-01-01", "2011-01-01")
+        mock_request.assert_called_once_with(api_request="URL_FINAL", output_type=None)
         self.assertEqual(result, {"ok": True})
 
 

@@ -14,7 +14,7 @@ class TestGetFedRStates(unittest.TestCase):
         # Get all states with no parameters
         result = getFedRStates()
 
-        expected_url = "https://api.tradingeconomics.com/fred/states"
+        expected_url = "/fred/states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"states": "ok"})
@@ -28,9 +28,7 @@ class TestGetFedRStates(unittest.TestCase):
         # Get counties for a specific state
         result = getFedRStates(county="arkansas")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/fred/counties/arkansas"
-        )
+        expected_url = "/fred/counties/arkansas"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"counties": "ok"})
@@ -44,7 +42,35 @@ class TestGetFedRStates(unittest.TestCase):
         # Test with output_type parameter
         result = getFedRStates(output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/fred/states"
+        expected_url = "/fred/states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"state": "Arkansas"}])
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch(
+        "tradingeconomics.federalReserve.fn.dataRequest",
+        return_value=[{"state": "Nevada"}],
+    )
+    def test_get_states_output_type_raw(self, mock_request):
+        result = getFedRStates(output_type="raw")
+
+        expected_url = "/fred/states"
+
+        mock_request.assert_called_once_with(
+            api_request=expected_url, output_type="raw"
+        )
+        self.assertEqual(result, [{"state": "Nevada"}])
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch(
+        "tradingeconomics.federalReserve.fn.dataRequest",
+        return_value=[{"county": "Pike"}],
+    )
+    def test_get_states_county_output_type_df(self, mock_request):
+        result = getFedRStates(county="arkansas", output_type="df")
+
+        expected_url = "/fred/counties/arkansas"
+
+        mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
+        self.assertEqual(result, [{"county": "Pike"}])

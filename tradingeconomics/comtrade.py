@@ -38,7 +38,7 @@ class WebRequestError(ValueError):
 
 
 def checkCmtCountry(country):
-    linkAPI = "https://api.tradingeconomics.com/comtrade/country/"
+    linkAPI = "/comtrade/country/"
 
     if type(country) is str:
         linkAPI += quote(country)
@@ -86,7 +86,7 @@ def getCmtLastUpdates(output_type=None, country=None, start_date=None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/comtrade/updates/country"
+    linkAPI = "/comtrade/updates/country"
 
     if country:
         linkAPI += "/" + quote(country)
@@ -126,7 +126,7 @@ def getCmtUpdates(output_type=None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/comtrade/updates"
+    linkAPI = "/comtrade/updates"
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -158,7 +158,7 @@ def getCmtCategories(output_type=None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/comtrade/categories"
+    linkAPI = "/comtrade/categories"
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -199,10 +199,10 @@ def getCmtCountry(country=None, page_number=None, output_type=None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/comtrade/countries"
+    linkAPI = "/comtrade/countries"
 
     if country is None:
-        linkAPI = "https://api.tradingeconomics.com/comtrade/countries"
+        linkAPI = "/comtrade/countries"
     else:
         linkAPI = checkCmtCountry(country)
 
@@ -243,14 +243,12 @@ def getCmtHistorical(symbol=None, output_type=None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/comtrade/historical/"
+    linkAPI = "/comtrade/historical/"
 
     if symbol == None:
         return "A symbol is required!"
     else:
-        linkAPI = "https://api.tradingeconomics.com/comtrade/historical/" + quote(
-            symbol
-        )
+        linkAPI = "/comtrade/historical/" + quote(symbol)
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -283,12 +281,12 @@ def getCmtTwoCountries(
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/comtrade/country"
+    linkAPI = "/comtrade/country"
 
     if country1 is not None and country2 is None:
-        linkAPI = f"https://api.tradingeconomics.com/comtrade/country/{quote(country1)}"
+        linkAPI = f"/comtrade/country/{quote(country1)}"
     elif country1 is not None and country2 is not None:
-        linkAPI = f"https://api.tradingeconomics.com/comtrade/country/{quote(country1)}/{quote(country2)}"
+        linkAPI = f"/comtrade/country/{quote(country1)}/{quote(country2)}"
     else:
         return "country1 is required"
 
@@ -345,7 +343,7 @@ def getCmtCountryByCategory(country=None, type=None, category=None, output_type=
         return f"type is missing. Choose 'import' or 'export'"
 
     def getLinkApi(country, type, category):
-        api_url_base = "https://api.tradingeconomics.com/comtrade"
+        api_url_base = "/comtrade"
 
         if category is None:
             return f"{api_url_base}/{type}/{quote(country)}"
@@ -397,7 +395,7 @@ def getCmtTotalByType(country=None, type=None, output_type=None):
         return f"type is missing. Choose 'import' or 'export'"
 
     def getLinkApi(country, type):
-        api_url_base = "https://api.tradingeconomics.com/comtrade"
+        api_url_base = "/comtrade"
 
         return f"{api_url_base}/{type}/{quote(country)}/totals/"
 
@@ -455,7 +453,7 @@ def getCmtCountryFilterByType(
         return f"type is missing. Choose 'import' or 'export'"
 
     def getLinkApi(country1, country2):
-        api_url_base = "https://api.tradingeconomics.com/comtrade/country"
+        api_url_base = "/comtrade/country"
 
         if country2 is None:
             return f"{api_url_base}/{quote(country1)}"
@@ -512,7 +510,7 @@ def getCmtSnapshotByType(country=None, type=None, output_type=None):
         raise ParametersError(f"type is missing. Choose 'import' or 'export'")
 
     def getLinkApi(country, type):
-        api_url_base = "https://api.tradingeconomics.com/comtrade/country"
+        api_url_base = "/comtrade/country"
 
         return f"{api_url_base}/{quote(country)}?type={type}"
 

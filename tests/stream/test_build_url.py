@@ -7,6 +7,7 @@ from tradingeconomics import stream
 class TestBuildUrl(unittest.TestCase):
 
     @patch.object(glob, "apikey", "TESTKEY:SECRET")
+    @patch.object(glob, "STREAM_URL", "wss://stream.tradingeconomics.com")
     def test_build_url_with_credentials(self):
         # Test URL building with API key
         expected_url = "wss://stream.tradingeconomics.com?client=TESTKEY:SECRET&app=python&token=20171116"
@@ -16,6 +17,7 @@ class TestBuildUrl(unittest.TestCase):
         self.assertEqual(result, expected_url)
 
     @patch.object(glob, "apikey", "")
+    @patch.object(glob, "STREAM_URL", "wss://stream.tradingeconomics.com")
     def test_build_url_with_empty_credentials(self):
         # Test URL building with empty API key
         expected_url = (

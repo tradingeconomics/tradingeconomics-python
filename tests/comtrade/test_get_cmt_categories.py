@@ -22,10 +22,46 @@ class TestGetCmtCategories(unittest.TestCase):
 
         result = getCmtCategories()
 
-        expected_url = "https://api.tradingeconomics.com/comtrade/categories"
+        expected_url = "/comtrade/categories"
 
-        mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)
+        mock_dataRequest.assert_called_once_with(
+            api_request=expected_url, output_type=None
+        )
         self.assertEqual(result, {"categories": "ok"})
+
+    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.comtrade.fn.dataRequest")
+    def test_categories_with_df_output(self, mock_dataRequest):
+        """
+        getCmtCategories(output_type='df') should pass output_type to dataRequest
+        """
+        mock_dataRequest.return_value = "DataFrame"
+
+        result = getCmtCategories(output_type="df")
+
+        expected_url = "/comtrade/categories"
+
+        mock_dataRequest.assert_called_once_with(
+            api_request=expected_url, output_type="df"
+        )
+        self.assertEqual(result, "DataFrame")
+
+    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.comtrade.fn.dataRequest")
+    def test_categories_with_raw_output(self, mock_dataRequest):
+        """
+        getCmtCategories(output_type='raw') should pass output_type to dataRequest
+        """
+        mock_dataRequest.return_value = [{"raw": "data"}]
+
+        result = getCmtCategories(output_type="raw")
+
+        expected_url = "/comtrade/categories"
+
+        mock_dataRequest.assert_called_once_with(
+            api_request=expected_url, output_type="raw"
+        )
+        self.assertEqual(result, [{"raw": "data"}])
 
 
 if __name__ == "__main__":

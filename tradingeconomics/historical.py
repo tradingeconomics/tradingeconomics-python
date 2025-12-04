@@ -101,7 +101,7 @@ def out_type(init_format):
 
 
 def paramCheck(country, indicator):
-    linkAPI = "https://api.tradingeconomics.com/historical/country/"
+    linkAPI = "/historical/country/"
     if type(country) is str:
         linkAPI += quote(country)
     else:
@@ -114,7 +114,7 @@ def paramCheck(country, indicator):
 
 
 def checkCountryHistoricalRatings(country):
-    linkAPI = "https://api.tradingeconomics.com/ratings/historical/"
+    linkAPI = "/ratings/historical/"
     if type(country) is str:
         linkAPI += quote(country.lower())
     else:
@@ -137,13 +137,9 @@ def getRatingResults(webResults, rating):
 
 def checkRatings(linkAPI, rating):
     if type(rating) is str:
-        linkAPI += "https://api.tradingeconomics.com/ratings/historical/" + quote(
-            rating
-        )
+        linkAPI += "/ratings/historical/" + quote(rating)
     else:
-        linkAPI += "https://api.tradingeconomics.com/ratings/historical/" + quote(
-            ",".join(rating)
-        )
+        linkAPI += "/ratings/historical/" + quote(",".join(rating))
     return linkAPI
 
 
@@ -185,10 +181,7 @@ def getHistoricalData(
 
     if type(country) is str and type(indicator) is str:
         linkAPI = (
-            "https://api.tradingeconomics.com/historical/country/"
-            + quote(country)
-            + "/indicator/"
-            + quote(indicator)
+            "/historical/country/" + quote(country) + "/indicator/" + quote(indicator)
         )
     else:
         linkAPI = paramCheck(country, indicator)
@@ -263,7 +256,7 @@ def getHistoricalRatings(
         ssl._create_default_https_context = _create_unverified_https_context
 
     if country == None:
-        linkAPI = "https://api.tradingeconomics.com/ratings/historical/"
+        linkAPI = "/ratings/historical/"
     else:
         linkAPI = checkCountryHistoricalRatings(country)
 
@@ -272,7 +265,7 @@ def getHistoricalRatings(
     else:
         linkAPI = checkRatings(linkAPI, rating)
     if (country == None) and (rating == None):
-        linkAPI = "https://api.tradingeconomics.com/ratings/historical/united%20states"
+        linkAPI = "/ratings/historical/united%20states"
     else:
         linkAPI = linkAPI
     if (initDate is not None) and (endDate == None):
@@ -317,7 +310,7 @@ def getHistoricalByTicker(
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/historical",
+        "url_base": "/historical",
         "country": "",
         "ticker": "",
         "start_date": "",
@@ -395,7 +388,7 @@ def getHistoricalLatest(country: List[str] = None, date=None, output_type=None):
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/historical/latest",
+        "url_base": "/historical/latest",
         "output_type": "",
     }
 
@@ -438,7 +431,7 @@ def getHistoricalUpdates(output_type=None):
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/historical/updates",
+        "url_base": "/historical/updates",
         "output_type": "",
     }
 

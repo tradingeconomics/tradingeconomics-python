@@ -33,7 +33,7 @@ def getCreditRatings(country: List[str] = None, output_type: str = None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/credit-ratings"
+    linkAPI = "/credit-ratings"
 
     if country != None:
         linkAPI = linkAPI + f"/country/{fn.stringOrList(country)}"
@@ -76,7 +76,7 @@ def getHistoricalCreditRatings(
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/credit-ratings/historical"
+    linkAPI = "/credit-ratings/historical"
 
     if country != None:
         linkAPI = linkAPI + f"/country/{fn.stringOrList(country)}"

@@ -66,7 +66,7 @@ def getSearch(term=None, category=None, output_type=None):
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/search",
+        "url_base": "/search",
         "term": "",
         "category": "/categories",
         "output_type": "",

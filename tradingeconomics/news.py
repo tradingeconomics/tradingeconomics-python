@@ -53,7 +53,7 @@ def checkLimit(linkAPI, limit):
 
 
 def checkNewsIndic(indicator):
-    linkAPI = "https://api.tradingeconomics.com/news/indicator/"
+    linkAPI = "/news/indicator/"
     if type(indicator) is str:
         linkAPI += "/" + quote(indicator, safe="")
     else:
@@ -62,7 +62,7 @@ def checkNewsIndic(indicator):
 
 
 def checkNewsCountry(country):
-    linkAPI = "https://api.tradingeconomics.com/news/country/"
+    linkAPI = "/news/country/"
     if type(country) is str:
         linkAPI += "/" + quote(country, safe="")
     else:
@@ -71,7 +71,7 @@ def checkNewsCountry(country):
 
 
 def getNewsLink(country, indicator):
-    linkAPI = "https://api.tradingeconomics.com/news/country/"
+    linkAPI = "/news/country/"
     if type(country) is str:
         linkAPI += quote(country, safe="")
     else:
@@ -114,7 +114,7 @@ def getNewsResults(webResults, country):
 
 
 def checkArticleLink(country, indicator):
-    linkAPI = "https://api.tradingeconomics.com/articles/country/"
+    linkAPI = "/articles/country/"
     if type(country) is str:
         linkAPI += quote(country)
     else:
@@ -127,7 +127,7 @@ def checkArticleLink(country, indicator):
 
 
 def checkArticleCountry(country):
-    linkAPI = "https://api.tradingeconomics.com/articles/country"
+    linkAPI = "/articles/country"
     if country != None:
         if type(country) == str:
             linkAPI += "/" + quote(country, safe=",")
@@ -138,7 +138,7 @@ def checkArticleCountry(country):
 
 
 def checkArticleIndic(indicator):
-    linkAPI = "https://api.tradingeconomics.com/articles/indicator/"
+    linkAPI = "/articles/indicator/"
     if indicator != None:
         if type(indicator) == str:
             linkAPI += "/" + quote(indicator, safe=",")
@@ -188,7 +188,7 @@ def getArticleResults(webResults, id):
 
 
 def checkArticleId(id):
-    linkAPI = "https://api.tradingeconomics.com/articles/id/"
+    linkAPI = "/articles/id/"
     if type(id) is str:
         linkAPI += "/" + quote(str(id))
     else:
@@ -265,7 +265,7 @@ def getArticles(
     elif country == None and indicator != None:
         linkAPI = checkArticleIndic(indicator)
     else:
-        linkAPI = "https://api.tradingeconomics.com/articles/"
+        linkAPI = "/articles/"
 
     if (initDate != None) and (endDate != None):
         try:
@@ -409,7 +409,7 @@ def getNews(
     """
 
     d = {
-        "url_base": "https://api.tradingeconomics.com/news",
+        "url_base": "/news",
         "indicator": "",
         "country": "",
         "start": "",

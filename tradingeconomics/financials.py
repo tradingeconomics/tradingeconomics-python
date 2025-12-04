@@ -69,7 +69,7 @@ def getFinancialsData(symbol=None, country=None, output_type=None):
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/financials",
+        "url_base": "/financials",
         "symbol": "",
         "country": "/companies",
         "output_type": "",
@@ -108,7 +108,7 @@ def getFinancialsCategoryList(output_type=None):
     """
 
     d = {
-        "url_base": "https://api.tradingeconomics.com/financials/categories",
+        "url_base": "/financials/categories",
         "output_type": "",
     }
 
@@ -143,7 +143,7 @@ def getFinancialsDataByCategory(category=None, output_type=None):
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/financials/category",
+        "url_base": "/financials/category",
         "symbol": f"/{category}",
         "output_type": "",
     }
@@ -177,7 +177,7 @@ def getSectors(output_type=None):
 
     """
 
-    linkAPI = "https://api.tradingeconomics.com/sectors/"
+    linkAPI = "/sectors/"
 
     linkAPI = fn.checkDates(linkAPI)
 

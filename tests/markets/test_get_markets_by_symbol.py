@@ -12,9 +12,7 @@ class TestGetMarketsBySymbol(unittest.TestCase):
         # Get markets data for single symbol
         result = getMarketsBySymbol(symbols="indu:ind")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/markets/symbol/indu%3Aind"
-        )
+        expected_url = "/markets/symbol/indu%3Aind"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"symbol": "indu"})
@@ -27,7 +25,7 @@ class TestGetMarketsBySymbol(unittest.TestCase):
         # Get markets data for multiple symbols
         result = getMarketsBySymbol(symbols=["aapl:us", "indu:ind"])
 
-        expected_url = "https://api.tradingeconomics.com/markets/symbol/aapl%3Aus%2Cindu%3Aind"
+        expected_url = "/markets/symbol/aapl%3Aus%2Cindu%3Aind"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"symbol": "multiple"})
@@ -38,9 +36,7 @@ class TestGetMarketsBySymbol(unittest.TestCase):
         # Get markets data with output type
         result = getMarketsBySymbol(symbols="indu:ind", output_type="raw")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/markets/symbol/indu%3Aind"
-        )
+        expected_url = "/markets/symbol/indu%3Aind"
 
         mock_request.assert_called_once_with(expected_url, "raw")
         self.assertEqual(result, {"symbol": "raw"})

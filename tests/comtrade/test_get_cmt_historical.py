@@ -32,11 +32,11 @@ class TestGetCmtHistorical(unittest.TestCase):
 
         result = getCmtHistorical(symbol="PRTESP24031")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/comtrade/historical/PRTESP24031"
-        )
+        expected_url = "/comtrade/historical/PRTESP24031"
 
-        mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)
+        mock_dataRequest.assert_called_once_with(
+            api_request=expected_url, output_type=None
+        )
         self.assertEqual(result, {"ok": True})
 
     @patch("tradingeconomics.glob.apikey", "guest:guest")
@@ -49,11 +49,11 @@ class TestGetCmtHistorical(unittest.TestCase):
 
         result = getCmtHistorical(symbol="ABC 123")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/comtrade/historical/ABC%20123"
-        )
+        expected_url = "/comtrade/historical/ABC%20123"
 
-        mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)
+        mock_dataRequest.assert_called_once_with(
+            api_request=expected_url, output_type=None
+        )
         self.assertEqual(result, {"ok": True})
 
 

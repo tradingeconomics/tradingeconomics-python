@@ -12,7 +12,7 @@ class TestGetNewsCountry(unittest.TestCase):
         # Get news by country
         result = getNews(country="brazil")
 
-        expected_url = "https://api.tradingeconomics.com/news/country/brazil"
+        expected_url = "/news/country/brazil"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"news": "country"})
@@ -23,9 +23,7 @@ class TestGetNewsCountry(unittest.TestCase):
         # Get news by multiple countries
         result = getNews(country=["brazil", "canada"])
 
-        expected_url = (
-            "https://api.tradingeconomics.com/news/country/brazil,canada"
-        )
+        expected_url = "/news/country/brazil,canada"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"news": "countries"})

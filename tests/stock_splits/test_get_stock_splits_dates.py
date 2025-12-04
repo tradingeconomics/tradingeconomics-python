@@ -21,12 +21,10 @@ class TestGetStockSplitsDates(unittest.TestCase):
         # Get stock splits with date range
         result = getStockSplits(startDate="2023-01-01", endDate="2023-12-31")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/splits?d1=2023-01-01&d2=2023-12-31"
-        )
+        expected_url = "/splits?d1=2023-01-01&d2=2023-12-31"
 
         mock_check_dates.assert_called_once_with(
-            "https://api.tradingeconomics.com/splits",
+            "/splits",
             "2023-01-01",
             "2023-12-31",
         )
@@ -50,10 +48,10 @@ class TestGetStockSplitsDates(unittest.TestCase):
             ticker="AAPL:US", startDate="2023-01-01", endDate="2023-12-31"
         )
 
-        expected_url = "https://api.tradingeconomics.com/splits/ticker/AAPL:US?d1=2023-01-01&d2=2023-12-31"
+        expected_url = "/splits/ticker/AAPL:US?d1=2023-01-01&d2=2023-12-31"
 
         mock_check_dates.assert_called_once_with(
-            "https://api.tradingeconomics.com/splits/ticker/AAPL:US",
+            "/splits/ticker/AAPL:US",
             "2023-01-01",
             "2023-12-31",
         )
@@ -77,10 +75,10 @@ class TestGetStockSplitsDates(unittest.TestCase):
             country="United States", startDate="2023-01-01", endDate="2023-12-31"
         )
 
-        expected_url = "https://api.tradingeconomics.com/splits/country/United%20States?d1=2023-01-01&d2=2023-12-31"
+        expected_url = "/splits/country/United%20States?d1=2023-01-01&d2=2023-12-31"
 
         mock_check_dates.assert_called_once_with(
-            "https://api.tradingeconomics.com/splits/country/United%20States",
+            "/splits/country/United%20States",
             "2023-01-01",
             "2023-12-31",
         )

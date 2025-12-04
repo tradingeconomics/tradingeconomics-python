@@ -50,7 +50,7 @@ def getIpo(
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/ipo"
+    linkAPI = "/ipo"
 
     if ticker and country:
         raise ValueError("ticker and country cannot be used together")

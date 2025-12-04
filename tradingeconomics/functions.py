@@ -161,6 +161,13 @@ def dataRequest(api_request, output_type):
 
     outputTypeCheck(output_type)
 
+    # Normalize relative paths to full URLs
+    if not api_request.startswith(("http://", "https://")):
+        # Ensure path starts with / for proper concatenation
+        if not api_request.startswith("/"):
+            api_request = "/" + api_request
+        api_request = glob.API_BASE_URL + api_request
+
     try:
         # Build HTTP request and add authentication header if available
         request = Request(api_request)

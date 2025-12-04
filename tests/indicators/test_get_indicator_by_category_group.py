@@ -16,9 +16,7 @@ class TestGetIndicatorByCategoryGroup(unittest.TestCase):
             country="united states", category_group="gdp"
         )
 
-        expected_url = (
-            "https://api.tradingeconomics.com/country/united%20states?group=gdp"
-        )
+        expected_url = "/country/united%20states?group=gdp"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"category": "ok"})
@@ -34,7 +32,7 @@ class TestGetIndicatorByCategoryGroup(unittest.TestCase):
             country=["united states", "china"], category_group="markets"
         )
 
-        expected_url = "https://api.tradingeconomics.com/country/united%20states,china?group=markets"
+        expected_url = "/country/united%20states,china?group=markets"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"category": "multiple"})
@@ -49,12 +47,28 @@ class TestGetIndicatorByCategoryGroup(unittest.TestCase):
             country="united states", category_group="gdp", output_type="df"
         )
 
-        expected_url = (
-            "https://api.tradingeconomics.com/country/united%20states?group=gdp"
-        )
+        expected_url = "/country/united%20states?group=gdp"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, {"category": "df"})
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch(
+        "tradingeconomics.indicators.fn.dataRequest",
+        return_value={"raw": "json", "category": "data"},
+    )
+    def test_get_indicator_by_category_group_with_output_type_raw(self, mock_request):
+        # Test with output_type='raw'
+        result = getIndicatorByCategoryGroup(
+            country="united states", category_group="gdp", output_type="raw"
+        )
+
+        expected_url = "/country/united%20states?group=gdp"
+
+        mock_request.assert_called_once_with(
+            api_request=expected_url, output_type="raw"
+        )
+        self.assertEqual(result, {"raw": "json", "category": "data"})
 
     def test_get_indicator_by_category_group_missing_parameters(self):
         # Test error when parameters are missing

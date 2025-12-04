@@ -23,11 +23,11 @@ class TestGetCmtTwoCountries(unittest.TestCase):
 
         result = getCmtTwoCountries(country1="portugal", country2=None)
 
-        expected_url = (
-            "https://api.tradingeconomics.com/comtrade/country/portugal"
-        )
+        expected_url = "/comtrade/country/portugal"
 
-        mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)
+        mock_dataRequest.assert_called_once_with(
+            api_request=expected_url, output_type=None
+        )
         self.assertEqual(result, {"ok": True})
 
     @patch("tradingeconomics.glob.apikey", "guest:guest")
@@ -41,11 +41,11 @@ class TestGetCmtTwoCountries(unittest.TestCase):
 
         result = getCmtTwoCountries(country1="portugal", country2="spain")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/comtrade/country/portugal/spain"
-        )
+        expected_url = "/comtrade/country/portugal/spain"
 
-        mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)
+        mock_dataRequest.assert_called_once_with(
+            api_request=expected_url, output_type=None
+        )
         self.assertEqual(result, {"ok": True})
 
     @patch("tradingeconomics.glob.apikey", "guest:guest")
@@ -56,13 +56,15 @@ class TestGetCmtTwoCountries(unittest.TestCase):
         """
         mock_dataRequest.return_value = {"ok": True}
 
-        result = getCmtTwoCountries(country1="portugal", country2="spain", page_number=4)
-
-        expected_url = (
-            "https://api.tradingeconomics.com/comtrade/country/portugal/spain/4"
+        result = getCmtTwoCountries(
+            country1="portugal", country2="spain", page_number=4
         )
 
-        mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)
+        expected_url = "/comtrade/country/portugal/spain/4"
+
+        mock_dataRequest.assert_called_once_with(
+            api_request=expected_url, output_type=None
+        )
         self.assertEqual(result, {"ok": True})
 
 

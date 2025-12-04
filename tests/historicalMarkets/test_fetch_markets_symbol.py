@@ -15,9 +15,7 @@ class TestFetchMarketsSymbol(unittest.TestCase):
         # Get historical markets data for single symbol
         result = fetchMarkets(symbol="indu:ind")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/markets/historical/indu%3Aind"
-        )
+        expected_url = "/markets/historical/indu%3Aind"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"markets": "ok"})
@@ -31,7 +29,7 @@ class TestFetchMarketsSymbol(unittest.TestCase):
         # Get historical markets data for multiple symbols
         result = fetchMarkets(symbol=["aapl:us", "indu:ind"])
 
-        expected_url = "https://api.tradingeconomics.com/markets/historical/aapl%3Aus%2Cindu%3Aind"
+        expected_url = "/markets/historical/aapl%3Aus%2Cindu%3Aind"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"markets": "multiple"})

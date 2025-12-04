@@ -12,7 +12,7 @@ class TestGetNewsTicker(unittest.TestCase):
         # Get news by ticker
         result = getNews(ticker="AAPL:US")
 
-        expected_url = "https://api.tradingeconomics.com/news/ticker/AAPL:US"
+        expected_url = "/news/ticker/AAPL:US"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"news": "ticker"})

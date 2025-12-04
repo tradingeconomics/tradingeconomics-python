@@ -23,11 +23,11 @@ class TestGetCmtCountry(unittest.TestCase):
 
         result = getCmtCountry(country=None)
 
-        expected_url = (
-            "https://api.tradingeconomics.com/comtrade/countries"
-        )
+        expected_url = "/comtrade/countries"
 
-        mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)
+        mock_dataRequest.assert_called_once_with(
+            api_request=expected_url, output_type=None
+        )
         self.assertEqual(result, {"ok": True})
 
     @patch("tradingeconomics.glob.apikey", "guest:guest")
@@ -41,11 +41,11 @@ class TestGetCmtCountry(unittest.TestCase):
 
         result = getCmtCountry(country="portugal")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/comtrade/country/portugal"
-        )
+        expected_url = "/comtrade/country/portugal"
 
-        mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)
+        mock_dataRequest.assert_called_once_with(
+            api_request=expected_url, output_type=None
+        )
         self.assertEqual(result, {"ok": True})
 
     @patch("tradingeconomics.glob.apikey", "guest:guest")
@@ -59,11 +59,11 @@ class TestGetCmtCountry(unittest.TestCase):
 
         result = getCmtCountry(country=["portugal", "spain"])
 
-        expected_url = (
-            "https://api.tradingeconomics.com/comtrade/country/portugal/spain"
-        )
+        expected_url = "/comtrade/country/portugal/spain"
 
-        mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)
+        mock_dataRequest.assert_called_once_with(
+            api_request=expected_url, output_type=None
+        )
         self.assertEqual(result, {"ok": True})
 
     @patch("tradingeconomics.glob.apikey", "guest:guest")
@@ -76,11 +76,11 @@ class TestGetCmtCountry(unittest.TestCase):
 
         result = getCmtCountry(country="china", page_number=3)
 
-        expected_url = (
-            "https://api.tradingeconomics.com/comtrade/country/china/3"
-        )
+        expected_url = "/comtrade/country/china/3"
 
-        mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)
+        mock_dataRequest.assert_called_once_with(
+            api_request=expected_url, output_type=None
+        )
         self.assertEqual(result, {"ok": True})
 
 

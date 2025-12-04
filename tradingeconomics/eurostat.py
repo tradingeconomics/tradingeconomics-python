@@ -34,7 +34,7 @@ class WebRequestError(ValueError):
 
 
 def checkLists(lists):
-    linkAPI = "https://api.tradingeconomics.com/eurostat/"
+    linkAPI = "/eurostat/"
     if type(lists) is str and lists == "categories":
         linkAPI += "categories"
     elif type(lists) is str and lists == "countries":
@@ -43,7 +43,7 @@ def checkLists(lists):
 
 
 def getLinkSymbol(symbol):
-    linkAPI = "https://api.tradingeconomics.com/eurostat/symbol/"
+    linkAPI = "/eurostat/symbol/"
     if type(symbol) is str:
         linkAPI += quote(symbol, safe="")
     else:
@@ -52,7 +52,7 @@ def getLinkSymbol(symbol):
 
 
 def checkCountry(country):
-    linkAPI = "https://api.tradingeconomics.com/eurostat/country/"
+    linkAPI = "/eurostat/country/"
     if type(country) is str:
         linkAPI += quote(country, safe="")
     else:
@@ -62,7 +62,7 @@ def checkCountry(country):
 
 
 def checkcategory(category):
-    linkAPI = "https://api.tradingeconomics.com/eurostat?category="
+    linkAPI = "/eurostat?category="
     if type(category) is str:
         linkAPI += quote(category, safe="")
     else:
@@ -71,7 +71,7 @@ def checkcategory(category):
 
 
 def checkcategory_group(category_group):
-    linkAPI = "https://api.tradingeconomics.com/eurostat?category_group="
+    linkAPI = "/eurostat?category_group="
     if type(category_group) is str:
         linkAPI += quote(category_group, safe="")
     else:
@@ -80,7 +80,7 @@ def checkcategory_group(category_group):
 
 
 def getLinkcategory(country, category):
-    linkAPI = "https://api.tradingeconomics.com/eurostat/country/"
+    linkAPI = "/eurostat/country/"
     if type(country) is str:
         linkAPI += quote(country)
     else:
@@ -91,7 +91,7 @@ def getLinkcategory(country, category):
 
 
 def getLinkcategory_group(country, category_group):
-    linkAPI = "https://api.tradingeconomics.com/eurostat/country/"
+    linkAPI = "/eurostat/country/"
     if type(country) is str:
         linkAPI += quote(country)
     else:
@@ -196,7 +196,7 @@ def getEurostatCountries(output_type=None):
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/eurostat/countries",
+        "url_base": "/eurostat/countries",
         "output_type": "",
     }
 
@@ -216,7 +216,7 @@ def getEurostatCategoryGroups(output_type=None):
 
     # d is a dictionary used for create the api url
     d = {
-        "url_base": "https://api.tradingeconomics.com/eurostat/categories",
+        "url_base": "/eurostat/categories",
         "output_type": "",
     }
 

@@ -13,9 +13,7 @@ class TestGetHistoricalByTicker(unittest.TestCase):
         # Get historical data by ticker without dates
         result = getHistoricalByTicker(ticker="USURTOT")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/historical/ticker/USURTOT/None"
-        )
+        expected_url = "/historical/ticker/USURTOT/None"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ticker": "ok"})
@@ -33,7 +31,7 @@ class TestGetHistoricalByTicker(unittest.TestCase):
         # Get historical data by ticker with start date
         result = getHistoricalByTicker(ticker="USURTOT", start_date="2015-03-01")
 
-        expected_url = "https://api.tradingeconomics.com/historical/ticker/USURTOT/2015-03-01"
+        expected_url = "/historical/ticker/USURTOT/2015-03-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ticker": "with_start"})
@@ -53,7 +51,7 @@ class TestGetHistoricalByTicker(unittest.TestCase):
             ticker="USURTOT", start_date="2015-03-01", end_date="2015-09-30"
         )
 
-        expected_url = "https://api.tradingeconomics.com/historical/ticker/USURTOT/2015-03-01/2015-09-30"
+        expected_url = "/historical/ticker/USURTOT/2015-03-01/2015-09-30"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ticker": "with_dates"})
@@ -67,9 +65,26 @@ class TestGetHistoricalByTicker(unittest.TestCase):
         # Test with output_type parameter
         result = getHistoricalByTicker(ticker="USURTOT", output_type="df")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/historical/ticker/USURTOT/None"
-        )
+        expected_url = "/historical/ticker/USURTOT/None"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"value": 100}])
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch("tradingeconomics.historical.fn.stringOrList", return_value="USURTOT")
+    @patch(
+        "tradingeconomics.historical.fn.dataRequest",
+        return_value={"raw": "json", "ticker": "USURTOT"},
+    )
+    def test_historical_by_ticker_output_type_raw(
+        self, mock_request, mock_string_or_list
+    ):
+        # Test with output_type='raw' parameter
+        result = getHistoricalByTicker(ticker="USURTOT", output_type="raw")
+
+        expected_url = "/historical/ticker/USURTOT/None"
+
+        mock_request.assert_called_once_with(
+            api_request=expected_url, output_type="raw"
+        )
+        self.assertEqual(result, {"raw": "json", "ticker": "USURTOT"})

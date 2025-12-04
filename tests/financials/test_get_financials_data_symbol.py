@@ -13,7 +13,7 @@ class TestGetFinancialsDataSymbol(unittest.TestCase):
         # Get financials data for single symbol
         result = getFinancialsData(symbol="aapl:us")
 
-        expected_url = "https://api.tradingeconomics.com/financials/symbol/aapl:us"
+        expected_url = "/financials/symbol/aapl:us"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"symbol": "ok"})
@@ -30,9 +30,7 @@ class TestGetFinancialsDataSymbol(unittest.TestCase):
         # Get financials data for multiple symbols
         result = getFinancialsData(symbol=["aapl:us", "msft:us"])
 
-        expected_url = (
-            "https://api.tradingeconomics.com/financials/symbol/aapl:us%2Cmsft:us"
-        )
+        expected_url = "/financials/symbol/aapl:us%2Cmsft:us"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"symbol": "multiple"})
@@ -49,7 +47,23 @@ class TestGetFinancialsDataSymbol(unittest.TestCase):
         # Test with output_type parameter
         result = getFinancialsData(symbol="aapl:us", output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/financials/symbol/aapl:us"
+        expected_url = "/financials/symbol/aapl:us"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"symbol": "AAPL:US"}])
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch("tradingeconomics.financials.fn.stringOrList", return_value="msft:us")
+    @patch(
+        "tradingeconomics.financials.fn.dataRequest",
+        return_value=[{"symbol": "MSFT:US"}],
+    )
+    def test_financials_symbol_output_type_raw(self, mock_request, mock_string_or_list):
+        result = getFinancialsData(symbol="msft:us", output_type="raw")
+
+        expected_url = "/financials/symbol/msft:us"
+
+        mock_request.assert_called_once_with(
+            api_request=expected_url, output_type="raw"
+        )
+        self.assertEqual(result, [{"symbol": "MSFT:US"}])

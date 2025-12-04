@@ -15,7 +15,7 @@ class TestGetMarketsData(unittest.TestCase):
         # Get commodities market data
         result = getMarketsData(marketsField="commodities")
 
-        expected_url = "https://api.tradingeconomics.com/markets/commodities"
+        expected_url = "/markets/commodities"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"markets": "commodities"})
@@ -28,7 +28,7 @@ class TestGetMarketsData(unittest.TestCase):
         # Get currency market data
         result = getMarketsData(marketsField="currency")
 
-        expected_url = "https://api.tradingeconomics.com/markets/currency"
+        expected_url = "/markets/currency"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"markets": "currency"})
@@ -39,7 +39,7 @@ class TestGetMarketsData(unittest.TestCase):
         # Get index market data
         result = getMarketsData(marketsField="index")
 
-        expected_url = "https://api.tradingeconomics.com/markets/index"
+        expected_url = "/markets/index"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"markets": "index"})
@@ -50,7 +50,7 @@ class TestGetMarketsData(unittest.TestCase):
         # Get bond market data
         result = getMarketsData(marketsField="bond")
 
-        expected_url = "https://api.tradingeconomics.com/markets/bond"
+        expected_url = "/markets/bond"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"markets": "bond"})
@@ -63,9 +63,7 @@ class TestGetMarketsData(unittest.TestCase):
         # Get bond market data with type
         result = getMarketsData(marketsField="bond", type="10Y")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/markets/bond?type=10Y"
-        )
+        expected_url = "/markets/bond?type=10Y"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"markets": "bond_10y"})
@@ -78,7 +76,7 @@ class TestGetMarketsData(unittest.TestCase):
         # Get crypto market data
         result = getMarketsData(marketsField="crypto")
 
-        expected_url = "https://api.tradingeconomics.com/markets/crypto"
+        expected_url = "/markets/crypto"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"markets": "crypto"})
@@ -98,3 +96,17 @@ class TestGetMarketsData(unittest.TestCase):
         self.assertIn(
             "The type parameter is only available for bonds", str(context.exception)
         )
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch(
+        "tradingeconomics.markets.fn.dataRequest",
+        return_value={"raw": "json", "markets": "data"},
+    )
+    def test_get_markets_data_with_output_type_raw(self, mock_request):
+        # Test with output_type='raw'
+        result = getMarketsData(marketsField="index", output_type="raw")
+
+        expected_url = "/markets/index"
+
+        mock_request.assert_called_once_with(expected_url, "raw")
+        self.assertEqual(result, {"raw": "json", "markets": "data"})

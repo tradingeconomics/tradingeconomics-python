@@ -44,7 +44,7 @@ def getDividends(
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/dividends"
+    linkAPI = "/dividends"
 
     if symbols and fn.stringOrList(symbols):
         linkAPI += "/symbol/" + fn.stringOrList(symbols)

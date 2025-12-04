@@ -12,9 +12,7 @@ class TestGetMarketsPeers(unittest.TestCase):
         # Get peers for single symbol
         result = getMarketsPeers(symbols="indu:ind")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/markets/peers/indu%3Aind"
-        )
+        expected_url = "/markets/peers/indu%3Aind"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"peers": "ok"})
@@ -27,7 +25,7 @@ class TestGetMarketsPeers(unittest.TestCase):
         # Get peers for multiple symbols
         result = getMarketsPeers(symbols=["aapl:us", "indu:ind"])
 
-        expected_url = "https://api.tradingeconomics.com/markets/peers/aapl%3Aus%2Cindu%3Aind"
+        expected_url = "/markets/peers/aapl%3Aus%2Cindu%3Aind"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"peers": "multiple"})
@@ -38,7 +36,7 @@ class TestGetMarketsPeers(unittest.TestCase):
         # Get peers with output type
         result = getMarketsPeers(symbols=["aapl:us", "indu:ind"], output_type="raw")
 
-        expected_url = "https://api.tradingeconomics.com/markets/peers/aapl%3Aus%2Cindu%3Aind"
+        expected_url = "/markets/peers/aapl%3Aus%2Cindu%3Aind"
 
         mock_request.assert_called_once_with(expected_url, "raw")
         self.assertEqual(result, {"peers": "raw"})

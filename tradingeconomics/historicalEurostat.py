@@ -40,7 +40,7 @@ class WebRequestError(ValueError):
 
 
 def getID(ID):
-    linkAPI = "https://api.tradingeconomics.com/eurostat/historical/"
+    linkAPI = "/eurostat/historical/"
     if type(ID) is str:
         linkAPI += quote(ID)
     else:

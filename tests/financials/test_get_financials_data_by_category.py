@@ -14,9 +14,7 @@ class TestGetFinancialsDataByCategory(unittest.TestCase):
         # Get financials data by single category
         result = getFinancialsDataByCategory(category="assets")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/financials/category/assets"
-        )
+        expected_url = "/financials/category/assets"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"category": "ok"})
@@ -30,9 +28,22 @@ class TestGetFinancialsDataByCategory(unittest.TestCase):
         # Test with output_type parameter
         result = getFinancialsDataByCategory(category="assets", output_type="df")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/financials/category/assets"
-        )
+        expected_url = "/financials/category/assets"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"category": "Assets"}])
+
+    @patch.object(glob, "apikey", "TESTKEY")
+    @patch(
+        "tradingeconomics.financials.fn.dataRequest",
+        return_value=[{"category": "Debt"}],
+    )
+    def test_financials_by_category_output_type_raw(self, mock_request):
+        result = getFinancialsDataByCategory(category="debt", output_type="raw")
+
+        expected_url = "/financials/category/debt"
+
+        mock_request.assert_called_once_with(
+            api_request=expected_url, output_type="raw"
+        )
+        self.assertEqual(result, [{"category": "Debt"}])

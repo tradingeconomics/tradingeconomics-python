@@ -18,7 +18,7 @@ class TestGetFinancialsHistoricalDates(unittest.TestCase):
             symbol="aapl:us", category="assets", initDate="2023-01-01"
         )
 
-        expected_url = "http://api.tradingeconomics.com/financials/historical/aapl%3Aus%3Aassets?d1=2023-01-01"
+        expected_url = "/financials/historical/aapl%3Aus%3Aassets?d1=2023-01-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"financials": "with_init"})
@@ -41,7 +41,9 @@ class TestGetFinancialsHistoricalDates(unittest.TestCase):
             endDate="2023-12-31",
         )
 
-        expected_url = "http://api.tradingeconomics.com/financials/historical/aapl%3Aus%3Aassets?d1=2023-01-01&d2=2023-12-31"
+        expected_url = (
+            "/financials/historical/aapl%3Aus%3Aassets?d1=2023-01-01&d2=2023-12-31"
+        )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"financials": "with_dates"})

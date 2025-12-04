@@ -18,11 +18,9 @@ class TestGetStockSplitsBasic(unittest.TestCase):
         # Get all stock splits
         result = getStockSplits()
 
-        expected_url = "https://api.tradingeconomics.com/splits"
+        expected_url = "/splits"
 
-        mock_check_dates.assert_called_once_with(
-            "https://api.tradingeconomics.com/splits", None, None
-        )
+        mock_check_dates.assert_called_once_with("/splits", None, None)
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"splits": "all"})
 
@@ -39,11 +37,9 @@ class TestGetStockSplitsBasic(unittest.TestCase):
         # Get stock splits with dict output type
         result = getStockSplits(output_type="dict")
 
-        expected_url = "https://api.tradingeconomics.com/splits"
+        expected_url = "/splits"
 
-        mock_check_dates.assert_called_once_with(
-            "https://api.tradingeconomics.com/splits", None, None
-        )
+        mock_check_dates.assert_called_once_with("/splits", None, None)
         mock_request.assert_called_once_with(
             api_request=expected_url, output_type="dict"
         )
@@ -59,11 +55,9 @@ class TestGetStockSplitsBasic(unittest.TestCase):
         # Get stock splits with DataFrame output type
         result = getStockSplits(output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/splits"
+        expected_url = "/splits"
 
-        mock_check_dates.assert_called_once_with(
-            "https://api.tradingeconomics.com/splits", None, None
-        )
+        mock_check_dates.assert_called_once_with("/splits", None, None)
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, "df_output")
 
@@ -77,11 +71,9 @@ class TestGetStockSplitsBasic(unittest.TestCase):
         # Get stock splits with raw output type
         result = getStockSplits(output_type="raw")
 
-        expected_url = "https://api.tradingeconomics.com/splits"
+        expected_url = "/splits"
 
-        mock_check_dates.assert_called_once_with(
-            "https://api.tradingeconomics.com/splits", None, None
-        )
+        mock_check_dates.assert_called_once_with("/splits", None, None)
         mock_request.assert_called_once_with(
             api_request=expected_url, output_type="raw"
         )

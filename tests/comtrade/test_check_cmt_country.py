@@ -18,7 +18,7 @@ class TestCheckCmtCountry(unittest.TestCase):
         and appended directly to the endpoint.
         """
         result = checkCmtCountry("united states")
-        expected = "https://api.tradingeconomics.com/comtrade/country/united%20states"
+        expected = "/comtrade/country/united%20states"
         self.assertEqual(result, expected)
 
     @patch("tradingeconomics.glob.apikey", "guest:guest")
@@ -31,7 +31,7 @@ class TestCheckCmtCountry(unittest.TestCase):
         """
         result = checkCmtCountry(["united states", "china"])
         # Behavior according to module logic: join -> 'united states/china' -> quote()
-        expected = "https://api.tradingeconomics.com/comtrade/country/united%20states/china"
+        expected = "/comtrade/country/united%20states/china"
         self.assertEqual(result, expected)
 
 

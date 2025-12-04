@@ -35,7 +35,7 @@ class WebRequestError(ValueError):
 
 
 def checkSeriesCode(linkAPI, series_code):
-    linkAPI = "https://api.tradingeconomics.com/worldBank/indicator"
+    linkAPI = "/worldBank/indicator"
     if series_code == None:
         linkAPI += "?s=" + quote(str(series_code))
     else:
@@ -51,7 +51,7 @@ def checkPageNumber(linkAPI, page_number):
 
 
 def checkCountry(linkAPI, country):
-    linkAPI = "https://api.tradingeconomics.com/worldBank/country/"
+    linkAPI = "/worldBank/country/"
     if type(country) is str:
         linkAPI += quote(str(country), safe=",")
     else:
@@ -61,7 +61,7 @@ def checkCountry(linkAPI, country):
 
 
 def checkIndicator(linkAPI, indicator):
-    linkAPI = "https://api.tradingeconomics.com/worldBank/indicator/"
+    linkAPI = "/worldBank/indicator/"
     if type(indicator) is str:
         linkAPI += quote(str(indicator), safe="")
     else:
@@ -109,18 +109,14 @@ def getWBCategories(category=None, page_number=None, output_type=None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
     if category:
-        url = "https://api.tradingeconomics.com/worldBank/category/" + quote(
-            str(category), safe=""
-        )
+        url = "/worldBank/category/" + quote(str(category), safe="")
     else:
-        url = "https://api.tradingeconomics.com/worldBank/categories"
+        url = "/worldBank/categories"
 
     if category == None:
-        linkAPI = "https://api.tradingeconomics.com/worldBank/categories"
+        linkAPI = "/worldBank/categories"
     else:
-        linkAPI = "https://api.tradingeconomics.com/worldBank/category/" + quote(
-            str(category), safe=""
-        )
+        linkAPI = "/worldBank/category/" + quote(str(category), safe="")
 
     if page_number != None:
         linkAPI = checkPageNumber(linkAPI, page_number)
@@ -166,22 +162,14 @@ def getWBIndicator(series_code=None, url=None, output_type=None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/worldBank/indicator/"
+    linkAPI = "/worldBank/indicator/"
     if series_code == None and url == None:
         return "Series code or url is required!"
 
     if series_code != None:
-        linkAPI = (
-            "https://api.tradingeconomics.com/worldBank/indicator"
-            + "?s="
-            + quote(str(series_code), safe=",/")
-        )
+        linkAPI = "/worldBank/indicator" + "?s=" + quote(str(series_code), safe=",/")
     elif url != None:
-        linkAPI = (
-            "https://api.tradingeconomics.com/worldBank/indicator"
-            + "?url="
-            + quote(str(url), safe=",/")
-        )
+        linkAPI = "/worldBank/indicator" + "?url=" + quote(str(url), safe=",/")
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -211,7 +199,7 @@ def getWBCountry(country=None, page_number=None, output_type=None):
     -------
     getWBCountry(country = 'portugal', output_type = None) # page_number is no longer needed!
     """
-    linkAPI = "https://api.tradingeconomics.com/worldBank/country/"
+    linkAPI = "/worldBank/country/"
     try:
         _create_unverified_https_context = ssl._create_unverified_context
     except AttributeError:
@@ -262,7 +250,7 @@ def getWBHistorical(series_code=None, output_type=None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/worldBank/historical"
+    linkAPI = "/worldBank/historical"
 
     if series_code == None:
         return "A series code is required!"

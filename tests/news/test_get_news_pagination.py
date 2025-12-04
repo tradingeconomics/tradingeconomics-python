@@ -12,9 +12,7 @@ class TestGetNewsPagination(unittest.TestCase):
         # Get news with start and limit
         result = getNews(start="15", limit="15")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/news?limit=15&start=15"
-        )
+        expected_url = "/news?limit=15&start=15"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"news": "start_limit"})
@@ -34,7 +32,7 @@ class TestGetNewsPagination(unittest.TestCase):
             output_type="df",
         )
 
-        expected_url = "https://api.tradingeconomics.com/news/country/United%20States/Imports?limit=20&start=10"
+        expected_url = "/news/country/United%20States/Imports?limit=20&start=10"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, {"news": "country_start_limit"})

@@ -15,7 +15,7 @@ class TestGetFinancialsHistoricalCategory(unittest.TestCase):
         # Get historical financials data with category containing space
         result = getFinancialsHistorical(symbol="aapl:us", category="total assets")
 
-        expected_url = "http://api.tradingeconomics.com/financials/historical/aapl%3Aus%3Atotal-assets"
+        expected_url = "/financials/historical/aapl%3Aus%3Atotal-assets"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"financials": "ok"})

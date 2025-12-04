@@ -52,7 +52,7 @@ def getStockSplits(
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = "https://api.tradingeconomics.com/splits"
+    linkAPI = "/splits"
 
     if ticker and fn.stringOrList(ticker):
         linkAPI += "/ticker/" + fn.stringOrList(ticker)

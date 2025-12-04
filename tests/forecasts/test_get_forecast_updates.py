@@ -12,7 +12,7 @@ class TestGetForecastUpdates(unittest.TestCase):
         # Get all forecast updates
         result = getForecastUpdates()
 
-        expected_url = "https://api.tradingeconomics.com/forecast/updates"
+        expected_url = "/forecast/updates"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"updates": "ok"})
@@ -24,9 +24,7 @@ class TestGetForecastUpdates(unittest.TestCase):
         # Get forecast updates for single country
         result = getForecastUpdates(country="france")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/forecast/updates?country=france"
-        )
+        expected_url = "/forecast/updates?country=france"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "ok"})
@@ -41,9 +39,7 @@ class TestGetForecastUpdates(unittest.TestCase):
         # Get forecast updates for multiple countries
         result = getForecastUpdates(country=["france", "sweden"])
 
-        expected_url = (
-            "https://api.tradingeconomics.com/forecast/updates?country=france%2Csweden"
-        )
+        expected_url = "/forecast/updates?country=france%2Csweden"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "multiple"})
@@ -58,7 +54,7 @@ class TestGetForecastUpdates(unittest.TestCase):
         # Get forecast updates with init_date
         result = getForecastUpdates(country="mexico", init_date="2024-11-15")
 
-        expected_url = "https://api.tradingeconomics.com/forecast/updates?country=mexico&date=2024-11-15"
+        expected_url = "/forecast/updates?country=mexico&date=2024-11-15"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"date": "ok"})
@@ -71,7 +67,7 @@ class TestGetForecastUpdates(unittest.TestCase):
         # Test with output_type parameter
         result = getForecastUpdates(output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/forecast/updates"
+        expected_url = "/forecast/updates"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"update": "data"}])

@@ -13,9 +13,7 @@ class TestGetForecastByTicker(unittest.TestCase):
         # Get forecast data for single ticker
         result = getForecastByTicker(ticker="USURTOT")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/forecast/ticker/USURTOT"
-        )
+        expected_url = "/forecast/ticker/USURTOT"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ticker": "ok"})
@@ -31,7 +29,7 @@ class TestGetForecastByTicker(unittest.TestCase):
         # Get forecast data for multiple tickers
         result = getForecastByTicker(ticker=["WGDPCHIN", "USURTOT"])
 
-        expected_url = "https://api.tradingeconomics.com/forecast/ticker/WGDPCHIN%2CUSURTOT"
+        expected_url = "/forecast/ticker/WGDPCHIN%2CUSURTOT"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ticker": "multiple"})
@@ -46,9 +44,7 @@ class TestGetForecastByTicker(unittest.TestCase):
         # Test with output_type parameter
         result = getForecastByTicker(ticker="USURTOT", output_type="df")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/forecast/ticker/USURTOT"
-        )
+        expected_url = "/forecast/ticker/USURTOT"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"ticker": "USURTOT"}])

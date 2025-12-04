@@ -15,7 +15,7 @@ class TestGetCreditRatings(unittest.TestCase):
     def test_no_country(self, mock_request):
         result = getCreditRatings(country=None)
 
-        expected_url = "https://api.tradingeconomics.com/credit-ratings"
+        expected_url = "/credit-ratings"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ok": True})
@@ -26,7 +26,7 @@ class TestGetCreditRatings(unittest.TestCase):
     def test_single_country(self, mock_request):
         result = getCreditRatings(country="sweden")
 
-        expected_url = "https://api.tradingeconomics.com/credit-ratings/country/sweden"
+        expected_url = "/credit-ratings/country/sweden"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ok": True})
@@ -37,9 +37,7 @@ class TestGetCreditRatings(unittest.TestCase):
     def test_multiple_countries(self, mock_request):
         result = getCreditRatings(country=["mexico", "sweden"])
 
-        expected_url = (
-            "https://api.tradingeconomics.com/credit-ratings/country/mexico,sweden"
-        )
+        expected_url = "/credit-ratings/country/mexico,sweden"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ok": True})
@@ -55,6 +53,42 @@ class TestGetCreditRatings(unittest.TestCase):
 
         # Verify dataRequest was called (it will handle missing API key)
         mock_request.assert_called_once()
+
+    # --- output_type tests ---
+    @patch("tradingeconomics.credit_ratings.fn.dataRequest", return_value="DataFrame")
+    @patch.object(glob, "apikey", "TESTKEY")
+    def test_with_output_type_df(self, mock_request):
+        result = getCreditRatings(country="sweden", output_type="df")
+
+        expected_url = "/credit-ratings/country/sweden"
+
+        mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
+        self.assertEqual(result, "DataFrame")
+
+    @patch(
+        "tradingeconomics.credit_ratings.fn.dataRequest", return_value=[{"raw": "data"}]
+    )
+    @patch.object(glob, "apikey", "TESTKEY")
+    def test_with_output_type_raw(self, mock_request):
+        result = getCreditRatings(country="mexico", output_type="raw")
+
+        expected_url = "/credit-ratings/country/mexico"
+
+        mock_request.assert_called_once_with(
+            api_request=expected_url, output_type="raw"
+        )
+        self.assertEqual(result, [{"raw": "data"}])
+
+    # --- country with spaces (URL encoding) ---
+    @patch("tradingeconomics.credit_ratings.fn.dataRequest", return_value={"ok": True})
+    @patch.object(glob, "apikey", "TESTKEY")
+    def test_country_with_spaces(self, mock_request):
+        result = getCreditRatings(country="United States")
+
+        expected_url = "/credit-ratings/country/United%20States"
+
+        mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
+        self.assertEqual(result, {"ok": True})
 
 
 if __name__ == "__main__":
