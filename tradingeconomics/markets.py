@@ -297,9 +297,9 @@ def getMarketsSearch(country=None, category=None, page=None, output_type=None):
         ssl._create_default_https_context = _create_unverified_https_context
 
     if type(country) is not str:
-        linkAPI = "/markets/search/" + quote(",".join(country), safe="")
+        linkAPI = "/markets/search/" + quote(",".join(country), safe="")  # type: ignore
     else:
-        linkAPI = "/markets/search/" + quote(country, safe="")
+        linkAPI = "/markets/search/" + quote(country, safe="")  # type: ignore
     if (category) is not None:
         linkAPI = checkCategory(linkAPI, category)
     if (page) is not None:
@@ -587,7 +587,7 @@ def getStocksByCountry(country=None, output_type=None):
             data = data.rename(columns={"unit": "Unit", "frequency": "Frequency"})
             data = data.to_dict(orient="records")
         else:
-            data = data.rename(columns={"unit": "Unit", "frequency": "Frequency"})
+            data = data.rename(columns={"unit": "Unit", "frequency": "Frequency"})  # type: ignore
 
         return data
     except Exception as e:

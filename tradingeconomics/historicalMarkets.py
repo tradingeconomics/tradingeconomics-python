@@ -87,9 +87,9 @@ def fetchMarkets(symbol=None, initDate=None, endDate=None, output_type=None):
     linkAPI = "/markets/historical/"
 
     if type(symbol) is not str:
-        linkAPI = "/markets/historical/" + quote(",".join(symbol), safe="")
+        linkAPI = "/markets/historical/" + quote(",".join(symbol), safe="")  # type: ignore
     else:
-        linkAPI = "/markets/historical/" + quote(symbol, safe="")
+        linkAPI = "/markets/historical/" + quote(symbol, safe="")  # type: ignore
 
     if (initDate is not None) and (endDate is not None):
         try:

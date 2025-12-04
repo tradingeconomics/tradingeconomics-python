@@ -15,9 +15,9 @@ class WebRequestError(ValueError):
 def getStockSplits(
     ticker: Optional[Union[str, List[str]]] = None,
     country: Optional[Union[str, List[str]]] = None,
-    startDate: str = None,
-    endDate: str = None,
-    output_type: str = None,
+    startDate: Optional[str] = None,
+    endDate: Optional[str] = None,
+    output_type: Optional[str] = None,
 ):
     """
     Returns stock splits calendar data.
