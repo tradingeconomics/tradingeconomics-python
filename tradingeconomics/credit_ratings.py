@@ -8,7 +8,7 @@ class LoginError(AttributeError):
     pass
 
 
-def getCreditRatings(country: List[str]=None, output_type: str=None):
+def getCreditRatings(country: List[str] = None, output_type: str = None):
     """
     Returns a list of all countries credit ratings.
 
@@ -32,21 +32,26 @@ def getCreditRatings(country: List[str]=None, output_type: str=None):
         pass
     else:
         ssl._create_default_https_context = _create_unverified_https_context
-    
-    linkAPI = 'https://api.tradingeconomics.com/credit-ratings'
-    
-    if country != None:
-        linkAPI = linkAPI + f'/country/{fn.isStringOrList(country)}'
 
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
+    linkAPI = "https://api.tradingeconomics.com/credit-ratings"
+
+    if country != None:
+        linkAPI = linkAPI + f"/country/{fn.stringOrList(country)}"
+
+    if not glob.apikey:
+        raise LoginError("You need to do login before making any request")
+
+    linkAPI += "?c=" + glob.apikey
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
-def getHistoricalCreditRatings(country: List[str]=None, initDate: str=None, endDate: str=None, output_type: str=None):
+def getHistoricalCreditRatings(
+    country: List[str] = None,
+    initDate: str = None,
+    endDate: str = None,
+    output_type: str = None,
+):
     """
     Returns historical credit ratings by country and date.
 
@@ -75,19 +80,17 @@ def getHistoricalCreditRatings(country: List[str]=None, initDate: str=None, endD
         pass
     else:
         ssl._create_default_https_context = _create_unverified_https_context
-    
-    linkAPI = 'https://api.tradingeconomics.com/credit-ratings/historical'
-    
-    if country != None:
-        linkAPI = linkAPI + f'/country/{fn.isStringOrList(country)}'
 
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
+    linkAPI = "https://api.tradingeconomics.com/credit-ratings/historical"
+
+    if country != None:
+        linkAPI = linkAPI + f"/country/{fn.stringOrList(country)}"
+
+    if not glob.apikey:
+        raise LoginError("You need to do login before making any request")
+
+    linkAPI += "?c=" + glob.apikey
 
     linkAPI = fn.checkDates(linkAPI, initDate, endDate)
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-
-

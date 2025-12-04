@@ -3,10 +3,17 @@ from typing import List
 from . import functions as fn
 from . import glob
 
+
 class LoginError(AttributeError):
     pass
 
-def getDividends(symbols: List[str]=None, startDate: str=None, endDate: str=None, output_type: str=None):
+
+def getDividends(
+    symbols: List[str] = None,
+    startDate: str = None,
+    endDate: str = None,
+    output_type: str = None,
+):
     """
     Returns dividends calendar data.
     ==========================================================
@@ -27,7 +34,7 @@ def getDividends(symbols: List[str]=None, startDate: str=None, endDate: str=None
     getDividends(symbols = 'msft:us', startDate='2016-01-01')
     getDividends(symbols = 'msft:us')
     getDividends()
-    
+
     """
 
     try:
@@ -37,18 +44,16 @@ def getDividends(symbols: List[str]=None, startDate: str=None, endDate: str=None
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    linkAPI = 'https://api.tradingeconomics.com/dividends'
+    linkAPI = "https://api.tradingeconomics.com/dividends"
 
-    if symbols and fn.isStringOrList(symbols):
-        linkAPI += '/symbol/' + fn.stringOrList(symbols)
+    if symbols and fn.stringOrList(symbols):
+        linkAPI += "/symbol/" + fn.stringOrList(symbols)
 
     try:
-        linkAPI += '?c=' + glob.apikey
+        linkAPI += "?c=" + glob.apikey
     except AttributeError:
-        raise LoginError('You need to do login before making any request')
+        raise LoginError("You need to do login before making any request")
 
     linkAPI = fn.checkDates(linkAPI, startDate, endDate)
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-
-

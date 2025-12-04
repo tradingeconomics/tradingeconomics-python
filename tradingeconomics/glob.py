@@ -1,6 +1,8 @@
 from . import functions as fn
 import os
 
+apikey = None
+
 def login(userkey = None):
     global apikey
     if userkey == None:

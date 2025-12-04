@@ -42,7 +42,8 @@ def checkCmtCountry(country):
     if type(country) is str:
         linkAPI += quote(country)
     else:
-        linkAPI += quote("/".join(country), safe='')
+        encoded_items = [quote(c) for c in country]
+        linkAPI += "/".join(encoded_items)
     return linkAPI
 
 
@@ -214,7 +215,7 @@ def getCmtCountry(country=None, page_number=None, output_type=None):
 
     linkAPI = 'https://api.tradingeconomics.com/comtrade/countries'
 
-    if country == None:
+    if country is None:
         linkAPI = 'https://api.tradingeconomics.com/comtrade/countries'
     else:
         linkAPI = checkCmtCountry(country)
@@ -303,10 +304,12 @@ def getCmtTwoCountries(country1=None, country2=None, page_number=None, output_ty
 
     linkAPI = 'https://api.tradingeconomics.com/comtrade/country'
 
-    if country1 and country2 == None:
-        linkAPI = 'https://api.tradingeconomics.com/comtrade/country'
+    if country1 is not None and country2 is None:
+        linkAPI = f'https://api.tradingeconomics.com/comtrade/country/{quote(country1)}'
+    elif country1 is not None and country2 is not None:
+        linkAPI = f'https://api.tradingeconomics.com/comtrade/country/{quote(country1)}/{quote(country2)}'
     else:
-        linkAPI = 'https://api.tradingeconomics.com/comtrade/country/' + quote(country1) + '/' + quote(country2)
+        return "country1 is required"
 
     if page_number != None:
         linkAPI = checkCmtPage(linkAPI, page_number)

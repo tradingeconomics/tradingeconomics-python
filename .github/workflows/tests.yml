@@ -17,16 +17,15 @@ permissions:
 
 jobs:
   deploy:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.x'
-    - name: Install dependencies
-      run: pip install -r tradingeconomics/requirements.txt
-    - name: Test package
-      run: python -m unittest discover tests
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.x"
+      - name: Install dependencies
+        run: pip install -r tradingeconomics/requirements.txt
+      - name: Test package
+        run: python run_tests.py -v

@@ -31,30 +31,74 @@ class WebRequestError(ValueError):
 
 
 
-def paramCheck (country, indicator = None):
-    if type(country) is str and indicator == None:
-        linkAPI = 'https://api.tradingeconomics.com/calendar/country/' + quote(country)
-    elif type(country) is not str and indicator == None:
-        multiCountry = ",".join(country)
-        linkAPI = 'https://api.tradingeconomics.com/calendar/country/' + quote(multiCountry)
-    elif type(country) is not str and type(indicator) is str:  
-        multiCountry = ",".join(country)
-        linkAPI = 'https://api.tradingeconomics.com/calendar/country/' + quote(multiCountry) + '/indicator/' + quote(indicator)
-    elif type(country) is str and type(indicator) is not str:
-        multiIndicator = ",".join(indicator)
-        linkAPI = 'https://api.tradingeconomics.com/calendar/country/' + quote(country) + '/indicator/' + quote(multiIndicator) 
+def paramCheck(country, indicator=None):
+    # country is string, no indicator
+    if isinstance(country, str) and indicator is None:
+        encoded_country = quote(country)
+        return 'https://api.tradingeconomics.com/calendar/country/' + encoded_country
+
+    # country is list, no indicator
+    elif isinstance(country, list) and indicator is None:
+        encoded = [quote(c) for c in country]
+        multiCountry = ",".join(encoded)
+        return 'https://api.tradingeconomics.com/calendar/country/' + multiCountry
+
+    # country list + indicator string
+    elif isinstance(country, list) and isinstance(indicator, str):
+        encoded_country = [quote(c) for c in country]
+        encoded_indicator = quote(indicator)
+        multiCountry = ",".join(encoded_country)
+        return (
+            'https://api.tradingeconomics.com/calendar/country/'
+            + multiCountry
+            + '/indicator/'
+            + encoded_indicator
+        )
+
+    # country string + indicator list
+    elif isinstance(country, str) and isinstance(indicator, list):
+        encoded_indicator = [quote(i) for i in indicator]
+        multiInd = ",".join(encoded_indicator)
+        return (
+            'https://api.tradingeconomics.com/calendar/country/'
+            + quote(country)
+            + '/indicator/'
+            + multiInd
+        )
+
+    # country string + indicator string  <<<<<< CORREÇÃO IMPORTANTE
+    elif isinstance(country, str) and isinstance(indicator, str):
+        encoded_country = quote(country)
+        encoded_indicator = quote(indicator)
+        return (
+            'https://api.tradingeconomics.com/calendar/country/'
+            + encoded_country
+            + '/indicator/'
+            + encoded_indicator
+        )
+
+    # both lists
     else:
-        multiCountry = ",".join(country)
-        multiIndicator = ",".join(indicator)
-        linkAPI = 'https://api.tradingeconomics.com/calendar/country/' + quote(multiCountry) + '/indicator/' + quote(multiIndicator)
-    return linkAPI
+        encoded_country = [quote(c) for c in country]
+        encoded_ind = [quote(i) for i in indicator]
+        multiCountry = ",".join(encoded_country)
+        multiInd = ",".join(encoded_ind)
+        return (
+            'https://api.tradingeconomics.com/calendar/country/'
+            + multiCountry
+            + '/indicator/'
+            + multiInd
+        )
+
         
 def checkCalendarId(id):
-    linkAPI = 'https://api.tradingeconomics.com/calendar/calendarid'      
-    if type(id) is str:
-        linkAPI +=  '/' + quote(str(id))
+    linkAPI = 'https://api.tradingeconomics.com/calendar/calendarid'
+    if isinstance(id, str):
+        linkAPI += '/' + quote(id)
     else:
-        linkAPI += '/' + quote(",".join(id))
+        encoded = [quote(str(x)) for x in id]
+        multi = ",".join(encoded)
+        linkAPI += '/' + multi
     return linkAPI
 
 def getCalendarId(id = None, output_type = None):
