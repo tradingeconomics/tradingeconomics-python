@@ -86,7 +86,7 @@ def getHistorical(symbol=None, initDate=None, endDate=None, output_type=None, *a
         linkAPI += "fred/historical/" + quote(symbol[:-5], safe=":")  # type: ignore
 
     elif ":" not in symbol and type(symbol) is str:  # type: ignore
-        linkAPI += "historical/ticker/" + quote(symbol, safe="")
+        linkAPI += "historical/ticker/" + quote(symbol, safe="")  # type: ignore
 
     elif ":" in symbol:  # type: ignore
         linkAPI += "markets/historical/" + quote(symbol, safe="")
