@@ -1,5 +1,5 @@
 import ssl
-from typing import List
+from typing import List, Union, Optional
 from . import functions as fn
 from . import glob
 
@@ -13,8 +13,8 @@ class WebRequestError(ValueError):
 
 
 def getIpo(
-    ticker: List[str] = None,
-    country: List[str] = None,
+    ticker: Optional[Union[str, List[str]]] = None,
+    country: Optional[Union[str, List[str]]] = None,
     startDate: str = None,
     endDate: str = None,
     output_type: str = None,
