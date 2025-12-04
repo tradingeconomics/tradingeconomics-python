@@ -42,7 +42,7 @@ def start_socket(on_message_client, *args):
     def _on_close(web_sock):
         if function_to_restart[1]:
             t = threading.Thread(
-                target=function_to_restart[1],
+                target=function_to_restart[1],  # type: ignore
                 args=(web_sock, json.dumps({"msg": "CLOSING"})),
             )
             t.start()
@@ -50,7 +50,7 @@ def start_socket(on_message_client, *args):
         sleep(reconnect_timeout)
         start_socket(function_to_restart[0])
 
-    ws = websocket.WebSocketApp(
+    ws = websocket.WebSocketApp(  # type: ignore
         build_url(), on_message=_on_message, on_error=on_error, on_close=_on_close
     )
 
@@ -61,7 +61,7 @@ def start_socket(on_message_client, *args):
 
 def run(on_message_client, *args):  ##passing on args ('on_close_client')
 
-    websocket.enableTrace(False)
+    websocket.enableTrace(False)  # type: ignore
     function_to_restart[0] = on_message_client
 
     if args:
