@@ -1,5 +1,5 @@
 import sys
-from datetime import *
+
 from . import functions as fn
 from . import glob
 import ssl

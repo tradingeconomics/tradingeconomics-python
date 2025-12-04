@@ -1,5 +1,5 @@
 import ssl
-from typing import List
+from typing import List, Union, Optional
 from . import functions as fn
 from . import glob
 
@@ -9,10 +9,10 @@ class LoginError(AttributeError):
 
 
 def getDividends(
-    symbols: List[str] = None,
-    startDate: str = None,
-    endDate: str = None,
-    output_type: str = None,
+    symbols: Optional[Union[str, List[str]]] = None,
+    startDate: Optional[str] = None,
+    endDate: Optional[str] = None,
+    output_type: Optional[str] = None,
 ):
     """
     Returns dividends calendar data.
