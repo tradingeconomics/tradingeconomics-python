@@ -85,6 +85,8 @@ def getHistoricalEurostat(ID=None, initDate=None, endDate=None, output_type=None
 
     if ID == None:
         raise ValueError("An ID needs to be supplied.")
+
+    linkAPI = ""
     if ID != None:
         linkAPI = getID(ID)
     if (initDate is not None) and (endDate == None):
