@@ -13,7 +13,7 @@ class TestGetFedRSnapsUrl(unittest.TestCase):
         test_url = "united-states/white-to-non-white-racial-dissimilarity-index.html"
         result = getFedRSnaps(url=test_url)
 
-        expected_url = f"https://api.tradingeconomics.com/fred/snapshot/url/?c=TESTKEY&url=united-states/white-to-non-white-racial-dissimilarity-index.html"
+        expected_url = f"https://api.tradingeconomics.com/fred/snapshot/url/?url=united-states/white-to-non-white-racial-dissimilarity-index.html"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"url": "ok"})

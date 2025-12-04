@@ -227,11 +227,6 @@ def getHistoricalData(
                 raise DateError("Initial date out of range.")
         linkAPI = fn.finalLink(linkAPI, [quote(initDate)])
 
-    try:
-        linkAPI += "?c=" + glob.apikey
-    except AttributeError:
-        raise LoginError("You need to do login before making any request")
-
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
@@ -286,10 +281,6 @@ def getHistoricalRatings(
         linkAPI = (
             checkCountryHistoricalRatings(country) + "/" + initDate + "/" + endDate
         )
-    try:
-        linkAPI += "?c=" + glob.apikey
-    except AttributeError:
-        raise LoginError("You need to do login before making any request")
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -331,7 +322,6 @@ def getHistoricalByTicker(
         "ticker": "",
         "start_date": "",
         "end_date": "",
-        "key": f"?c={glob.apikey}",
         "output_type": "",
     }
     if start_date:
@@ -359,12 +349,11 @@ def getHistoricalByTicker(
         if end_date:
             d["end_date"] = f"/{end_date}"
 
-        api_url_request = "%s%s%s%s%s" % (
+        api_url_request = "%s%s%s%s" % (
             d["url_base"],
             d["ticker"],
             d["start_date"],
             d["end_date"],
-            d["key"],
         )
         # print(api_url_request)
         return fn.dataRequest(api_request=api_url_request, output_type=output_type)
@@ -407,18 +396,19 @@ def getHistoricalLatest(country: List[str] = None, date=None, output_type=None):
     # d is a dictionary used for create the api url
     d = {
         "url_base": "https://api.tradingeconomics.com/historical/latest",
-        "key": f"?c={glob.apikey}",
         "output_type": "",
     }
 
-    api_url_request = "%s%s" % (d["url_base"], d["key"])
+    api_url_request = d["url_base"]
 
     if country and fn.stringOrList(country):
-        d["country"] = f"&country={fn.stringOrList(country)}"
+        d["country"] = f"?country={fn.stringOrList(country)}"
         api_url_request = f'{api_url_request}{d["country"]}'
-
-    if date:
-        d["date"] = f"&date={date}"
+        if date:
+            d["date"] = f"&date={date}"
+            api_url_request = f'{api_url_request}{d["date"]}'
+    elif date:
+        d["date"] = f"?date={date}"
         api_url_request = f'{api_url_request}{d["date"]}'
 
     # print(api_url_request)
@@ -449,10 +439,9 @@ def getHistoricalUpdates(output_type=None):
     # d is a dictionary used for create the api url
     d = {
         "url_base": "https://api.tradingeconomics.com/historical/updates",
-        "key": f"?c={glob.apikey}",
         "output_type": "",
     }
 
-    api_url_request = "%s%s" % (d["url_base"], d["key"])
+    api_url_request = d["url_base"]
     # print(api_url_request)
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)

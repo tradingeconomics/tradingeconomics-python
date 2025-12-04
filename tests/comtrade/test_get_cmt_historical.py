@@ -26,14 +26,14 @@ class TestGetCmtHistorical(unittest.TestCase):
     def test_symbol_basic(self, mock_dataRequest):
         """
         For a valid symbol, the module must generate:
-        https://api.tradingeconomics.com/comtrade/historical/<encoded_symbol>?c=guest:guest
+        https://api.tradingeconomics.com/comtrade/historical/<encoded_symbol>
         """
         mock_dataRequest.return_value = {"ok": True}
 
         result = getCmtHistorical(symbol="PRTESP24031")
 
         expected_url = (
-            "https://api.tradingeconomics.com/comtrade/historical/PRTESP24031?c=guest:guest"
+            "https://api.tradingeconomics.com/comtrade/historical/PRTESP24031"
         )
 
         mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -50,7 +50,7 @@ class TestGetCmtHistorical(unittest.TestCase):
         result = getCmtHistorical(symbol="ABC 123")
 
         expected_url = (
-            "https://api.tradingeconomics.com/comtrade/historical/ABC%20123?c=guest:guest"
+            "https://api.tradingeconomics.com/comtrade/historical/ABC%20123"
         )
 
         mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)

@@ -16,7 +16,7 @@ class TestGetSearchTermAndCategory(unittest.TestCase):
         result = getSearch(term="japan", category="markets")
 
         expected_url = (
-            "https://api.tradingeconomics.com/search/japan?category=markets&c=TESTKEY"
+            "https://api.tradingeconomics.com/search/japan?category=markets"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -31,7 +31,7 @@ class TestGetSearchTermAndCategory(unittest.TestCase):
         # Get search by term and multiple categories
         result = getSearch(term="gold", category=["markets", "indicators"])
 
-        expected_url = "https://api.tradingeconomics.com/search/gold?category=markets,indicators&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/search/gold?category=markets,indicators"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"search": "term_multiple_categories"})
@@ -45,7 +45,7 @@ class TestGetSearchTermAndCategory(unittest.TestCase):
         # Get search by multiple terms and category
         result = getSearch(term=["japan", "china"], category="indicators")
 
-        expected_url = "https://api.tradingeconomics.com/search/japan,china?category=indicators&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/search/japan,china?category=indicators"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"search": "multiple_terms_category"})
@@ -59,7 +59,7 @@ class TestGetSearchTermAndCategory(unittest.TestCase):
         # Get search by term with spaces and category
         result = getSearch(term="united states", category="markets")
 
-        expected_url = "https://api.tradingeconomics.com/search/united%20states?category=markets&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/search/united%20states?category=markets"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"search": "term_spaces_category"})

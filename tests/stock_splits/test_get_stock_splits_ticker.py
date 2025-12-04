@@ -20,11 +20,11 @@ class TestGetStockSplitsTicker(unittest.TestCase):
         result = getStockSplits(ticker="AAPL:US")
 
         expected_url = (
-            "https://api.tradingeconomics.com/splits/ticker/AAPL:US?c=TESTKEY"
+            "https://api.tradingeconomics.com/splits/ticker/AAPL:US"
         )
 
         mock_check_dates.assert_called_once_with(
-            "https://api.tradingeconomics.com/splits/ticker/AAPL:US?c=TESTKEY",
+            "https://api.tradingeconomics.com/splits/ticker/AAPL:US",
             None,
             None,
         )
@@ -45,11 +45,11 @@ class TestGetStockSplitsTicker(unittest.TestCase):
         result = getStockSplits(ticker=["AAPL:US", "MSFT:US"])
 
         expected_url = (
-            "https://api.tradingeconomics.com/splits/ticker/AAPL:US,MSFT:US?c=TESTKEY"
+            "https://api.tradingeconomics.com/splits/ticker/AAPL:US,MSFT:US"
         )
 
         mock_check_dates.assert_called_once_with(
-            "https://api.tradingeconomics.com/splits/ticker/AAPL:US,MSFT:US?c=TESTKEY",
+            "https://api.tradingeconomics.com/splits/ticker/AAPL:US,MSFT:US",
             None,
             None,
         )

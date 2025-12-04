@@ -14,7 +14,7 @@ class TestGetFedRStates(unittest.TestCase):
         # Get all states with no parameters
         result = getFedRStates()
 
-        expected_url = "https://api.tradingeconomics.com/fred/states?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/fred/states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"states": "ok"})
@@ -29,7 +29,7 @@ class TestGetFedRStates(unittest.TestCase):
         result = getFedRStates(county="arkansas")
 
         expected_url = (
-            "https://api.tradingeconomics.com/fred/counties/arkansas?c=TESTKEY"
+            "https://api.tradingeconomics.com/fred/counties/arkansas"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -44,7 +44,7 @@ class TestGetFedRStates(unittest.TestCase):
         # Test with output_type parameter
         result = getFedRStates(output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/fred/states?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/fred/states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"state": "Arkansas"}])

@@ -68,7 +68,7 @@ class TestGetCalendarId(unittest.TestCase):
         url = mock_request.call_args[1]["api_request"]
         self.assertEqual(
             url,
-            "https://api.tradingeconomics.com/calendar/calendarid/555?c=guest:guest",
+            "https://api.tradingeconomics.com/calendar/calendarid/555",
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
@@ -78,7 +78,7 @@ class TestGetCalendarId(unittest.TestCase):
         url = mock_request.call_args[1]["api_request"]
         self.assertEqual(
             url,
-            "https://api.tradingeconomics.com/calendar?c=guest:guest",
+            "https://api.tradingeconomics.com/calendar",
         )
 
 
@@ -92,7 +92,7 @@ class TestGetCalendarData(unittest.TestCase):
         url = mock_request.call_args[1]["api_request"]
         self.assertEqual(
             url,
-            "https://api.tradingeconomics.com/calendar/country/united%20states?c=guest:guest",
+            "https://api.tradingeconomics.com/calendar/country/united%20states",
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
@@ -102,7 +102,7 @@ class TestGetCalendarData(unittest.TestCase):
         url = mock_request.call_args[1]["api_request"]
         self.assertEqual(
             url,
-            "https://api.tradingeconomics.com/calendar/country/united%20states/indicator/inflation%20rate?c=guest:guest",
+            "https://api.tradingeconomics.com/calendar/country/united%20states/indicator/inflation%20rate",
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
@@ -112,7 +112,7 @@ class TestGetCalendarData(unittest.TestCase):
         url = mock_request.call_args[1]["api_request"]
         self.assertEqual(
             url,
-            "https://api.tradingeconomics.com/calendar/ticker/IJCUSA?c=guest:guest",
+            "https://api.tradingeconomics.com/calendar/ticker/IJCUSA",
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
@@ -124,11 +124,13 @@ class TestGetCalendarData(unittest.TestCase):
     @patch("tradingeconomics.calendar.fn.dataRequest")
     @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
     def test_country_with_dates(self, mock_request):
-        getCalendarData(country="united states", initDate="2020-01-01", endDate="2020-01-02")
+        getCalendarData(
+            country="united states", initDate="2020-01-01", endDate="2020-01-02"
+        )
         url = mock_request.call_args[1]["api_request"]
         self.assertEqual(
             url,
-            "https://api.tradingeconomics.com/calendar/country/united%20states/2020-01-01/2020-01-02?c=guest:guest",
+            "https://api.tradingeconomics.com/calendar/country/united%20states/2020-01-01/2020-01-02",
         )
 
 
@@ -142,7 +144,7 @@ class TestGetCalendarEvents(unittest.TestCase):
         url = mock_request.call_args[1]["api_request"]
         self.assertEqual(
             url,
-            "https://api.tradingeconomics.com/calendar/events?c=guest:guest",
+            "https://api.tradingeconomics.com/calendar/events",
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
@@ -152,7 +154,7 @@ class TestGetCalendarEvents(unittest.TestCase):
         url = mock_request.call_args[1]["api_request"]
         self.assertEqual(
             url,
-            "https://api.tradingeconomics.com/calendar/events/country/china?c=guest:guest",
+            "https://api.tradingeconomics.com/calendar/events/country/china",
         )
 
 
@@ -166,7 +168,7 @@ class TestGetCalendarEventsByGroup(unittest.TestCase):
         url = mock_request.call_args[1]["api_request"]
         self.assertEqual(
             url,
-            "https://api.tradingeconomics.com/calendar/group/bonds?c=guest:guest",
+            "https://api.tradingeconomics.com/calendar/group/bonds",
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
@@ -176,7 +178,7 @@ class TestGetCalendarEventsByGroup(unittest.TestCase):
         url = mock_request.call_args[1]["api_request"]
         self.assertEqual(
             url,
-            "https://api.tradingeconomics.com/calendar/country/united%20states/group/bonds?c=guest:guest",
+            "https://api.tradingeconomics.com/calendar/country/united%20states/group/bonds",
         )
 
 

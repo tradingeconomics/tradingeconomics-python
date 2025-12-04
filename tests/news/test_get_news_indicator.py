@@ -13,7 +13,7 @@ class TestGetNewsIndicator(unittest.TestCase):
         result = getNews(indicator="inflation rate")
 
         expected_url = (
-            "https://api.tradingeconomics.com/news/indicator/inflation%20rate?c=TESTKEY"
+            "https://api.tradingeconomics.com/news/indicator/inflation%20rate"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -25,7 +25,7 @@ class TestGetNewsIndicator(unittest.TestCase):
         # Get news by multiple indicators
         result = getNews(indicator=["inflation rate", "gdp"])
 
-        expected_url = "https://api.tradingeconomics.com/news/indicator/inflation%20rate,gdp?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/news/indicator/inflation%20rate,gdp"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"news": "indicators"})
@@ -39,7 +39,7 @@ class TestGetNewsIndicator(unittest.TestCase):
         # Get news by country and indicator
         result = getNews(country="United States", indicator="Imports")
 
-        expected_url = "https://api.tradingeconomics.com/news/country/United%20States/Imports?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/news/country/United%20States/Imports"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"news": "country_indicator"})
@@ -55,7 +55,7 @@ class TestGetNewsIndicator(unittest.TestCase):
             country=["brazil", "canada"], indicator=["Housing Starts", "Stock Market"]
         )
 
-        expected_url = "https://api.tradingeconomics.com/news/country/brazil,canada/Housing%20Starts,Stock%20Market?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/news/country/brazil,canada/Housing%20Starts,Stock%20Market"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"news": "countries_indicators"})

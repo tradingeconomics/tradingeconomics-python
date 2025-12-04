@@ -12,7 +12,7 @@ class TestGetEurostatCountries(unittest.TestCase):
         # Test getEurostatCountries function
         result = getEurostatCountries()
 
-        expected_url = "https://api.tradingeconomics.com/eurostat/countries?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/eurostat/countries"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"countries": "ok"})
@@ -26,7 +26,7 @@ class TestGetEurostatCountries(unittest.TestCase):
         # Test with output_type parameter
         result = getEurostatCountries(output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/eurostat/countries?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/eurostat/countries"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"country": "Denmark"}])

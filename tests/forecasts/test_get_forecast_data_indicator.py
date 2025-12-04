@@ -14,7 +14,7 @@ class TestGetForecastDataIndicator(unittest.TestCase):
         # Get forecast data for single indicator
         result = getForecastData(indicator="GDP Growth Rate")
 
-        expected_url = "https://api.tradingeconomics.com/forecast/indicator/GDP%20Growth%20Rate?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/forecast/indicator/GDP%20Growth%20Rate"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"indicator": "ok"})
@@ -28,7 +28,7 @@ class TestGetForecastDataIndicator(unittest.TestCase):
         # Get forecast data for multiple indicators
         result = getForecastData(indicator=["Exports", "Imports"])
 
-        expected_url = "https://api.tradingeconomics.com/forecast/indicator/Exports%2CImports?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/forecast/indicator/Exports%2CImports"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"indicator": "multiple"})
@@ -41,7 +41,7 @@ class TestGetForecastDataIndicator(unittest.TestCase):
         # Test with output_type parameter
         result = getForecastData(indicator="GDP Growth Rate", output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/forecast/indicator/GDP%20Growth%20Rate?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/forecast/indicator/GDP%20Growth%20Rate"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"indicator": "GDP"}])

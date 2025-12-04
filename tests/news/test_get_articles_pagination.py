@@ -15,7 +15,7 @@ class TestGetArticlesPagination(unittest.TestCase):
         result = getArticles(start=10, lim=20, output_type="df")
 
         expected_url = (
-            "https://api.tradingeconomics.com/articles/?c=TESTKEY&lim=20&start=10"
+            "https://api.tradingeconomics.com/articles/?lim=20&start=10"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
@@ -32,7 +32,7 @@ class TestGetArticlesPagination(unittest.TestCase):
             country="United States", indicator="inflation rate", start=20, lim=100
         )
 
-        expected_url = "https://api.tradingeconomics.com/articles/country/United%20States/inflation%20rate?c=TESTKEY&lim=100&start=20"
+        expected_url = "https://api.tradingeconomics.com/articles/country/United%20States/inflation%20rate?lim=100&start=20"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"articles": "country_pagination"})

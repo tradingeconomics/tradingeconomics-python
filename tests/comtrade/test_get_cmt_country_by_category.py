@@ -25,7 +25,7 @@ class TestGetCmtCountryByCategory(unittest.TestCase):
         result = getCmtCountryByCategory(country="Portugal", type="import", category=None)
 
         expected_url = (
-            "https://api.tradingeconomics.com/comtrade/import/Portugal?c=TESTKEY"
+            "https://api.tradingeconomics.com/comtrade/import/Portugal"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -37,7 +37,7 @@ class TestGetCmtCountryByCategory(unittest.TestCase):
         result = getCmtCountryByCategory(country="United States", type="export", category="live animals")
 
         expected_url = (
-            "https://api.tradingeconomics.com/comtrade/export/United%20States/live%20animals?c=TESTKEY"
+            "https://api.tradingeconomics.com/comtrade/export/United%20States/live%20animals"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)

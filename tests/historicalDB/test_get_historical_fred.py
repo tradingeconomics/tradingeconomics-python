@@ -12,7 +12,7 @@ class TestGetHistoricalFred(unittest.TestCase):
         # Get historical data for FRED symbol
         result = getHistorical(symbol="RACEDISPARITY005007:fred")
 
-        expected_url = "https://api.tradingeconomics.com/fred/historical/RACEDISPARITY005007?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/fred/historical/RACEDISPARITY005007"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"fred": "ok"})
@@ -34,7 +34,7 @@ class TestGetHistoricalFred(unittest.TestCase):
             endDate="2020-01-01",
         )
 
-        expected_url = "https://api.tradingeconomics.com/fred/historical/RACEDISPARITY005007?d1=2015-01-01&d2=2020-01-01&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/fred/historical/RACEDISPARITY005007?d1=2015-01-01&d2=2020-01-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"fred": "with_dates"})

@@ -15,7 +15,7 @@ class TestGetFedRSnapsState(unittest.TestCase):
         result = getFedRSnaps(state="tennessee")
 
         expected_url = (
-            "https://api.tradingeconomics.com/fred/snapshot/state/tennessee?c=TESTKEY"
+            "https://api.tradingeconomics.com/fred/snapshot/state/tennessee"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -30,7 +30,7 @@ class TestGetFedRSnapsState(unittest.TestCase):
         # Get snapshots by multiple states
         result = getFedRSnaps(state=["tennessee", "california"])
 
-        expected_url = "https://api.tradingeconomics.com/fred/snapshot/state/tennessee%2Fcalifornia?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/fred/snapshot/state/tennessee%2Fcalifornia"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"state": "multiple"})
@@ -44,7 +44,7 @@ class TestGetFedRSnapsState(unittest.TestCase):
         result = getFedRSnaps(state="tennessee", page_number=3)
 
         expected_url = (
-            "https://api.tradingeconomics.com/fred/snapshot/state/tennessee/3?c=TESTKEY"
+            "https://api.tradingeconomics.com/fred/snapshot/state/tennessee/3"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)

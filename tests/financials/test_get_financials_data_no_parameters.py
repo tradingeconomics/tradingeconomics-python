@@ -14,7 +14,7 @@ class TestGetFinancialsDataNoParameters(unittest.TestCase):
         # Get all companies when no parameters provided
         result = getFinancialsData()
 
-        expected_url = "https://api.tradingeconomics.com/financials/companies?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/financials/companies"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"all": "companies"})

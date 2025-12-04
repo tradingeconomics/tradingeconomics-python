@@ -37,9 +37,9 @@ class WebRequestError(ValueError):
 def checkSeriesCode(linkAPI, series_code):
     linkAPI = "https://api.tradingeconomics.com/worldBank/indicator"
     if series_code == None:
-        linkAPI += "?c=" + glob.apikey + "&s=" + quote(str(series_code))
+        linkAPI += "?s=" + quote(str(series_code))
     else:
-        linkAPI += "?c=" + glob.apikey + "&s=" + quote("".join(series_code))
+        linkAPI += "?s=" + quote("".join(series_code))
 
     return linkAPI
 
@@ -125,11 +125,6 @@ def getWBCategories(category=None, page_number=None, output_type=None):
     if page_number != None:
         linkAPI = checkPageNumber(linkAPI, page_number)
 
-    try:
-        linkAPI += "?c=" + glob.apikey
-    except AttributeError:
-        raise LoginError("You need to do login before making any request")
-
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
@@ -178,17 +173,13 @@ def getWBIndicator(series_code=None, url=None, output_type=None):
     if series_code != None:
         linkAPI = (
             "https://api.tradingeconomics.com/worldBank/indicator"
-            + "?c="
-            + glob.apikey
-            + "&s="
+            + "?s="
             + quote(str(series_code), safe=",/")
         )
     elif url != None:
         linkAPI = (
             "https://api.tradingeconomics.com/worldBank/indicator"
-            + "?c="
-            + glob.apikey
-            + "&url="
+            + "?url="
             + quote(str(url), safe=",/")
         )
 
@@ -236,11 +227,6 @@ def getWBCountry(country=None, page_number=None, output_type=None):
     if page_number != None:
         linkAPI = checkPageNumber(linkAPI, page_number)
 
-    try:
-        linkAPI += "?c=" + glob.apikey
-    except AttributeError:
-        raise LoginError("You need to do login before making any request")
-
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
@@ -281,6 +267,6 @@ def getWBHistorical(series_code=None, output_type=None):
     if series_code == None:
         return "A series code is required!"
     else:
-        linkAPI += "?c=" + glob.apikey + "&s=" + quote(str(series_code))
+        linkAPI += "?s=" + quote(str(series_code))
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)

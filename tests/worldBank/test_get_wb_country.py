@@ -16,7 +16,7 @@ class TestGetWBCountry(unittest.TestCase):
         result = getWBCountry(country="portugal")
 
         expected_url = (
-            "https://api.tradingeconomics.com/worldBank/country/portugal?c=TESTKEY"
+            "https://api.tradingeconomics.com/worldBank/country/portugal"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -31,7 +31,7 @@ class TestGetWBCountry(unittest.TestCase):
         # Get indicators for multiple countries
         result = getWBCountry(country=["portugal", "spain"])
 
-        expected_url = "https://api.tradingeconomics.com/worldBank/country/portugal,spain?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/worldBank/country/portugal,spain"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "multiple_countries"})
@@ -46,7 +46,7 @@ class TestGetWBCountry(unittest.TestCase):
         result = getWBCountry(country="portugal", page_number=3)
 
         expected_url = (
-            "https://api.tradingeconomics.com/worldBank/country/portugal/3?c=TESTKEY"
+            "https://api.tradingeconomics.com/worldBank/country/portugal/3"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -65,7 +65,7 @@ class TestGetWBCountry(unittest.TestCase):
         result = getWBCountry(country="portugal", output_type="df")
 
         expected_url = (
-            "https://api.tradingeconomics.com/worldBank/country/portugal?c=TESTKEY"
+            "https://api.tradingeconomics.com/worldBank/country/portugal"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")

@@ -17,14 +17,14 @@ class TestGetCmtCountry(unittest.TestCase):
     def test_no_country(self, mock_dataRequest):
         """
         If country=None, URL should be:
-        https://api.tradingeconomics.com/comtrade/countries?c=guest:guest
+        https://api.tradingeconomics.com/comtrade/countries
         """
         mock_dataRequest.return_value = {"ok": True}
 
         result = getCmtCountry(country=None)
 
         expected_url = (
-            "https://api.tradingeconomics.com/comtrade/countries?c=guest:guest"
+            "https://api.tradingeconomics.com/comtrade/countries"
         )
 
         mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -42,7 +42,7 @@ class TestGetCmtCountry(unittest.TestCase):
         result = getCmtCountry(country="portugal")
 
         expected_url = (
-            "https://api.tradingeconomics.com/comtrade/country/portugal?c=guest:guest"
+            "https://api.tradingeconomics.com/comtrade/country/portugal"
         )
 
         mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -60,7 +60,7 @@ class TestGetCmtCountry(unittest.TestCase):
         result = getCmtCountry(country=["portugal", "spain"])
 
         expected_url = (
-            "https://api.tradingeconomics.com/comtrade/country/portugal/spain?c=guest:guest"
+            "https://api.tradingeconomics.com/comtrade/country/portugal/spain"
         )
 
         mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -70,14 +70,14 @@ class TestGetCmtCountry(unittest.TestCase):
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_country_with_page(self, mock_dataRequest):
         """
-        Page number should be appended as /<page> before ?c=apikey
+        Page number should be appended as /<page> at the end
         """
         mock_dataRequest.return_value = {"ok": True}
 
         result = getCmtCountry(country="china", page_number=3)
 
         expected_url = (
-            "https://api.tradingeconomics.com/comtrade/country/china/3?c=guest:guest"
+            "https://api.tradingeconomics.com/comtrade/country/china/3"
         )
 
         mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)

@@ -13,7 +13,7 @@ class TestSymbols(unittest.TestCase):
         # Provide a symbol and ensure URL is built correctly
         result = getEarnings(symbols="msft:us")
 
-        expected_url = "https://api.tradingeconomics.com/earnings-revenues/symbol/msft:us?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/earnings-revenues/symbol/msft:us"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"symbol": "ok"})

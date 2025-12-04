@@ -13,7 +13,7 @@ class TestPrecedence(unittest.TestCase):
         # Symbols must override all other filters
         result = getEarnings(symbols="msft:us", country="united states", index="sp500", sector="technology")
 
-        expected_url = "https://api.tradingeconomics.com/earnings-revenues/symbol/msft:us?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/earnings-revenues/symbol/msft:us"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"precedence": "ok"})

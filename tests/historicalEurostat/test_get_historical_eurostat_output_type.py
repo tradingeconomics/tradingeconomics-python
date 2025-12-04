@@ -16,7 +16,7 @@ class TestGetHistoricalEurostatOutputType(unittest.TestCase):
         result = getHistoricalEurostat(ID="24804", output_type="df")
 
         expected_url = (
-            "https://api.tradingeconomics.com/eurostat/historical/24804?c=TESTKEY"
+            "https://api.tradingeconomics.com/eurostat/historical/24804"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
@@ -32,7 +32,7 @@ class TestGetHistoricalEurostatOutputType(unittest.TestCase):
         result = getHistoricalEurostat(ID="24804", output_type="raw")
 
         expected_url = (
-            "https://api.tradingeconomics.com/eurostat/historical/24804?c=TESTKEY"
+            "https://api.tradingeconomics.com/eurostat/historical/24804"
         )
 
         mock_request.assert_called_once_with(

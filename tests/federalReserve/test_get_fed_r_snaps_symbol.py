@@ -14,7 +14,7 @@ class TestGetFedRSnapsSymbol(unittest.TestCase):
         # Get snapshot by single symbol
         result = getFedRSnaps(symbol="ALLMARGATTN")
 
-        expected_url = "https://api.tradingeconomics.com/fred/snapshot/symbol/ALLMARGATTN?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/fred/snapshot/symbol/ALLMARGATTN"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"symbol": "ok"})
@@ -28,7 +28,7 @@ class TestGetFedRSnapsSymbol(unittest.TestCase):
         # Get snapshots by multiple symbols
         result = getFedRSnaps(symbol=["SYMBOL1", "SYMBOL2"])
 
-        expected_url = "https://api.tradingeconomics.com/fred/snapshot/symbol/SYMBOL1%2FSYMBOL2?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/fred/snapshot/symbol/SYMBOL1%2FSYMBOL2"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"symbol": "multiple"})
@@ -42,7 +42,7 @@ class TestGetFedRSnapsSymbol(unittest.TestCase):
         # Get snapshot with pagination
         result = getFedRSnaps(symbol="ALLMARGATTN", page_number=2)
 
-        expected_url = "https://api.tradingeconomics.com/fred/snapshot/symbol/ALLMARGATTN/2?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/fred/snapshot/symbol/ALLMARGATTN/2"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"symbol": "page"})

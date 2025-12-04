@@ -49,11 +49,6 @@ def getDividends(
     if symbols and fn.stringOrList(symbols):
         linkAPI += "/symbol/" + fn.stringOrList(symbols)
 
-    try:
-        linkAPI += "?c=" + glob.apikey
-    except AttributeError:
-        raise LoginError("You need to do login before making any request")
-
     linkAPI = fn.checkDates(linkAPI, startDate, endDate)
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)

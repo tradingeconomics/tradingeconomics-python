@@ -135,10 +135,6 @@ def getFedRStates(county=None, output_type=None):
     if name == None and county == None:
         linkAPI = "https://api.tradingeconomics.com/fred/states"
 
-    try:
-        linkAPI += "?c=" + glob.apikey
-    except AttributeError:
-        raise LoginError("You need to do login before making any request")
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
@@ -213,9 +209,7 @@ def getFedRSnaps(
     elif url != None:
         linkAPI = (
             "https://api.tradingeconomics.com/fred/snapshot/url/"
-            + "?c="
-            + glob.apikey
-            + "&url="
+            + "?url="
             + quote(str(url))
         )
         return fn.dataRequest(api_request=linkAPI, output_type=output_type)
@@ -229,9 +223,7 @@ def getFedRSnaps(
         return "A parameter must be provided!"
 
     if page_number != None:
-        linkAPI = checkFedRPage(linkAPI, page_number) + "?c=" + glob.apikey
-    else:
-        linkAPI += "?c=" + glob.apikey
+        linkAPI = checkFedRPage(linkAPI, page_number)
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -269,11 +261,6 @@ def getFedRCountyOld(state=None, county=None, output_type=None):
     linkAPI = (
         "https://api.tradingeconomics.com/fred/snapshot/county/Pike%20County,%20AR"
     )
-
-    try:
-        linkAPI += "?c=" + glob.apikey
-    except AttributeError:
-        raise LoginError("You need to do login before making any request")
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -317,7 +304,6 @@ def getFedRCounty(state=None, county=None, output_type=None):
         "url_base": "https://api.tradingeconomics.com/fred/snapshot/county/",
         "state": "",
         "county": "",
-        "key": f"?c={glob.apikey}",
         "output_type": "",
     }
 
@@ -326,7 +312,7 @@ def getFedRCounty(state=None, county=None, output_type=None):
     if county:
         d["county"] = quote(county)
 
-    api_url_request = "%s%s%s%s" % (d["url_base"], d["state"], d["county"], d["key"])
+    api_url_request = "%s%s%s" % (d["url_base"], d["state"], d["county"])
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
 
@@ -373,14 +359,13 @@ def getFedRHistorical(symbol=None, initDate=None, endDate=None, output_type=None
         "symbol": "",
         "initDate": "",
         "endDate": "",
-        "key": f"?c={glob.apikey}",
         "output_type": "",
     }
 
     initDateFormat = ""
     if initDate:
         initDateFormat = fn.validate(initDate)
-        d["initDate"] = f"&d1={quote(initDate)}"
+        d["initDate"] = f"?d1={quote(initDate)}"
 
     endDateFormat = ""
     if endDate:
@@ -393,10 +378,9 @@ def getFedRHistorical(symbol=None, initDate=None, endDate=None, output_type=None
     if symbol:
         d["symbol"] = f"/{fn.stringOrList(symbol)}"
 
-    api_url_request = "%s%s%s%s%s" % (
+    api_url_request = "%s%s%s%s" % (
         d["url_base"],
         d["symbol"],
-        d["key"],
         d["initDate"],
         d["endDate"],
     )

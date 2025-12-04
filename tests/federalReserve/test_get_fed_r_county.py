@@ -15,7 +15,7 @@ class TestGetFedRCounty(unittest.TestCase):
         result = getFedRCounty(state="nevada")
 
         expected_url = (
-            "https://api.tradingeconomics.com/fred/snapshot/county/nevada?c=TESTKEY"
+            "https://api.tradingeconomics.com/fred/snapshot/county/nevada"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -29,7 +29,7 @@ class TestGetFedRCounty(unittest.TestCase):
         # Get specific county data
         result = getFedRCounty(county="Pike County, AR")
 
-        expected_url = "https://api.tradingeconomics.com/fred/snapshot/county/Pike%20County%2C%20AR?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/fred/snapshot/county/Pike%20County%2C%20AR"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"county": "ok"})
@@ -42,7 +42,7 @@ class TestGetFedRCounty(unittest.TestCase):
         # Get county data with both state and county parameters
         result = getFedRCounty(state="arkansas", county="Pike County")
 
-        expected_url = "https://api.tradingeconomics.com/fred/snapshot/county/arkansasPike%20County?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/fred/snapshot/county/arkansasPike%20County"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"both": "ok"})
@@ -56,7 +56,7 @@ class TestGetFedRCounty(unittest.TestCase):
         # Test with output_type parameter
         result = getFedRCounty(county="Pike County, AR", output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/fred/snapshot/county/Pike%20County%2C%20AR?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/fred/snapshot/county/Pike%20County%2C%20AR"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"county": "Pike County"}])

@@ -13,7 +13,7 @@ class TestGetIpoCountry(unittest.TestCase):
         result = getIpo(country="United States")
 
         expected_url = (
-            "https://api.tradingeconomics.com/ipo/country/United%20States?c=TESTKEY"
+            "https://api.tradingeconomics.com/ipo/country/United%20States"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -25,7 +25,7 @@ class TestGetIpoCountry(unittest.TestCase):
         # Get IPO data for multiple countries
         result = getIpo(country=["United States", "Hong Kong"])
 
-        expected_url = "https://api.tradingeconomics.com/ipo/country/United%20States,Hong%20Kong?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/ipo/country/United%20States,Hong%20Kong"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ipo": "countries"})

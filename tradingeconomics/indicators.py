@@ -124,14 +124,6 @@ def getIndicatorData(country=None, indicators=None, calendar=None, output_type=N
         if country:
             linkAPI += "&country=" + quote(country)
 
-    try:
-        if "?" in linkAPI:
-            linkAPI += "&c=" + glob.apikey
-        else:
-            linkAPI += "?c=" + glob.apikey
-    except AttributeError:
-        raise LoginError("You need to do login before making any request")
-
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
@@ -166,11 +158,6 @@ def getRatings(country=None, rating=None, output_type="df"):
         linkAPI = "https://api.tradingeconomics.com/ratings"
     else:
         linkAPI = checkCountryRatings(country)
-
-    try:
-        linkAPI += "?c=" + glob.apikey
-    except AttributeError:
-        raise LoginError("You need to do login before making any request")
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -208,13 +195,6 @@ def getCreditRatingsUpdates(output_type=None):
     # Base endpoint for credit rating updates
     linkAPI = "https://api.tradingeconomics.com/credit-ratings/updates"
 
-    # Append credentials, following the same pattern as other methods
-    try:
-        linkAPI += "?c=" + glob.apikey
-    except AttributeError:
-        # Keep LoginError consistent with the rest of the module
-        raise LoginError("You need to do login before making any request")
-
     # Delegate HTTP call + parsing to the common helper
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -248,18 +228,16 @@ def getDiscontinuedIndicator(country=None, output_type=None):
         "url_base": "https://api.tradingeconomics.com/country",
         "country": "/all",
         "discontinued_tag": "/discontinued",
-        "key": f"?c={glob.apikey}",
         "output_type": "",
     }
 
     if country:
         d["country"] = f"/{fn.stringOrList(country)}"
 
-    api_url_request = "%s%s%s%s" % (
+    api_url_request = "%s%s%s" % (
         d["url_base"],
         d["country"],
         d["discontinued_tag"],
-        d["key"],
     )
 
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
@@ -298,18 +276,16 @@ def getIndicatorByCategoryGroup(country=None, category_group=None, output_type=N
         "url_base": "https://api.tradingeconomics.com/country",
         "country": "",
         "category_group": "",
-        "key": f"?c={glob.apikey}",
         "output_type": "",
     }
 
     if country and category_group:
 
         d["country"] = f"/{fn.stringOrList(country)}"
-        d["category_group"] = f"&group={fn.stringOrList(category_group)}"
-        api_url_request = "%s%s%s%s" % (
+        d["category_group"] = f"?group={fn.stringOrList(category_group)}"
+        api_url_request = "%s%s%s" % (
             d["url_base"],
             d["country"],
-            d["key"],
             d["category_group"],
         )
         # print(api_url_request)
@@ -346,13 +322,12 @@ def getIndicatorByTicker(ticker=None, output_type=None):
         "url_base": "https://api.tradingeconomics.com/country",
         "country": "/country",
         "ticker": "",
-        "key": f"?c={glob.apikey}",
         "output_type": "",
     }
 
     if ticker:
         d["ticker"] = f"/ticker/{fn.stringOrList(ticker)}"
-        api_url_request = "%s%s%s" % (d["url_base"], d["ticker"], d["key"])
+        api_url_request = "%s%s" % (d["url_base"], d["ticker"])
 
         return fn.dataRequest(api_request=api_url_request, output_type=output_type)
         # return
@@ -398,7 +373,6 @@ def getLatestUpdates(country=None, init_date=None, time=None, output_type=None):
         "ticker": "",
         "time": "",
         "init_date": "",
-        "key": f"?c={glob.apikey}",
         "output_type": "",
     }
     if init_date:
@@ -412,20 +386,17 @@ def getLatestUpdates(country=None, init_date=None, time=None, output_type=None):
         if time:
             try:
                 fn.timeValidate(time)
-                d["time"] = f"&time={time}"
+                d["time"] = f"?time={time}"
             except ValueError:
                 raise DateError("Incorrect time format, should be HH:MM.")
 
     if country:
         d["country"] = f"/country/{fn.stringOrList(country)}"
 
-    api_url_request = "%s%s%s%s%s" % (
-        d["url_base"],
-        d["country"],
-        d["init_date"],
-        d["key"],
-        d["time"],
-    )
+    # Build URL with proper query string
+    api_url_request = f"{d['url_base']}{d['country']}{d['init_date']}"
+    if d["time"]:
+        api_url_request += d["time"]
 
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
@@ -457,7 +428,6 @@ def getPeers(country=None, category=None, ticker=None, output_type=None):
         "country": "",
         "ticker": "",
         "category": "",
-        "key": f"?c={glob.apikey}",
         "output_type": "",
     }
 
@@ -470,12 +440,11 @@ def getPeers(country=None, category=None, ticker=None, output_type=None):
     if ticker:
         d["ticker"] = ticker.replace(" ", "%20")
 
-    api_url_request = "%s%s%s%s%s" % (
+    api_url_request = "%s%s%s%s" % (
         d["url_base"],
         d["ticker"],
         d["country"],
         d["category"],
-        d["key"],
     )
 
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
@@ -501,11 +470,6 @@ def getAllCountries(output_type=None):
         ssl._create_default_https_context = _create_unverified_https_context
 
     linkAPI = "https://api.tradingeconomics.com/country/"
-
-    try:
-        linkAPI += "?c=" + glob.apikey
-    except AttributeError:
-        raise LoginError("You need to do login before making any request")
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -539,10 +503,5 @@ def getIndicatorChanges(start_date=None, output_type=None):
     if start_date:
         fn.checkDates(linkAPI, start_date)
         linkAPI += f"/{start_date}"
-
-    try:
-        linkAPI += "?c=" + glob.apikey
-    except AttributeError:
-        raise LoginError("You need to do login before making any request")
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)

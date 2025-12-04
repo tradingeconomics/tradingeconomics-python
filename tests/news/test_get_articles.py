@@ -12,7 +12,7 @@ class TestGetArticlesBasic(unittest.TestCase):
         # Get all articles
         result = getArticles()
 
-        expected_url = "https://api.tradingeconomics.com/articles/?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/articles/"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"articles": "all"})
@@ -23,7 +23,7 @@ class TestGetArticlesBasic(unittest.TestCase):
         # Get articles by country
         result = getArticles(country="United States")
 
-        expected_url = "https://api.tradingeconomics.com/articles/country/United%20States?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/articles/country/United%20States"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"articles": "country"})
@@ -36,7 +36,7 @@ class TestGetArticlesBasic(unittest.TestCase):
         # Get articles by multiple countries
         result = getArticles(country=["United States", "Portugal"])
 
-        expected_url = "https://api.tradingeconomics.com/articles/country/United%20States,Portugal?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/articles/country/United%20States,Portugal"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"articles": "countries"})
@@ -49,7 +49,7 @@ class TestGetArticlesBasic(unittest.TestCase):
         # Get articles by indicator
         result = getArticles(indicator="inflation rate")
 
-        expected_url = "https://api.tradingeconomics.com/articles/indicator//inflation%20rate?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/articles/indicator//inflation%20rate"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"articles": "indicator"})
@@ -66,7 +66,7 @@ class TestGetArticlesBasic(unittest.TestCase):
             indicator=["Imports", "Interest rate"],
         )
 
-        expected_url = "https://api.tradingeconomics.com/articles/country/United%20States,Portugal/Imports,Interest%20rate?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/articles/country/United%20States,Portugal/Imports,Interest%20rate"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"articles": "country_indicator"})

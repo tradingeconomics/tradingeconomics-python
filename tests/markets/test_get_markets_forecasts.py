@@ -16,7 +16,7 @@ class TestGetMarketsForecasts(unittest.TestCase):
         result = getMarketsForecasts(category="bond")
 
         expected_url = (
-            "http://api.tradingeconomics.com/markets/forecasts/bond?c=TESTKEY"
+            "http://api.tradingeconomics.com/markets/forecasts/bond"
         )
 
         mock_request.assert_called_once_with(expected_url, None)
@@ -30,7 +30,7 @@ class TestGetMarketsForecasts(unittest.TestCase):
         # Get markets forecasts by symbol
         result = getMarketsForecasts(symbol="indu:ind")
 
-        expected_url = "http://api.tradingeconomics.com/markets/forecasts/symbol/indu%3Aind?c=TESTKEY"
+        expected_url = "http://api.tradingeconomics.com/markets/forecasts/symbol/indu%3Aind"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"forecasts": "symbol"})
@@ -43,7 +43,7 @@ class TestGetMarketsForecasts(unittest.TestCase):
         # Get markets forecasts by multiple symbols
         result = getMarketsForecasts(symbol=["psi20:ind", "indu:ind"], output_type="df")
 
-        expected_url = "http://api.tradingeconomics.com/markets/forecasts/symbol/psi20%3Aind%2Cindu%3Aind?c=TESTKEY"
+        expected_url = "http://api.tradingeconomics.com/markets/forecasts/symbol/psi20%3Aind%2Cindu%3Aind"
 
         mock_request.assert_called_once_with(expected_url, "df")
         self.assertEqual(result, {"forecasts": "symbols"})

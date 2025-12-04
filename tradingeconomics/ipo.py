@@ -60,11 +60,6 @@ def getIpo(
     elif country and fn.stringOrList(country):
         linkAPI += "/country/" + fn.stringOrList(country)
 
-    if not hasattr(glob, "apikey") or not glob.apikey:
-        raise LoginError("You need to do login before making any request")
-
-    linkAPI += "?c=" + glob.apikey
-
     linkAPI = fn.checkDates(linkAPI, startDate, endDate)
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)

@@ -13,7 +13,7 @@ class TestCountry(unittest.TestCase):
         # Provide a country filter and ensure URL is built correctly
         result = getEarnings(country="united states")
 
-        expected_url = "https://api.tradingeconomics.com/earnings-revenues/country/united%20states?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/earnings-revenues/country/united%20states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "ok"})

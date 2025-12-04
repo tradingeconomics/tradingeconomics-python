@@ -14,7 +14,7 @@ class TestGetSearchTerm(unittest.TestCase):
         # Get search by single term
         result = getSearch(term="gold")
 
-        expected_url = "https://api.tradingeconomics.com/search/gold?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/search/gold"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"search": "single_term"})
@@ -28,7 +28,7 @@ class TestGetSearchTerm(unittest.TestCase):
         # Get search by multiple terms
         result = getSearch(term=["gold", "silver"])
 
-        expected_url = "https://api.tradingeconomics.com/search/gold,silver?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/search/gold,silver"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"search": "multiple_terms"})
@@ -43,7 +43,7 @@ class TestGetSearchTerm(unittest.TestCase):
         result = getSearch(term="united states")
 
         expected_url = (
-            "https://api.tradingeconomics.com/search/united%20states?c=TESTKEY"
+            "https://api.tradingeconomics.com/search/united%20states"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)

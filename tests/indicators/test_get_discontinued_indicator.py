@@ -16,7 +16,7 @@ class TestGetDiscontinuedIndicator(unittest.TestCase):
         result = getDiscontinuedIndicator()
 
         expected_url = (
-            "https://api.tradingeconomics.com/country/all/discontinued?c=TESTKEY"
+            "https://api.tradingeconomics.com/country/all/discontinued"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -32,7 +32,7 @@ class TestGetDiscontinuedIndicator(unittest.TestCase):
         result = getDiscontinuedIndicator(country="china")
 
         expected_url = (
-            "https://api.tradingeconomics.com/country/china/discontinued?c=TESTKEY"
+            "https://api.tradingeconomics.com/country/china/discontinued"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -47,7 +47,7 @@ class TestGetDiscontinuedIndicator(unittest.TestCase):
         # Get discontinued indicators by multiple countries
         result = getDiscontinuedIndicator(country=["united states", "china"])
 
-        expected_url = "https://api.tradingeconomics.com/country/united%20states,china/discontinued?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/country/united%20states,china/discontinued"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"discontinued": "countries"})
@@ -62,7 +62,7 @@ class TestGetDiscontinuedIndicator(unittest.TestCase):
         result = getDiscontinuedIndicator(country="china", output_type="df")
 
         expected_url = (
-            "https://api.tradingeconomics.com/country/china/discontinued?c=TESTKEY"
+            "https://api.tradingeconomics.com/country/china/discontinued"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")

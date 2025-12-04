@@ -12,7 +12,7 @@ class TestGetArticleId(unittest.TestCase):
         # Get article by id
         result = getArticleId(id="20580")
 
-        expected_url = "https://api.tradingeconomics.com/articles/id//20580?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/articles/id//20580"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"article": "ok"})
@@ -23,7 +23,7 @@ class TestGetArticleId(unittest.TestCase):
         # Get article by id with output type
         result = getArticleId(id="20580", output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/articles/id//20580?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/articles/id//20580"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, {"article": "df"})

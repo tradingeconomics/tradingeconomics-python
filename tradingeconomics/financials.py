@@ -34,7 +34,7 @@ class WebRequestError(ValueError):
     pass
 
 
-def getFinancialsData(symbol = None, country = None, output_type=None):
+def getFinancialsData(symbol=None, country=None, output_type=None):
     """
     Returns financial data and stocks fundamental information.
     ==========================================================
@@ -57,42 +57,34 @@ def getFinancialsData(symbol = None, country = None, output_type=None):
             getFinancialsData()
     To get companies financial data by symbol:
             getFinancialsData(symbol='aapl:us', output_type='df')
-            
+
             or
-            
+
             getFinancialsData(symbol=['aapl:us','msft:us'], output_type='df')
     To get companies by country:
             getFinancialsData(country='united states', output_type='df')
-            
+
             getFinancialsData(country=['united states', 'china'], output_type='df')
     """
 
-    try:
-        # d is a dictionary used for create the api url
-        d = {
-            'url_base': 'https://api.tradingeconomics.com/financials',
-            'symbol': '',
-            'country': '/companies',
-            'key': f'?c={glob.apikey}',
-            'output_type' : ''
-        }
-    except AttributeError:
-        return "You are not logged in. Run te.login('guest:guest') to login"
+    # d is a dictionary used for create the api url
+    d = {
+        "url_base": "https://api.tradingeconomics.com/financials",
+        "symbol": "",
+        "country": "/companies",
+        "output_type": "",
+    }
 
     if country and symbol:
-        return 'Cannot pass country and symbol arguments at the same time.'
+        return "Cannot pass country and symbol arguments at the same time."
 
     if country:
-        #the 'key' value has to be changed due to url enpoint use of '?' or '&' characters. 
-        d['key']=f'&c={glob.apikey}'
-        d['country'] = f'/companies?country={fn.stringOrList(country)}'
+        d["country"] = f"/companies?country={fn.stringOrList(country)}"
     elif symbol:
-        d['key']=f'&c={glob.apikey}'
-        d['country'] = ''
-        d['symbol'] = f'/symbol/{fn.stringOrList(symbol)}?'
+        d["country"] = ""
+        d["symbol"] = f"/symbol/{fn.stringOrList(symbol)}"
 
-    
-    api_url_request = "%s%s%s%s" % (d['url_base'], d['symbol'],d['country'],  d['key']) 
+    api_url_request = "%s%s%s" % (d["url_base"], d["symbol"], d["country"])
 
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
@@ -115,24 +107,17 @@ def getFinancialsCategoryList(output_type=None):
     getFinancialsCategories(output_type='df')
     """
 
-    try:
+    d = {
+        "url_base": "https://api.tradingeconomics.com/financials/categories",
+        "output_type": "",
+    }
 
-        d = {
-            'url_base': 'https://api.tradingeconomics.com/financials/categories',
-            'key': f'?c={glob.apikey}',
-            'output_type' : ''
-        }
-    except AttributeError:
-        return "You are not logged in. Run te.login('guest:guest') to login"
-
-    api_url_request = "%s%s" % (d['url_base'], d['key'])
+    api_url_request = d["url_base"]
 
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
 
-
 def getFinancialsDataByCategory(category=None, output_type=None):
-
     """
     Returns financial data by categories.
     ==========================================================
@@ -150,31 +135,25 @@ def getFinancialsDataByCategory(category=None, output_type=None):
     -------
     Get data by financial categories:
             getFinancialsDataByCategory(category='assets', output_type='df')
-            
+
             or
-            
+
             getFinancialsDataCategory(symbol=['assets','debt'], output_type='df')
     """
 
-    try:
-        # d is a dictionary used for create the api url
-        d = {
-            'url_base': 'https://api.tradingeconomics.com/financials/category',
-            'symbol': f'/{category}',
-            'key': f'?c={glob.apikey}',
-            'output_type' : ''
-        }
-    except AttributeError:
-        return "You are not logged in. Run te.login('guest:guest') to login"
-    
+    # d is a dictionary used for create the api url
+    d = {
+        "url_base": "https://api.tradingeconomics.com/financials/category",
+        "symbol": f"/{category}",
+        "output_type": "",
+    }
+
     if category:
-        #the 'key' value has to be changed due to url enpoint use of '?' or '&' characters. 
-        d['category'] = f'/{category}'
+        d["category"] = f"/{category}"
     else:
-        return 'No category supplied'
+        return "No category supplied"
 
-
-    api_url_request = "%s%s%s" % (d['url_base'], d['category'], d['key'])
+    api_url_request = "%s%s" % (d["url_base"], d["category"])
 
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
@@ -189,8 +168,8 @@ def getSectors(output_type=None):
 
     output_type: string.
              'dict'(default) for dictionary format output, 'df' for data frame,
-             'raw' for list of dictionaries directly from the web. 
-    
+             'raw' for list of dictionaries directly from the web.
+
     Example
     -------
     Get data by financial categories:
@@ -198,15 +177,10 @@ def getSectors(output_type=None):
 
     """
 
-    linkAPI = 'https://api.tradingeconomics.com/sectors/'
+    linkAPI = "https://api.tradingeconomics.com/sectors/"
 
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
-        
     linkAPI = fn.checkDates(linkAPI)
-    
+
     try:
         return fn.dataRequest(api_request=linkAPI, output_type=output_type)
     except Exception as e:

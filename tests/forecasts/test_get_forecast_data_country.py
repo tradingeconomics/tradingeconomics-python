@@ -12,7 +12,7 @@ class TestGetForecastDataCountry(unittest.TestCase):
         # Get forecast data for single country
         result = getForecastData(country="United States")
 
-        expected_url = "https://api.tradingeconomics.com/forecast/country/United%20States?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/forecast/country/United%20States"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "ok"})
@@ -26,7 +26,7 @@ class TestGetForecastDataCountry(unittest.TestCase):
         # Get forecast data for multiple countries
         result = getForecastData(country=["United States", "India"])
 
-        expected_url = "https://api.tradingeconomics.com/forecast/country/United%20States%2CIndia?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/forecast/country/United%20States%2CIndia"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "multiple"})
@@ -40,7 +40,7 @@ class TestGetForecastDataCountry(unittest.TestCase):
         # Test with output_type parameter
         result = getForecastData(country="United States", output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/forecast/country/United%20States?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/forecast/country/United%20States"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"country": "United States"}])

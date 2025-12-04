@@ -13,7 +13,7 @@ class TestGetSectors(unittest.TestCase):
         # Get all sectors
         result = getSectors()
 
-        expected_url = "https://api.tradingeconomics.com/sectors/?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/sectors/"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"sectors": "ok"})
@@ -28,7 +28,7 @@ class TestGetSectors(unittest.TestCase):
         # Test with output_type parameter
         result = getSectors(output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/sectors/?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/sectors/"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"sector": "Technology"}])

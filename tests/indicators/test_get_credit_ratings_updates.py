@@ -13,7 +13,7 @@ class TestGetCreditRatingsUpdates(unittest.TestCase):
         result = getCreditRatingsUpdates()
 
         expected_url = (
-            "https://api.tradingeconomics.com/credit-ratings/updates?c=TESTKEY"
+            "https://api.tradingeconomics.com/credit-ratings/updates"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -26,7 +26,7 @@ class TestGetCreditRatingsUpdates(unittest.TestCase):
         result = getCreditRatingsUpdates(output_type="df")
 
         expected_url = (
-            "https://api.tradingeconomics.com/credit-ratings/updates?c=TESTKEY"
+            "https://api.tradingeconomics.com/credit-ratings/updates"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")

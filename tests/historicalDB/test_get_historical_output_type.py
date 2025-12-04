@@ -15,7 +15,7 @@ class TestGetHistoricalOutputType(unittest.TestCase):
         result = getHistorical(symbol="aapl:us", output_type="df")
 
         expected_url = (
-            "https://api.tradingeconomics.com/markets/historical/aapl%3Aus?c=TESTKEY"
+            "https://api.tradingeconomics.com/markets/historical/aapl%3Aus"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")

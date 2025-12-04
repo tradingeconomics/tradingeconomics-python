@@ -16,7 +16,7 @@ class TestFetchMarketsOutputType(unittest.TestCase):
         result = fetchMarkets(symbol="indu:ind", output_type="df")
 
         expected_url = (
-            "https://api.tradingeconomics.com/markets/historical/indu%3Aind?c=TESTKEY"
+            "https://api.tradingeconomics.com/markets/historical/indu%3Aind"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
@@ -32,7 +32,7 @@ class TestFetchMarketsOutputType(unittest.TestCase):
         result = fetchMarkets(symbol="indu:ind", output_type="raw")
 
         expected_url = (
-            "https://api.tradingeconomics.com/markets/historical/indu%3Aind?c=TESTKEY"
+            "https://api.tradingeconomics.com/markets/historical/indu%3Aind"
         )
 
         mock_request.assert_called_once_with(

@@ -12,7 +12,7 @@ class TestGetIpoTicker(unittest.TestCase):
         # Get IPO data for specific ticker
         result = getIpo(ticker="SWIN")
 
-        expected_url = "https://api.tradingeconomics.com/ipo/ticker/SWIN?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/ipo/ticker/SWIN"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ipo": "ticker"})
@@ -23,7 +23,7 @@ class TestGetIpoTicker(unittest.TestCase):
         # Get IPO data for multiple tickers
         result = getIpo(ticker=["SWIN", "AAPL"])
 
-        expected_url = "https://api.tradingeconomics.com/ipo/ticker/SWIN,AAPL?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/ipo/ticker/SWIN,AAPL"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ipo": "tickers"})

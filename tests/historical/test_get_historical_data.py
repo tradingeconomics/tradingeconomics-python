@@ -47,7 +47,7 @@ class TestGetHistoricalData(unittest.TestCase):
             endDate="2016-01-01",
         )
 
-        expected_url = "https://api.tradingeconomics.com/historical/country/United%20States/indicator/Imports/2011-01-01/2016-01-01?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/historical/country/United%20States/indicator/Imports/2011-01-01/2016-01-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"historical": "with_dates"})
@@ -70,7 +70,7 @@ class TestGetHistoricalData(unittest.TestCase):
             country="United States", indicator="GDP", initDate="2020-01-01"
         )
 
-        expected_url = "https://api.tradingeconomics.com/historical/country/United%20States/indicator/GDP/2020-01-01?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/historical/country/United%20States/indicator/GDP/2020-01-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"historical": "init_only"})

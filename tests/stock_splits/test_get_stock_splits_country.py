@@ -20,11 +20,11 @@ class TestGetStockSplitsCountry(unittest.TestCase):
         result = getStockSplits(country="United States")
 
         expected_url = (
-            "https://api.tradingeconomics.com/splits/country/United%20States?c=TESTKEY"
+            "https://api.tradingeconomics.com/splits/country/United%20States"
         )
 
         mock_check_dates.assert_called_once_with(
-            "https://api.tradingeconomics.com/splits/country/United%20States?c=TESTKEY",
+            "https://api.tradingeconomics.com/splits/country/United%20States",
             None,
             None,
         )
@@ -44,10 +44,10 @@ class TestGetStockSplitsCountry(unittest.TestCase):
         # Get stock splits by multiple countries
         result = getStockSplits(country=["United States", "Canada"])
 
-        expected_url = "https://api.tradingeconomics.com/splits/country/United%20States,Canada?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/splits/country/United%20States,Canada"
 
         mock_check_dates.assert_called_once_with(
-            "https://api.tradingeconomics.com/splits/country/United%20States,Canada?c=TESTKEY",
+            "https://api.tradingeconomics.com/splits/country/United%20States,Canada",
             None,
             None,
         )

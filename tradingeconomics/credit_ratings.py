@@ -38,11 +38,6 @@ def getCreditRatings(country: List[str] = None, output_type: str = None):
     if country != None:
         linkAPI = linkAPI + f"/country/{fn.stringOrList(country)}"
 
-    if not glob.apikey:
-        raise LoginError("You need to do login before making any request")
-
-    linkAPI += "?c=" + glob.apikey
-
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
@@ -85,11 +80,6 @@ def getHistoricalCreditRatings(
 
     if country != None:
         linkAPI = linkAPI + f"/country/{fn.stringOrList(country)}"
-
-    if not glob.apikey:
-        raise LoginError("You need to do login before making any request")
-
-    linkAPI += "?c=" + glob.apikey
 
     linkAPI = fn.checkDates(linkAPI, initDate, endDate)
 

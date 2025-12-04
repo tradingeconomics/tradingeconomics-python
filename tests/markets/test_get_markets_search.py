@@ -14,7 +14,7 @@ class TestGetMarketsSearch(unittest.TestCase):
         # Search markets by country
         result = getMarketsSearch(country="japan")
 
-        expected_url = "https://api.tradingeconomics.com/markets/search/japan?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/markets/search/japan"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"search": "country"})
@@ -27,7 +27,7 @@ class TestGetMarketsSearch(unittest.TestCase):
         # Search markets by country and category
         result = getMarketsSearch(country="japan", category="index")
 
-        expected_url = "https://api.tradingeconomics.com/markets/search/japan?category=index&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/markets/search/japan?category=index"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"search": "category"})
@@ -40,7 +40,7 @@ class TestGetMarketsSearch(unittest.TestCase):
         # Search markets by country and multiple categories
         result = getMarketsSearch(country="japan", category=["index", "markets"])
 
-        expected_url = "https://api.tradingeconomics.com/markets/search/japan?category=index%2Cmarkets&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/markets/search/japan?category=index%2Cmarkets"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"search": "categories"})
@@ -51,7 +51,7 @@ class TestGetMarketsSearch(unittest.TestCase):
         # Search markets with page parameter
         result = getMarketsSearch(country="japan", category="index", page=2)
 
-        expected_url = "https://api.tradingeconomics.com/markets/search/japan?category=index&page=2&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/markets/search/japan?category=index&page=2"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"search": "page"})
@@ -65,7 +65,7 @@ class TestGetMarketsSearch(unittest.TestCase):
         result = getMarketsSearch(country=["japan", "china"])
 
         expected_url = (
-            "https://api.tradingeconomics.com/markets/search/japan%2Cchina?c=TESTKEY"
+            "https://api.tradingeconomics.com/markets/search/japan%2Cchina"
         )
 
         mock_request.assert_called_once_with(expected_url, None)

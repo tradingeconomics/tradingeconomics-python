@@ -13,7 +13,7 @@ class TestGetMarketsIntraday(unittest.TestCase):
         result = getMarketsIntraday(symbols="indu:ind")
 
         expected_url = (
-            "https://api.tradingeconomics.com/markets/intraday/indu%3Aind?c=TESTKEY"
+            "https://api.tradingeconomics.com/markets/intraday/indu%3Aind"
         )
 
         mock_request.assert_called_once_with(expected_url, None)
@@ -27,7 +27,7 @@ class TestGetMarketsIntraday(unittest.TestCase):
         # Get intraday data for multiple symbols
         result = getMarketsIntraday(symbols=["aapl:us", "indu:ind"])
 
-        expected_url = "https://api.tradingeconomics.com/markets/intraday/aapl%3Aus%2Cindu%3Aind?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/markets/intraday/aapl%3Aus%2Cindu%3Aind"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"intraday": "multiple"})
@@ -42,7 +42,7 @@ class TestGetMarketsIntraday(unittest.TestCase):
         # Get intraday data with init date
         result = getMarketsIntraday(symbols="indu:ind", initDate="2018-03-13")
 
-        expected_url = "https://api.tradingeconomics.com/markets/intraday/indu%3Aind?c=TESTKEY&d1=2018-03-13"
+        expected_url = "https://api.tradingeconomics.com/markets/intraday/indu%3Aind?d1=2018-03-13"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"intraday": "with_date"})
@@ -65,7 +65,7 @@ class TestGetMarketsIntraday(unittest.TestCase):
             output_type="raw",
         )
 
-        expected_url = "https://api.tradingeconomics.com/markets/intraday/aapl%3Aus%2Cindu%3Aind?c=TESTKEY&d1=2022-01-01&d2=2022-12-31"
+        expected_url = "https://api.tradingeconomics.com/markets/intraday/aapl%3Aus%2Cindu%3Aind?d1=2022-01-01&d2=2022-12-31"
 
         mock_request.assert_called_once_with(expected_url, "raw")
         self.assertEqual(result, {"intraday": "date_range"})

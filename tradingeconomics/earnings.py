@@ -112,11 +112,6 @@ def getEarnings(
     elif sector and fn.stringOrList(sector):
         linkAPI += "/sector/" + fn.stringOrList(sector)
 
-    # Ensure API key exists before concatenation
-    if not getattr(glob, "apikey", None):
-        raise LoginError("You need to do login before making any request")
-
-    linkAPI += "?c=" + glob.apikey
     linkAPI = fn.checkDates(linkAPI, initDate, endDate)
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
@@ -133,11 +128,5 @@ def getEarningsType(type=None, output_type=None):
     linkAPI = "https://api.tradingeconomics.com/earnings?type="
     if type:
         linkAPI += quote((type), safe="")
-
-    # Ensure API key exists before concatenation
-    if not getattr(glob, "apikey", None):
-        raise LoginError("You need to do login before making any request")
-
-    linkAPI += "&c=" + glob.apikey
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)

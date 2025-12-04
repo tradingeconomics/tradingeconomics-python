@@ -17,7 +17,7 @@ class TestGetFinancialsHistoricalOutputType(unittest.TestCase):
             symbol="aapl:us", category="assets", output_type="df"
         )
 
-        expected_url = "http://api.tradingeconomics.com/financials/historical/aapl%3Aus%3Aassets?c=TESTKEY"
+        expected_url = "http://api.tradingeconomics.com/financials/historical/aapl%3Aus%3Aassets"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"value": 100}])
@@ -33,7 +33,7 @@ class TestGetFinancialsHistoricalOutputType(unittest.TestCase):
             symbol="aapl:us", category="assets", output_type="raw"
         )
 
-        expected_url = "http://api.tradingeconomics.com/financials/historical/aapl%3Aus%3Aassets?c=TESTKEY"
+        expected_url = "http://api.tradingeconomics.com/financials/historical/aapl%3Aus%3Aassets"
 
         mock_request.assert_called_once_with(
             api_request=expected_url, output_type="raw"

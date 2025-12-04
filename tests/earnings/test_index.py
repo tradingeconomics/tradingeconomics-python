@@ -14,7 +14,7 @@ class TestIndex(unittest.TestCase):
         result = getEarnings(index="ndx:ind")
 
         expected_url = (
-            "https://api.tradingeconomics.com/earnings-revenues/index/ndx:ind?c=TESTKEY"
+            "https://api.tradingeconomics.com/earnings-revenues/index/ndx:ind"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)

@@ -16,7 +16,7 @@ class TestGetEurostatDataCategoryGroup(unittest.TestCase):
         result = getEurostatData(category_group="Poverty")
 
         expected_url = (
-            "https://api.tradingeconomics.com/eurostat?category_group=Poverty&c=TESTKEY"
+            "https://api.tradingeconomics.com/eurostat?category_group=Poverty"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -31,7 +31,7 @@ class TestGetEurostatDataCategoryGroup(unittest.TestCase):
         # Provide multiple category_groups and ensure URL is built correctly
         result = getEurostatData(category_group=["Poverty", "Education"])
 
-        expected_url = "https://api.tradingeconomics.com/eurostat?category_group=Poverty%2CEducation&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/eurostat?category_group=Poverty%2CEducation"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"category_group": "multiple"})

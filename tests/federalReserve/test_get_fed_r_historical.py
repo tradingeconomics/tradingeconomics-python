@@ -15,7 +15,9 @@ class TestGetFedRHistorical(unittest.TestCase):
         # Get historical data for single symbol
         result = getFedRHistorical(symbol="racedisparity005007")
 
-        expected_url = "https://api.tradingeconomics.com/fred/historical/racedisparity005007?c=TESTKEY"
+        expected_url = (
+            "https://api.tradingeconomics.com/fred/historical/racedisparity005007"
+        )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"historical": "ok"})
@@ -33,7 +35,7 @@ class TestGetFedRHistorical(unittest.TestCase):
         # Get historical data for multiple symbols
         result = getFedRHistorical(symbol=["racedisparity005007", "2020ratio002013"])
 
-        expected_url = "https://api.tradingeconomics.com/fred/historical/racedisparity005007%2C2020ratio002013?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/fred/historical/racedisparity005007%2C2020ratio002013"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"historical": "multiple"})
@@ -54,7 +56,7 @@ class TestGetFedRHistorical(unittest.TestCase):
         # Get historical data with start date
         result = getFedRHistorical(symbol="racedisparity005007", initDate="2018-05-01")
 
-        expected_url = "https://api.tradingeconomics.com/fred/historical/racedisparity005007?c=TESTKEY&d1=2018-05-01"
+        expected_url = "https://api.tradingeconomics.com/fred/historical/racedisparity005007?d1=2018-05-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"historical": "with_date"})
@@ -78,7 +80,7 @@ class TestGetFedRHistorical(unittest.TestCase):
             symbol="racedisparity005007", initDate="2017-05-01", endDate="2019-01-01"
         )
 
-        expected_url = "https://api.tradingeconomics.com/fred/historical/racedisparity005007?c=TESTKEY&d1=2017-05-01&d2=2019-01-01"
+        expected_url = "https://api.tradingeconomics.com/fred/historical/racedisparity005007?d1=2017-05-01&d2=2019-01-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"historical": "with_dates"})
@@ -92,7 +94,9 @@ class TestGetFedRHistorical(unittest.TestCase):
         # Test with output_type parameter
         result = getFedRHistorical(symbol="racedisparity005007", output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/fred/historical/racedisparity005007?c=TESTKEY"
+        expected_url = (
+            "https://api.tradingeconomics.com/fred/historical/racedisparity005007"
+        )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"date": "2018-05-01"}])

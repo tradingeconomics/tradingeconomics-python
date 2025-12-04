@@ -15,7 +15,7 @@ class TestGetFinancialsDataCountry(unittest.TestCase):
         # Get financials data for single country
         result = getFinancialsData(country="united states")
 
-        expected_url = "https://api.tradingeconomics.com/financials/companies?country=united%20states&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/financials/companies?country=united%20states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "ok"})
@@ -33,7 +33,7 @@ class TestGetFinancialsDataCountry(unittest.TestCase):
         # Get financials data for multiple countries
         result = getFinancialsData(country=["united states", "china"])
 
-        expected_url = "https://api.tradingeconomics.com/financials/companies?country=united%20states%2Cchina&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/financials/companies?country=united%20states%2Cchina"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "multiple"})
@@ -52,7 +52,7 @@ class TestGetFinancialsDataCountry(unittest.TestCase):
         # Test with output_type parameter
         result = getFinancialsData(country="united states", output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/financials/companies?country=united%20states&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/financials/companies?country=united%20states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"country": "United States"}])

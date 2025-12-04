@@ -13,7 +13,7 @@ class TestGetEurostatDataSymbol(unittest.TestCase):
         result = getEurostatData(symbol="51640")
 
         expected_url = (
-            "https://api.tradingeconomics.com/eurostat/symbol/51640?c=TESTKEY"
+            "https://api.tradingeconomics.com/eurostat/symbol/51640"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -28,7 +28,7 @@ class TestGetEurostatDataSymbol(unittest.TestCase):
         result = getEurostatData(symbol=["51640", "51641"])
 
         expected_url = (
-            "https://api.tradingeconomics.com/eurostat/symbol/51640%2C51641?c=TESTKEY"
+            "https://api.tradingeconomics.com/eurostat/symbol/51640%2C51641"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)

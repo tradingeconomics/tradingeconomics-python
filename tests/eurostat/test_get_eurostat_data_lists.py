@@ -14,7 +14,7 @@ class TestGetEurostatDataLists(unittest.TestCase):
         # Request categories list
         result = getEurostatData(lists="categories")
 
-        expected_url = "https://api.tradingeconomics.com/eurostat/categories?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/eurostat/categories"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"lists": "categories"})
@@ -27,7 +27,7 @@ class TestGetEurostatDataLists(unittest.TestCase):
         # Request countries list
         result = getEurostatData(lists="countries")
 
-        expected_url = "https://api.tradingeconomics.com/eurostat/countries?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/eurostat/countries"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"lists": "countries"})

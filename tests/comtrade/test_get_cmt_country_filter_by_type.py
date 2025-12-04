@@ -31,7 +31,7 @@ class TestGetCmtCountryFilterByType(unittest.TestCase):
         result = getCmtCountryFilterByType(country1="Portugal", country2=None, type="import")
     
         expected_url = (
-            "https://api.tradingeconomics.com/comtrade/country/Portugal?c=TESTKEY&type=import"
+            "https://api.tradingeconomics.com/comtrade/country/Portugal?type=import"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -44,7 +44,7 @@ class TestGetCmtCountryFilterByType(unittest.TestCase):
         result = getCmtCountryFilterByType(country1="Portugal", country2="Spain", type="export")
 
         expected_url = (
-            "https://api.tradingeconomics.com/comtrade/country/Portugal/Spain?c=TESTKEY&type=export"
+            "https://api.tradingeconomics.com/comtrade/country/Portugal/Spain?type=export"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)

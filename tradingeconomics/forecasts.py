@@ -1,5 +1,5 @@
-import json 
-import urllib 
+import json
+import urllib
 import pandas as pd
 from datetime import *
 import sys
@@ -9,60 +9,66 @@ import ssl
 
 PY3 = sys.version_info[0] == 3
 
-if PY3: # Python 3+
+if PY3:  # Python 3+
     from urllib.request import urlopen
     from urllib.parse import quote
-else: # Python 2.X
+else:  # Python 2.X
     from urllib import urlopen
     from urllib import quote
-      
+
 
 class ParametersError(ValueError):
     pass
 
+
 class CredentialsError(ValueError):
     pass
 
+
 class LoginError(AttributeError):
     pass
-  
+
+
 class WebRequestError(ValueError):
     pass
-  
+
+
 def checkCountry(country):
-    linkAPI = 'https://api.tradingeconomics.com/forecast/country/'       
+    linkAPI = "https://api.tradingeconomics.com/forecast/country/"
     if type(country) is str:
-        linkAPI += quote(country, safe='')
+        linkAPI += quote(country, safe="")
     else:
-        #multiCountry = ",".join(country)
-        linkAPI += quote(",".join(country), safe='')
-    return linkAPI
-        
-def checkIndic(indicator):
-    linkAPI = 'https://api.tradingeconomics.com/forecast/indicator/'        
-    if type(indicator) is str:
-        linkAPI += quote(indicator, safe='')
-    else:
-        #multiIndic = ",".join(indicator)
-        linkAPI += quote(",".join(indicator), safe='')
+        # multiCountry = ",".join(country)
+        linkAPI += quote(",".join(country), safe="")
     return linkAPI
 
+
+def checkIndic(indicator):
+    linkAPI = "https://api.tradingeconomics.com/forecast/indicator/"
+    if type(indicator) is str:
+        linkAPI += quote(indicator, safe="")
+    else:
+        # multiIndic = ",".join(indicator)
+        linkAPI += quote(",".join(indicator), safe="")
+    return linkAPI
+
+
 def getLink(country, indicator):
-    linkAPI = 'https://api.tradingeconomics.com/forecast/country/'
+    linkAPI = "https://api.tradingeconomics.com/forecast/country/"
     if type(country) is str:
         linkAPI += quote(country)
     else:
-        #multiCountry = ",".join(country)
-        linkAPI += quote(",".join(country), safe='') 
+        # multiCountry = ",".join(country)
+        linkAPI += quote(",".join(country), safe="")
     if type(indicator) is str:
-        linkAPI += '/indicator/' + quote(indicator, safe='')
+        linkAPI += "/indicator/" + quote(indicator, safe="")
     else:
-        #multiIndic = ",".join(indicator)
-        linkAPI += '/indicator/' + quote(",".join(indicator), safe='') 
+        # multiIndic = ",".join(indicator)
+        linkAPI += "/indicator/" + quote(",".join(indicator), safe="")
     return linkAPI
 
-    
-def getForecastData(country = None, indicator = None, output_type = None):
+
+def getForecastData(country=None, indicator=None, output_type=None):
     """
      Return forecast values by country, by indicator, by country and indicator.
     ===========================================================================
@@ -74,15 +80,15 @@ def getForecastData(country = None, indicator = None, output_type = None):
              several countries. For example, country = ['United States', 'Australia'].
     indicator: string or list.
              String  to get data for one category. List of strings to get data for several calendar events.
-             For example, category = 'GDP Growth Rate' or 
+             For example, category = 'GDP Growth Rate' or
              category = ['Exports', 'Imports']
     output_type: string.
              'dict'(default) for dictionary format output, 'df' for data frame,
-             'raw' for list of dictionaries without any parsing.  
+             'raw' for list of dictionaries without any parsing.
 
     Notes
     -----
-    At least one of parameters, country or indicator, should be provided. 
+    At least one of parameters, country or indicator, should be provided.
 
     Example
     -------
@@ -98,20 +104,17 @@ def getForecastData(country = None, indicator = None, output_type = None):
         ssl._create_default_https_context = _create_unverified_https_context
 
     if country == None and indicator == None:
-        raise ValueError ('At least one of the parameters, country or indicator, needs to be supplied.')
+        raise ValueError(
+            "At least one of the parameters, country or indicator, needs to be supplied."
+        )
     elif country != None and indicator == None:
         linkAPI = checkCountry(country)
     elif country == None and indicator != None:
         linkAPI = checkIndic(indicator)
     else:
         linkAPI = getLink(country, indicator)
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
-       
 
 def getForecastByTicker(ticker=None, output_type=None):
     """
@@ -121,40 +124,37 @@ def getForecastByTicker(ticker=None, output_type=None):
     -----------
         ticker: string or list.
                 ticker = 'USURTOT'
-                ticker = ['WGDPCHIN', 'USURTOT']    
+                ticker = ['WGDPCHIN', 'USURTOT']
         output_type: string.
              'dict'(default) for dictionary format output, 'df' for data frame,
-             'raw' for list of dictionaries directly from the web. 
+             'raw' for list of dictionaries directly from the web.
     Notes
     -----
-     
-    
+
+
     Example
     -------
             getForecastByTicker(ticker = 'USURTOT', output_type = 'df')
 
             getForecastByTicker(ticker = ['WGDPCHIN', 'USURTOT'], output_type = 'df')
     """
-    
+
     # d is a dictionary used for create the api url
     d = {
-        'url_base': 'https://api.tradingeconomics.com/forecast',
-        'country': '',
-        'ticker' : '',
-        'key': f'?c={glob.apikey}',
-        'output_type' : ''
+        "url_base": "https://api.tradingeconomics.com/forecast",
+        "country": "",
+        "ticker": "",
+        "output_type": "",
     }
 
     if ticker:
-        d['ticker']=f'/ticker/{fn.stringOrList(ticker)}'
-        api_url_request = "%s%s%s" % (d['url_base'], d['ticker'],  d['key']) 
+        d["ticker"] = f"/ticker/{fn.stringOrList(ticker)}"
+        api_url_request = "%s%s" % (d["url_base"], d["ticker"])
         # print(api_url_request)
         return fn.dataRequest(api_request=api_url_request, output_type=output_type)
-        
-         
 
-    return 'Ticker is required'
-        
+    return "Ticker is required"
+
 
 def getForecastUpdates(country=None, init_date=None, output_type=None):
     """
@@ -169,11 +169,11 @@ def getForecastUpdates(country=None, init_date=None, output_type=None):
                 init_date = '2024-11-13'
         output_type: string.
              'dict'(default) for dictionary format output, 'df' for data frame,
-             'raw' for list of dictionaries directly from the web. 
+             'raw' for list of dictionaries directly from the web.
     Notes
     -----
-     
-    
+
+
     Example
     -------
             getForecastUpdates()
@@ -182,14 +182,17 @@ def getForecastUpdates(country=None, init_date=None, output_type=None):
 
             getForecastUpdates(country = 'mexico', init_date='2024-11-15', output_type = 'df')
     """
-    
-    url_base = 'https://api.tradingeconomics.com/forecast/updates'
-    api_url_request = f'{url_base}?c={glob.apikey}'
+
+    url_base = "https://api.tradingeconomics.com/forecast/updates"
+    api_url_request = url_base
 
     if country:
-        api_url_request += f'&country={fn.stringOrList(country)}'
-    if init_date:
+        api_url_request += f"?country={fn.stringOrList(country)}"
+        if init_date:
+            fn.validate(init_date)
+            api_url_request += f"&date={init_date}"
+    elif init_date:
         fn.validate(init_date)
-        api_url_request += f'&date={init_date}'
+        api_url_request += f"?date={init_date}"
 
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)

@@ -138,12 +138,4 @@ def getHistorical(symbol=None, initDate=None, endDate=None, output_type=None, *a
         else:
             linkAPI += "?d1=" + quote(initDate) + "&d2=" + quote(endDate)
 
-    try:
-        if "?" in linkAPI:
-            linkAPI += "&c=" + glob.apikey
-        else:
-            linkAPI += "?c=" + glob.apikey
-
-    except AttributeError:
-        raise LoginError("You need to do login before making any request")
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)

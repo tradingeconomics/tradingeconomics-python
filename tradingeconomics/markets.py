@@ -1,5 +1,5 @@
-import json 
-import urllib 
+import json
+import urllib
 import pandas as pd
 import sys
 from datetime import *
@@ -10,10 +10,10 @@ from dateutil.relativedelta import relativedelta
 
 PY3 = sys.version_info[0] == 3
 
-if PY3: # Python 3+
+if PY3:  # Python 3+
     from urllib.request import urlopen
     from urllib.parse import quote
-else: # Python 2.X
+else:  # Python 2.X
     from urllib import urlopen
     from urllib import quote
 
@@ -21,34 +21,40 @@ else: # Python 2.X
 class ParametersError(ValueError):
     pass
 
+
 class CredentialsError(ValueError):
     pass
+
 
 class LoginError(AttributeError):
     pass
 
+
 class DateError(ValueError):
     pass
+
 
 class WebRequestError(ValueError):
     pass
 
+
 def checkPage(linkAPI, page):
     if page != None:
-        linkAPI += '&page={0}'.format(page)
+        linkAPI += "&page={0}".format(page)
     return linkAPI
+
 
 def checkCategory(linkAPI, category):
     if type(category) is str:
-        linkAPI += '?category=' + quote (category, safe='')
+        linkAPI += "?category=" + quote(category, safe="")
     else:
-        linkAPI += '?category=' + quote(",".join(category), safe="")
+        linkAPI += "?category=" + quote(",".join(category), safe="")
     return linkAPI
-   
-   
+
+
 def getMarketsData(marketsField, type=None, output_type=None):
     """
-    Returns a list of available commodities, currencies, indexes or 
+    Returns a list of available commodities, currencies, indexes or
     bonds and their latest values.
     ==========================================================
     Parameters:
@@ -57,12 +63,12 @@ def getMarketsData(marketsField, type=None, output_type=None):
             Takes either one of 'commodity','currency',
             'index' or 'bond' as options.
 
-    type: string 
+    type: string
             Works for bonds only (2Y, 5Y, 10Y, 15Y, 20Y, 30Y)
 
     output_type: string.
              'dict'(default), 'df' for data frame,
-             'raw' for list of unparsed data. 
+             'raw' for list of unparsed data.
     Example
     -------
     getMarketsData(marketsField = 'index')
@@ -73,39 +79,38 @@ def getMarketsData(marketsField, type=None, output_type=None):
         pass
     else:
         ssl._create_default_https_context = _create_unverified_https_context
-        
-    fields =['commodities', 'currency', 'index', 'bond', 'crypto']
+
+    fields = ["commodities", "currency", "index", "bond", "crypto"]
     if marketsField not in fields:
-        raise ParametersError ('Accepted values for marketsField are \'commodities\', \'currency\', \'index\', \'crypto\' or \'bond\'.')
+        raise ParametersError(
+            "Accepted values for marketsField are 'commodities', 'currency', 'index', 'crypto' or 'bond'."
+        )
 
-    if marketsField.lower() != 'bond' and type is not None:
-        raise ParametersError ('The type parameter is only available for bonds. Accepted values are 2Y, 5Y, 10Y, 15Y, 20Y, 30Y')
-    
-    linkAPI = 'https://api.tradingeconomics.com/markets/' + quote(marketsField, safe='')
+    if marketsField.lower() != "bond" and type is not None:
+        raise ParametersError(
+            "The type parameter is only available for bonds. Accepted values are 2Y, 5Y, 10Y, 15Y, 20Y, 30Y"
+        )
 
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
-    
+    linkAPI = "https://api.tradingeconomics.com/markets/" + quote(marketsField, safe="")
+
     if type is not None:
-        linkAPI += '&type=' + quote(type, safe='')
+        linkAPI += "?type=" + quote(type, safe="")
 
     return fn.dataRequest(linkAPI, output_type)
 
 
 def getCurrencyCross(cross, output_type=None):
     """
-    Returns a list of latest values available for 
+    Returns a list of latest values available for
     currencies and the chosen cross.
     ==========================================================
     Parameters:
     -----------
     cross: string.
-            
+
     output_type: string.
              'dict'(default), 'df' for data frame,
-             'raw' for list of unparsed data. 
+             'raw' for list of unparsed data.
     Example
     -------
     getCurrencyCross(cross = 'EUR')
@@ -117,21 +122,17 @@ def getCurrencyCross(cross, output_type=None):
         pass
     else:
         ssl._create_default_https_context = _create_unverified_https_context
-        
-    
-    if cross is not None:       
-        linkAPI = 'https://api.tradingeconomics.com/markets/currency?cross=' + quote(cross, safe='') 
+
+    if cross is not None:
+        linkAPI = "https://api.tradingeconomics.com/markets/currency?cross=" + quote(
+            cross, safe=""
+        )
     else:
-        raise ParametersError ('You must provide a cross for your currency pair')
-    try:
-        linkAPI += '&c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
+        raise ParametersError("You must provide a cross for your currency pair")
 
     return fn.dataRequest(linkAPI, output_type)
 
-    
-    
+
 def getMarketsBySymbol(symbols, output_type=None):
     """
     Returns a markets information for specific symbols.
@@ -141,10 +142,10 @@ def getMarketsBySymbol(symbols, output_type=None):
     symbols: string or list.
             String to get data for symbol. List of strings to get data for
              several symbols. For example, symbols = ['aapl:us', 'indu:ind'].
-             
+
     output_type: string.
              'dict'(default), 'df' for data frame,
-             'raw' for list of unparsed data. 
+             'raw' for list of unparsed data.
     Example
     -------
     getMarketsBySymbol(symbols = 'indu:ind')
@@ -157,16 +158,15 @@ def getMarketsBySymbol(symbols, output_type=None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    if type(symbols) is not str:        
-        linkAPI = 'https://api.tradingeconomics.com/markets/symbol/' + quote(",".join(symbols), safe='') 
-    else:   
-        linkAPI = 'https://api.tradingeconomics.com/markets/symbol/' + quote(symbols, safe='')
-    
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
-    
+    if type(symbols) is not str:
+        linkAPI = "https://api.tradingeconomics.com/markets/symbol/" + quote(
+            ",".join(symbols), safe=""
+        )
+    else:
+        linkAPI = "https://api.tradingeconomics.com/markets/symbol/" + quote(
+            symbols, safe=""
+        )
+
     return fn.dataRequest(linkAPI, output_type)
 
 
@@ -179,13 +179,13 @@ def getMarketsIntraday(symbols, initDate=None, endDate=None, output_type=None):
     symbols: string or list.
             String to get data for symbol. List of strings to get data for
              several symbols. For example, symbols = ['aapl:us', 'indu:ind'].
-    
+
     initDate: string with format: YYYY-MM-DD.
-             For example: '2011-01-01' 
-    endDate: string with format: YYYY-MM-DD.    
+             For example: '2011-01-01'
+    endDate: string with format: YYYY-MM-DD.
     output_type: string.
              'dict'(default), 'df' for data frame,
-             'raw' for list of unparsed data. 
+             'raw' for list of unparsed data.
     Example
     -------
     getMarketsIntraday(symbols = 'indu:ind')
@@ -199,22 +199,21 @@ def getMarketsIntraday(symbols, initDate=None, endDate=None, output_type=None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    if type(symbols) is not str:        
-        linkAPI = 'https://api.tradingeconomics.com/markets/intraday/' + quote(",".join(symbols), safe='') 
-    else:   
-        linkAPI = 'https://api.tradingeconomics.com/markets/intraday/' + quote(symbols, safe='')
-    
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
-    
+    if type(symbols) is not str:
+        linkAPI = "https://api.tradingeconomics.com/markets/intraday/" + quote(
+            ",".join(symbols), safe=""
+        )
+    else:
+        linkAPI = "https://api.tradingeconomics.com/markets/intraday/" + quote(
+            symbols, safe=""
+        )
+
     linkAPI = fn.checkDates(linkAPI, initDate, endDate)
 
     return fn.dataRequest(linkAPI, output_type)
 
 
-def getMarketsPeers(symbols, output_type = None):
+def getMarketsPeers(symbols, output_type=None):
     """
     Returns a markets peers information for specific symbols.
     ==========================================================
@@ -223,10 +222,10 @@ def getMarketsPeers(symbols, output_type = None):
     symbols: string or list.
             String to get data for symbol. List of strings to get data for
              several symbols. For example, symbols = ['aapl:us', 'indu:ind'].
-             
+
     output_type: string.
              'dict'(default), 'df' for data frame,
-             'raw' for list of unparsed data. 
+             'raw' for list of unparsed data.
     Example
     -------
     getMarketsPeers(symbols = 'indu:ind')
@@ -239,19 +238,19 @@ def getMarketsPeers(symbols, output_type = None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    if type(symbols) is not str:        
-        linkAPI = 'https://api.tradingeconomics.com/markets/peers/' + quote(",".join(symbols), safe='') 
-    else:   
-        linkAPI = 'https://api.tradingeconomics.com/markets/peers/' + quote(symbols, safe='')
-    
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
-    return fn.dataRequest(linkAPI, output_type)
-  
+    if type(symbols) is not str:
+        linkAPI = "https://api.tradingeconomics.com/markets/peers/" + quote(
+            ",".join(symbols), safe=""
+        )
+    else:
+        linkAPI = "https://api.tradingeconomics.com/markets/peers/" + quote(
+            symbols, safe=""
+        )
 
-def getMarketsComponents(symbols, output_type = None):
+    return fn.dataRequest(linkAPI, output_type)
+
+
+def getMarketsComponents(symbols, output_type=None):
     """
     Returns a stock market index components information for specific symbols.
     ==========================================================
@@ -260,10 +259,10 @@ def getMarketsComponents(symbols, output_type = None):
     symbols: string or list.
             String to get data for symbol. List of strings to get data for
              several symbols. For example, symbols = ['aapl:us', 'indu:ind'].
-             
+
     output_type: string.
              'dict'(default), 'df' for data frame,
-             'raw' for list of unparsed data. 
+             'raw' for list of unparsed data.
     Example
     -------
     getMarketsComponents(symbols = 'psi20:ind')
@@ -276,30 +275,30 @@ def getMarketsComponents(symbols, output_type = None):
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    if type(symbols) is not str:        
-        linkAPI = 'https://api.tradingeconomics.com/markets/components/' + quote(",".join(symbols), safe='') 
-    else:   
-        linkAPI = 'https://api.tradingeconomics.com/markets/components/' + quote(symbols, safe='')
-    
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
+    if type(symbols) is not str:
+        linkAPI = "https://api.tradingeconomics.com/markets/components/" + quote(
+            ",".join(symbols), safe=""
+        )
+    else:
+        linkAPI = "https://api.tradingeconomics.com/markets/components/" + quote(
+            symbols, safe=""
+        )
+
     return fn.dataRequest(linkAPI, output_type)
 
 
-def getMarketsSearch(country=None, category = None, page = None, output_type = None):    
+def getMarketsSearch(country=None, category=None, page=None, output_type=None):
     """
     Search for country, category and page number.
     ==========================================================
     Parameters:
     -----------
     symbols: string.
-            String to get data for country and category. 
-    
+            String to get data for country and category.
+
     output_type: string.
              'dict'(default), 'df' for data frame,
-             'raw' for list of unparsed data. 
+             'raw' for list of unparsed data.
     Example
     -------
     getMarketsSearch(country = 'japan', category = None, page = None, output_type = None)
@@ -307,7 +306,7 @@ def getMarketsSearch(country=None, category = None, page = None, output_type = N
     getMarketsSearch(country = 'japan', category = ['index', 'markets'], page = None, output_type = None)
     getMarketsSearch(country = 'japan', category = 'index', page = None, output_type = None)
     """
-    
+
     try:
         _create_unverified_https_context = ssl._create_unverified_context
     except AttributeError:
@@ -315,27 +314,23 @@ def getMarketsSearch(country=None, category = None, page = None, output_type = N
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-    if type(country) is not str:        
-        linkAPI = 'https://api.tradingeconomics.com/markets/search/' + quote(",".join(country), safe='') 
-    else:   
-        linkAPI = 'https://api.tradingeconomics.com/markets/search/' + quote(country, safe='')
-    if (category) is not None:    
-        linkAPI = checkCategory(linkAPI, category)       
+    if type(country) is not str:
+        linkAPI = "https://api.tradingeconomics.com/markets/search/" + quote(
+            ",".join(country), safe=""
+        )
+    else:
+        linkAPI = "https://api.tradingeconomics.com/markets/search/" + quote(
+            country, safe=""
+        )
+    if (category) is not None:
+        linkAPI = checkCategory(linkAPI, category)
     if (page) is not None:
         linkAPI = checkPage(linkAPI, page)
-    
-    try:
-        if (category)is not None:
-            linkAPI += '&c=' + glob.apikey
-        else:
-            linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
-    
+
     return fn.dataRequest(linkAPI, output_type)
 
 
-def getMarketsForecasts(category=None, symbol=None,  output_type = None):
+def getMarketsForecasts(category=None, symbol=None, output_type=None):
     """
     Returns a stock market forecast information for specific symbols and categories.
     ================================================================================
@@ -345,12 +340,12 @@ def getMarketsForecasts(category=None, symbol=None,  output_type = None):
             String to get data for symbol. List of strings to get data for
              several symbols. For example, symbols = ['aapl:us', 'indu:ind'].
     category: string.
-            String to get data by category.  
-            For example, category = 'index'         
-             
+            String to get data by category.
+            For example, category = 'index'
+
     output_type: string.
              'dict'(default), 'df' for data frame,
-             'raw' for list of unparsed data. 
+             'raw' for list of unparsed data.
     Example
     -------
     getMarketsForecasts(category = 'bond')
@@ -362,27 +357,29 @@ def getMarketsForecasts(category=None, symbol=None,  output_type = None):
     except AttributeError:
         pass
     else:
-        ssl._create_default_https_context = _create_unverified_https_context    
-  
-    if type(symbol) is list: 
-        linkAPI = 'http://api.tradingeconomics.com/markets/forecasts' + '/symbol/' + quote(",".join(symbol), safe='') 
-             
-    else:  
-       linkAPI = 'http://api.tradingeconomics.com/markets/forecasts' + '/symbol/' + quote(str(symbol)) 
-    
-    if category is not None:
-        linkAPI = 'http://api.tradingeconomics.com/markets/forecasts/' + quote(category)
-       
+        ssl._create_default_https_context = _create_unverified_https_context
 
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
-    
+    if type(symbol) is list:
+        linkAPI = (
+            "http://api.tradingeconomics.com/markets/forecasts"
+            + "/symbol/"
+            + quote(",".join(symbol), safe="")
+        )
+
+    else:
+        linkAPI = (
+            "http://api.tradingeconomics.com/markets/forecasts"
+            + "/symbol/"
+            + quote(str(symbol))
+        )
+
+    if category is not None:
+        linkAPI = "http://api.tradingeconomics.com/markets/forecasts/" + quote(category)
+
     return fn.dataRequest(linkAPI, output_type)
 
 
-def getMarketsIntradayByInterval(symbol, interval, initDate,endDate,output_type=None):
+def getMarketsIntradayByInterval(symbol, interval, initDate, endDate, output_type=None):
     """
     Returns Aggregate intraday prices by interval - allowed intervals: 1m, 5m, 10m, 15m, 30m, 1h, 2h, 4h.
     =================================================================================
@@ -397,49 +394,53 @@ def getMarketsIntradayByInterval(symbol, interval, initDate,endDate,output_type=
                 initDate = '2021-01-01'
         endDate:string.
                 endDate = '2021-01-10'
-        
+
         output_type: string.
              'dict'(default) for dictionary format output, 'df' for data frame,
-             'raw' for list of dictionaries directly from the web. 
+             'raw' for list of dictionaries directly from the web.
     Notes
     -----
-    
-    
+
+
     Example
     -------
             getMarketsIntradayByInterval(symbol='CL1:COM',interval='1m',initDate='2022-01-01',endDate='2023-12-01',output_type='df')
             getMarketsIntradayByInterval(symbol=['CL1:COM','AAPL:US'],interval='1m',initDate='2022-01-01',endDate='2022-12-01',output_type='df')
     """
-            
-    
+
     # d is a dictionary used for create the api url
     d = {
-        'url_base': 'https://api.tradingeconomics.com/markets/intraday',
-        'symbol': f'/{fn.stringOrList(symbol)}',
-        'interval' : f'?agr={fn.stringOrList(interval)}',
-        'init_date': '',
-        'end_date':'',
-        'key': f'&client={glob.apikey}',
-        'output_type' : ''
+        "url_base": "https://api.tradingeconomics.com/markets/intraday",
+        "symbol": f"/{fn.stringOrList(symbol)}",
+        "interval": f"?agr={fn.stringOrList(interval)}",
+        "init_date": "",
+        "end_date": "",
+        "key": f"&client={glob.apikey}",
+        "output_type": "",
     }
-    if initDate and endDate :     
+    if initDate and endDate:
 
         initDateFormat = fn.validate(initDate)
         endDateFormat = fn.validate(endDate)
         fn.validatePeriod(initDate, initDateFormat, endDate, endDateFormat)
-        # #it will parse endDate when initDate and endData are the same. 
+        # #it will parse endDate when initDate and endData are the same.
         # endDate = (lambda x, y : f"{endDate[0:8]}{(int(endDate[8:])+1)}" if x==y else endDate)(initDate,endDate)
-        d['init_date']=f'&d1={quote(initDate)}'
-        d['end_date']=f'&d2={quote(endDate)}'
+        d["init_date"] = f"&d1={quote(initDate)}"
+        d["end_date"] = f"&d2={quote(endDate)}"
 
-    
-
-    api_url_request = "%s%s%s%s%s%s" % (d['url_base'], d['symbol'], d['interval'],  d['init_date'],  d['end_date'],  d['key']) 
+    api_url_request = "%s%s%s%s%s%s" % (
+        d["url_base"],
+        d["symbol"],
+        d["interval"],
+        d["init_date"],
+        d["end_date"],
+        d["key"],
+    )
 
     return fn.dataRequest(api_url_request, output_type)
- 
 
-def getMarketsStockDescriptions(symbol = None,country = None, output_type=None):
+
+def getMarketsStockDescriptions(symbol=None, country=None, output_type=None):
     """
     Returns Markets Descriptions
     =================================================================================
@@ -448,19 +449,19 @@ def getMarketsStockDescriptions(symbol = None,country = None, output_type=None):
         symbol: string or list.
                 symbol = 'AAPL:US'
                 symbol = ['AAPL:US','FB:US']
-        
+
         country: string or list
                 country = 'france'
                 countr = ['france','portugal']
-        
-        
+
+
         output_type: string.
              'dict'(default) for dictionary format output, 'df' for data frame,
-             'raw' for list of dictionaries directly from the web. 
+             'raw' for list of dictionaries directly from the web.
     Notes
     -----
-    
-    
+
+
     Example
     -------
             getMarketsStockDescriptions(symbol='AAPL:US',output_type='df')
@@ -468,207 +469,206 @@ def getMarketsStockDescriptions(symbol = None,country = None, output_type=None):
             getMarketsStockDescriptions(country='france',output_type='df')
             getMarketsStockDescriptions(country=['france','portugal'],output_type='df')
     """
-            
-    # url example: 'https://api.tradingeconomics.com/markets/stockdescriptions/symbol/aapl:us,fb:us?c=guest:guest'
-    # https://api.tradingeconomics.com/markets/stockdescriptions/country/france,portugal?c=guest:guest
+
+    # url example: 'https://api.tradingeconomics.com/markets/stockdescriptions/symbol/aapl:us,fb:us'
+    # https://api.tradingeconomics.com/markets/stockdescriptions/country/france,portugal'
 
     # d is a dictionary used for create the api url
     d = {
-        'url_base': 'https://api.tradingeconomics.com/markets/stockdescriptions',
-        'symbol': '',
-        'country': '',
-        'key': f'?c={glob.apikey}',
-        'output_type' : ''
+        "url_base": "https://api.tradingeconomics.com/markets/stockdescriptions",
+        "symbol": "",
+        "country": "",
+        "output_type": "",
     }
 
     if symbol:
-        d['symbol'] = f'/symbol/{(fn.stringOrList(symbol))}'
-    
+        d["symbol"] = f"/symbol/{(fn.stringOrList(symbol))}"
+
     if country:
-        d['country'] = f'/country/{(fn.stringOrList(country))}'
+        d["country"] = f"/country/{(fn.stringOrList(country))}"
 
     if country and symbol or country is None and symbol is None:
-        return 'You have to pass country or symbol'
-    
-    
+        return "You have to pass country or symbol"
 
-    api_url_request = "%s%s%s%s" % (d['url_base'], d['symbol'],d['country'],  d['key']) 
+    api_url_request = "%s%s%s" % (d["url_base"], d["symbol"], d["country"])
     return fn.dataRequest(api_url_request, output_type)
 
-def getMarketsSymbology(symbol = None,ticker = None, isin=None, country=None ,output_type=None):
+
+def getMarketsSymbology(
+    symbol=None, ticker=None, isin=None, country=None, output_type=None
+):
     """
     Returns Markets Descriptions
     =================================================================================
     Parameters:
     -----------
-        symbol: string 
+        symbol: string
                 symbol = 'AAPL:US'
-                
-        ticker: string 
+
+        ticker: string
                 ticker = 'aapl'
-        
-        isin: string 
+
+        isin: string
                 isin = 'US0378331005'
 
-        country: string 
-                country = 'Mexico'                
-        
-        
+        country: string
+                country = 'Mexico'
+
+
         output_type: string.
             'dict'(default) for dictionary format output, 'df' for data frame,
-            'raw' for list of dictionaries directly from the web. 
+            'raw' for list of dictionaries directly from the web.
     Notes
     -----
-    
-    
+
+
     Example
     -------
             getMarketsSymbology(symbol='AAPL:US',output_type='df')
             getMarketsSymbology(ticker='aapl',output_type='df')
             getMarketsSymbology(isin='US0378331005',output_type='df')
             getMarketsSymbology(country='United States',output_type='df')
-            
+
     """
-    #validateParameters
+    # validateParameters
     parametersList = []
-    (lambda x : parametersList.append(x) if x != None else None )(symbol) 
-    (lambda x : parametersList.append(x) if x != None else None )(ticker) 
-    (lambda x : parametersList.append(x) if x != None else None )(isin) 
-    (lambda x : parametersList.append(x) if x != None else None )(country)
+    (lambda x: parametersList.append(x) if x != None else None)(symbol)
+    (lambda x: parametersList.append(x) if x != None else None)(ticker)
+    (lambda x: parametersList.append(x) if x != None else None)(isin)
+    (lambda x: parametersList.append(x) if x != None else None)(country)
 
     if len(parametersList) > 1:
-      print('Only one argument must be provided for each request')
-      return 
-          
+        print("Only one argument must be provided for each request")
+        return
 
     # d is a dictionary used for create the api url
     d = {
-        'url_base': 'https://api.tradingeconomics.com/markets/symbology',
-        'symbol': '',
-        'ticker': '',
-        'isin': '',
-        'country': '',
-        'key': f'?c={glob.apikey}',
-        'output_type' : ''
+        "url_base": "https://api.tradingeconomics.com/markets/symbology",
+        "symbol": "",
+        "ticker": "",
+        "isin": "",
+        "country": "",
+        "output_type": "",
     }
 
-
     if symbol:
-        d['symbol'] = f'/symbol/{(fn.stringOrList(symbol))}'
-    
+        d["symbol"] = f"/symbol/{(fn.stringOrList(symbol))}"
+
     if ticker:
-        d['ticker'] = f'/ticker/{(fn.stringOrList(ticker))}'
-    
+        d["ticker"] = f"/ticker/{(fn.stringOrList(ticker))}"
+
     if isin:
-        d['isin'] = f'/isin/{(fn.stringOrList(isin))}'
+        d["isin"] = f"/isin/{(fn.stringOrList(isin))}"
 
     if country:
-        d['country'] = f'/country/{(fn.stringOrList(country))}'
+        d["country"] = f"/country/{(fn.stringOrList(country))}"
 
-    api_url_request = "%s%s%s%s%s%s" % (d['url_base'], d['symbol'],d['ticker'],  d['isin'],d['country'],d['key']) 
-    return fn.dataRequest(api_url_request, output_type) 
+    api_url_request = "%s%s%s%s%s" % (
+        d["url_base"],
+        d["symbol"],
+        d["ticker"],
+        d["isin"],
+        d["country"],
+    )
+    return fn.dataRequest(api_url_request, output_type)
 
-def getStocksByCountry (country = None,output_type=None):
+
+def getStocksByCountry(country=None, output_type=None):
     """
     Returns Stocks List to a specific country
     =================================================================================
     Parameters:
     -----------
-        country: string 
+        country: string
                 country = 'United States'
-                
+
         output_type: string.
             'dict'(default) for dictionary format output, 'df' for data frame,
-            'raw' for list of dictionaries directly from the web. 
+            'raw' for list of dictionaries directly from the web.
     Notes
     -----
-    
-    
+
+
     Example
     -------
             getStocksByCountry(country='United States',output_type='df')
             getStocksByCountry(country = ['United States', 'Portugal'],output_type='df')
-            
+
     """
-    
+
     try:
         _create_unverified_https_context = ssl._create_unverified_context
     except AttributeError:
         pass
     else:
         ssl._create_default_https_context = _create_unverified_https_context
-    
+
     if country == None:
-         return "A country is required!"
+        return "A country is required!"
     else:
-         linkAPI = checkCountry(country)
+        linkAPI = checkCountry(country)
 
     try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request.')
-
-    try:
-        #print(linkAPI)
+        # print(linkAPI)
         data = fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
-        if output_type==None:
+        if output_type == None:
             data = pd.DataFrame(data)
-            data = data.rename(columns={'unit': 'Unit', 'frequency': 'Frequency'}) 	
-            data = data.to_dict(orient='records')
-        else:  
-            data = data.rename(columns={'unit': 'Unit', 'frequency': 'Frequency'}) 	
-            
+            data = data.rename(columns={"unit": "Unit", "frequency": "Frequency"})
+            data = data.to_dict(orient="records")
+        else:
+            data = data.rename(columns={"unit": "Unit", "frequency": "Frequency"})
+
         return data
     except Exception as e:
-        print(e) 
-    
-def getMarketsByCountry (country:str,output_type=None):
+        print(e)
+
+
+def getMarketsByCountry(country: str, output_type=None):
     """
     Returns Market List to a specific country
     =================================================================================
     Parameters:
     -----------
-        country: string 
+        country: string
                 symbol = 'United States'
-                
+
         output_type: string.
             'dict'(default) for dictionary format output, 'df' for data frame,
-            'raw' for list of dictionaries directly from the web. 
+            'raw' for list of dictionaries directly from the web.
     Notes
     -----
-    
-    
+
+
     Example
     -------
             getMarketsByCountry(country='United States',output_type='df')
-            
+
     """
-          
 
     # d is a dictionary used for create the api url
     d = {
-        'url_base': 'https://api.tradingeconomics.com/markets/country/',
-        'country': '',
-        'key': f'?c={glob.apikey}',
-        'output_type' : ''
+        "url_base": "https://api.tradingeconomics.com/markets/country/",
+        "country": "",
+        "output_type": "",
     }
 
     try:
         if type(country) == str:
-            d['country'] = f'{quote(country)}'
+            d["country"] = f"{quote(country)}"
         else:
-          raise AttributeError ('country must be a string')
+            raise AttributeError("country must be a string")
     except Exception as e:
-      raise e
-    
-    api_url_request = "%s%s%s" % (d['url_base'], d['country'],d['key']) 
+        raise e
+
+    api_url_request = "%s%s" % (d["url_base"], d["country"])
     return fn.dataRequest(api_url_request, output_type)
 
+
 def checkCountry(country):
-    linkAPI = 'https://api.tradingeconomics.com/markets/stocks/country/'   
+    linkAPI = "https://api.tradingeconomics.com/markets/stocks/country/"
     if type(country) is str:
         linkAPI += quote(country.lower())
     else:
-        linkAPI += quote(",".join(country), safe='')
+        linkAPI += quote(",".join(country), safe="")
     return linkAPI

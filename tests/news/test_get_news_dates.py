@@ -12,7 +12,7 @@ class TestGetNewsDates(unittest.TestCase):
         # Get news with date range
         result = getNews(start_date="2021-02-02", end_date="2021-03-03")
 
-        expected_url = "https://api.tradingeconomics.com/news?c=TESTKEY&d1=2021-02-02&d2=2021-03-03"
+        expected_url = "https://api.tradingeconomics.com/news?d1=2021-02-02&d2=2021-03-03"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"news": "dates"})
@@ -27,7 +27,7 @@ class TestGetNewsDates(unittest.TestCase):
             indicator="inflation rate", start_date="2021-02-02", end_date="2021-03-03"
         )
 
-        expected_url = "https://api.tradingeconomics.com/news/indicator/inflation%20rate?c=TESTKEY&d1=2021-02-02&d2=2021-03-03"
+        expected_url = "https://api.tradingeconomics.com/news/indicator/inflation%20rate?d1=2021-02-02&d2=2021-03-03"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"news": "indicator_dates"})
@@ -45,7 +45,7 @@ class TestGetNewsDates(unittest.TestCase):
             end_date="2021-03-03",
         )
 
-        expected_url = "https://api.tradingeconomics.com/news/country/brazil,canada/Housing%20Starts,Stock%20Market?c=TESTKEY&d1=2021-02-02&d2=2021-03-03"
+        expected_url = "https://api.tradingeconomics.com/news/country/brazil,canada/Housing%20Starts,Stock%20Market?d1=2021-02-02&d2=2021-03-03"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"news": "country_dates"})

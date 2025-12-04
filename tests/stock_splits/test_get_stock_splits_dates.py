@@ -14,17 +14,19 @@ class TestGetStockSplitsDates(unittest.TestCase):
     @patch(
         "tradingeconomics.stock_splits.fn.checkDates",
         side_effect=lambda url, d1, d2: (
-            url + "&d1=2023-01-01&d2=2023-12-31" if d1 else url
+            url + "?d1=2023-01-01&d2=2023-12-31" if d1 else url
         ),
     )
     def test_get_stock_splits_with_date_range(self, mock_check_dates, mock_request):
         # Get stock splits with date range
         result = getStockSplits(startDate="2023-01-01", endDate="2023-12-31")
 
-        expected_url = "https://api.tradingeconomics.com/splits?c=TESTKEY&d1=2023-01-01&d2=2023-12-31"
+        expected_url = (
+            "https://api.tradingeconomics.com/splits?d1=2023-01-01&d2=2023-12-31"
+        )
 
         mock_check_dates.assert_called_once_with(
-            "https://api.tradingeconomics.com/splits?c=TESTKEY",
+            "https://api.tradingeconomics.com/splits",
             "2023-01-01",
             "2023-12-31",
         )
@@ -39,7 +41,7 @@ class TestGetStockSplitsDates(unittest.TestCase):
     @patch(
         "tradingeconomics.stock_splits.fn.checkDates",
         side_effect=lambda url, d1, d2: (
-            url + "&d1=2023-01-01&d2=2023-12-31" if d1 else url
+            url + "?d1=2023-01-01&d2=2023-12-31" if d1 else url
         ),
     )
     def test_get_stock_splits_ticker_with_dates(self, mock_check_dates, mock_request):
@@ -48,10 +50,10 @@ class TestGetStockSplitsDates(unittest.TestCase):
             ticker="AAPL:US", startDate="2023-01-01", endDate="2023-12-31"
         )
 
-        expected_url = "https://api.tradingeconomics.com/splits/ticker/AAPL:US?c=TESTKEY&d1=2023-01-01&d2=2023-12-31"
+        expected_url = "https://api.tradingeconomics.com/splits/ticker/AAPL:US?d1=2023-01-01&d2=2023-12-31"
 
         mock_check_dates.assert_called_once_with(
-            "https://api.tradingeconomics.com/splits/ticker/AAPL:US?c=TESTKEY",
+            "https://api.tradingeconomics.com/splits/ticker/AAPL:US",
             "2023-01-01",
             "2023-12-31",
         )
@@ -66,7 +68,7 @@ class TestGetStockSplitsDates(unittest.TestCase):
     @patch(
         "tradingeconomics.stock_splits.fn.checkDates",
         side_effect=lambda url, d1, d2: (
-            url + "&d1=2023-01-01&d2=2023-12-31" if d1 else url
+            url + "?d1=2023-01-01&d2=2023-12-31" if d1 else url
         ),
     )
     def test_get_stock_splits_country_with_dates(self, mock_check_dates, mock_request):
@@ -75,10 +77,10 @@ class TestGetStockSplitsDates(unittest.TestCase):
             country="United States", startDate="2023-01-01", endDate="2023-12-31"
         )
 
-        expected_url = "https://api.tradingeconomics.com/splits/country/United%20States?c=TESTKEY&d1=2023-01-01&d2=2023-12-31"
+        expected_url = "https://api.tradingeconomics.com/splits/country/United%20States?d1=2023-01-01&d2=2023-12-31"
 
         mock_check_dates.assert_called_once_with(
-            "https://api.tradingeconomics.com/splits/country/United%20States?c=TESTKEY",
+            "https://api.tradingeconomics.com/splits/country/United%20States",
             "2023-01-01",
             "2023-12-31",
         )

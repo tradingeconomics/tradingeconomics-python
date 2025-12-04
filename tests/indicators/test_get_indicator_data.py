@@ -14,7 +14,7 @@ class TestGetIndicatorData(unittest.TestCase):
         # Get all indicators
         result = getIndicatorData()
 
-        expected_url = "https://api.tradingeconomics.com/indicators/?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/indicators/"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"indicators": "all"})
@@ -29,7 +29,7 @@ class TestGetIndicatorData(unittest.TestCase):
         result = getIndicatorData(country="United States")
 
         expected_url = (
-            "https://api.tradingeconomics.com/country/united%20states?c=TESTKEY"
+            "https://api.tradingeconomics.com/country/united%20states"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -44,7 +44,7 @@ class TestGetIndicatorData(unittest.TestCase):
         # Get indicators by multiple countries
         result = getIndicatorData(country=["United States", "Portugal"])
 
-        expected_url = "https://api.tradingeconomics.com/country/United%20States%2CPortugal?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/country/United%20States%2CPortugal"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"indicators": "countries"})
@@ -58,7 +58,7 @@ class TestGetIndicatorData(unittest.TestCase):
         # Get data for specific indicators across all countries
         result = getIndicatorData(indicators="Imports")
 
-        expected_url = "https://api.tradingeconomics.com/country/all/Imports?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/country/all/Imports"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"indicators": "indicator"})
@@ -73,7 +73,7 @@ class TestGetIndicatorData(unittest.TestCase):
         result = getIndicatorData(indicators=["Imports", "Exports"])
 
         expected_url = (
-            "https://api.tradingeconomics.com/country/all/Imports%2CExports?c=TESTKEY"
+            "https://api.tradingeconomics.com/country/all/Imports%2CExports"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)

@@ -13,9 +13,7 @@ class TestGetFinancialsDataSymbol(unittest.TestCase):
         # Get financials data for single symbol
         result = getFinancialsData(symbol="aapl:us")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/financials/symbol/aapl:us?&c=TESTKEY"
-        )
+        expected_url = "https://api.tradingeconomics.com/financials/symbol/aapl:us"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"symbol": "ok"})
@@ -32,7 +30,9 @@ class TestGetFinancialsDataSymbol(unittest.TestCase):
         # Get financials data for multiple symbols
         result = getFinancialsData(symbol=["aapl:us", "msft:us"])
 
-        expected_url = "https://api.tradingeconomics.com/financials/symbol/aapl:us%2Cmsft:us?&c=TESTKEY"
+        expected_url = (
+            "https://api.tradingeconomics.com/financials/symbol/aapl:us%2Cmsft:us"
+        )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"symbol": "multiple"})
@@ -49,9 +49,7 @@ class TestGetFinancialsDataSymbol(unittest.TestCase):
         # Test with output_type parameter
         result = getFinancialsData(symbol="aapl:us", output_type="df")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/financials/symbol/aapl:us?&c=TESTKEY"
-        )
+        expected_url = "https://api.tradingeconomics.com/financials/symbol/aapl:us"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"symbol": "AAPL:US"}])

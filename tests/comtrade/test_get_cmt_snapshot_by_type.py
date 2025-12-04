@@ -35,7 +35,7 @@ class TestGetCmtSnapshotByType(unittest.TestCase):
         result = getCmtSnapshotByType(country="Portugal", type="import")
 
         expected_url = (
-            "https://api.tradingeconomics.com/comtrade/country/Portugal?type=import&c=TESTKEY"
+            "https://api.tradingeconomics.com/comtrade/country/Portugal?type=import"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -48,7 +48,7 @@ class TestGetCmtSnapshotByType(unittest.TestCase):
         result = getCmtSnapshotByType(country="United States", type="export")
 
         expected_url = (
-            "https://api.tradingeconomics.com/comtrade/country/United%20States?type=export&c=TESTKEY"
+            "https://api.tradingeconomics.com/comtrade/country/United%20States?type=export"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)

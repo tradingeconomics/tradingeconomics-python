@@ -16,7 +16,7 @@ class TestGetWBCategoriesCategory(unittest.TestCase):
         result = getWBCategories(category="education")
 
         expected_url = (
-            "https://api.tradingeconomics.com/worldBank/category/education?c=TESTKEY"
+            "https://api.tradingeconomics.com/worldBank/category/education"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -32,7 +32,7 @@ class TestGetWBCategoriesCategory(unittest.TestCase):
         result = getWBCategories(category="education", page_number=3)
 
         expected_url = (
-            "https://api.tradingeconomics.com/worldBank/category/education/3?c=TESTKEY"
+            "https://api.tradingeconomics.com/worldBank/category/education/3"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)

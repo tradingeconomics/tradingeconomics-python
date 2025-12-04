@@ -10,11 +10,12 @@ import time
 PY3 = sys.version_info[0] == 3
 
 if PY3:  # Python 3+
-    from urllib.request import urlopen
+    from urllib.request import urlopen, Request
     from urllib.parse import quote
 else:  # Python 2.X
     from urllib import urlopen
     from urllib import quote
+    from urllib2 import Request
 
 
 class DateError(ValueError):
@@ -131,7 +132,7 @@ def dataRequest(api_request, output_type):
     Parameters:
     -----------
     api_request : str
-        Full API URL including endpoint and query parameters
+        Full API URL including endpoint and query parameters (without API key)
     output_type : str or None
         Desired output format: None/'dict' (list of dicts), 'df' (DataFrame), 'raw' (unparsed)
 
@@ -141,13 +142,12 @@ def dataRequest(api_request, output_type):
 
     Notes:
     ------
-    Removed unnecessary trimTheResponse() function that was previously used here.
-    The JSON response from json.loads() is already clean and properly parsed:
-    - Python's json module handles all string parsing correctly
-    - No trailing whitespace exists in properly formatted JSON responses
-    - The previous O(n²) trimming operation was redundant and inefficient
+    - API key is automatically added via Authorization header from glob.apikey
+    - Removed unnecessary trimTheResponse() function that was previously used here
+    - The JSON response from json.loads() is already clean and properly parsed
     - Direct use of parsed JSON improves performance significantly
     """
+    from . import glob
 
     def outputTypeCheck(outputType):
         if outputType not in (None, "raw", "dict", "df"):
@@ -162,7 +162,12 @@ def dataRequest(api_request, output_type):
     outputTypeCheck(output_type)
 
     try:
-        response = urlopen(api_request)
+        # Create request with Authorization header
+        request = Request(api_request)
+        if hasattr(glob, "apikey") and glob.apikey:
+            request.add_header("Authorization", glob.apikey)
+
+        response = urlopen(request)
         code = response.getcode()
         # JSON is already properly parsed by json.loads() - no trimming needed
         webResults = json.loads(response.read().decode("utf-8"))
@@ -236,6 +241,9 @@ def makeRequestAndParse(api_request, output_type):
 
 
 def checkDates(baseLink, initDate=None, endDate=None):
+    # Determine separator: ? if no query string yet, & if there is one
+    separator = "&" if "?" in baseLink else "?"
+
     if (initDate is not None) and endDate == None:
         try:
             initDateFormat = validate(initDate)
@@ -243,7 +251,7 @@ def checkDates(baseLink, initDate=None, endDate=None):
             raise DateError("Incorrect initDate format, should be YYYY-MM-DD.")
         # if initDate > str(date.today()):
         #     raise DateError ('Initial date out of range.')
-        baseLink += "&d1=" + quote(initDate)
+        baseLink += separator + "d1=" + quote(initDate)
 
     if (initDate is not None) and (endDate is not None):
         try:
@@ -258,7 +266,7 @@ def checkDates(baseLink, initDate=None, endDate=None):
             validatePeriod(initDate, initDateFormat, endDate, endDateFormat)
         except ValueError:
             raise DateError("Invalid time period.")
-        baseLink += "&d1=" + quote(initDate) + "&d2=" + quote(endDate)
+        baseLink += separator + "d1=" + quote(initDate) + "&d2=" + quote(endDate)
 
     if initDate == None and (endDate is not None):
         raise DateError("initDate value is missing")

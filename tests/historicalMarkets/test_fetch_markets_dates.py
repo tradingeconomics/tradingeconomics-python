@@ -16,7 +16,7 @@ class TestFetchMarketsDates(unittest.TestCase):
         # Get historical markets data with init date only
         result = fetchMarkets(symbol="indu:ind", initDate="2017-01-01")
 
-        expected_url = "https://api.tradingeconomics.com/markets/historical/indu%3Aind?c=TESTKEY&d1=2017-01-01"
+        expected_url = "https://api.tradingeconomics.com/markets/historical/indu%3Aind?d1=2017-01-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"markets": "with_init"})
@@ -36,7 +36,7 @@ class TestFetchMarketsDates(unittest.TestCase):
             symbol="indu:ind", initDate="2017-01-01", endDate="2017-06-15"
         )
 
-        expected_url = "https://api.tradingeconomics.com/markets/historical/indu%3Aind?c=TESTKEY&d1=2017-01-01&d2=2017-06-15"
+        expected_url = "https://api.tradingeconomics.com/markets/historical/indu%3Aind?d1=2017-01-01&d2=2017-06-15"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"markets": "with_dates"})
@@ -51,7 +51,7 @@ class TestFetchMarketsDates(unittest.TestCase):
         result = fetchMarkets(symbol="indu:ind", endDate="2017-06-15")
 
         # initDate should be 2017-05-15 (1 month before endDate)
-        expected_url = "https://api.tradingeconomics.com/markets/historical/indu%3Aind?c=TESTKEY&d1=2017-05-15&d2=2017-06-15"
+        expected_url = "https://api.tradingeconomics.com/markets/historical/indu%3Aind?d1=2017-05-15&d2=2017-06-15"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"markets": "end_only"})

@@ -12,7 +12,7 @@ class TestGetHistoricalUpdates(unittest.TestCase):
         # Get historical updates
         result = getHistoricalUpdates()
 
-        expected_url = "https://api.tradingeconomics.com/historical/updates?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/historical/updates"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"updates": "ok"})
@@ -25,7 +25,7 @@ class TestGetHistoricalUpdates(unittest.TestCase):
         # Test with output_type parameter
         result = getHistoricalUpdates(output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/historical/updates?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/historical/updates"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"update": "data"}])

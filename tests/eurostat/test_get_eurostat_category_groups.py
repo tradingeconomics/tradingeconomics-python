@@ -14,7 +14,7 @@ class TestGetEurostatCategoryGroups(unittest.TestCase):
         # Test getEurostatCategoryGroups function
         result = getEurostatCategoryGroups()
 
-        expected_url = "https://api.tradingeconomics.com/eurostat/categories?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/eurostat/categories"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"categories": "ok"})
@@ -28,7 +28,7 @@ class TestGetEurostatCategoryGroups(unittest.TestCase):
         # Test with output_type parameter
         result = getEurostatCategoryGroups(output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/eurostat/categories?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/eurostat/categories"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, [{"category": "Poverty"}])

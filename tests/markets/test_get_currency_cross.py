@@ -13,7 +13,7 @@ class TestGetCurrencyCross(unittest.TestCase):
         result = getCurrencyCross(cross="EUR")
 
         expected_url = (
-            "https://api.tradingeconomics.com/markets/currency?cross=EUR&c=TESTKEY"
+            "https://api.tradingeconomics.com/markets/currency?cross=EUR"
         )
 
         mock_request.assert_called_once_with(expected_url, None)
@@ -26,7 +26,7 @@ class TestGetCurrencyCross(unittest.TestCase):
         result = getCurrencyCross(cross="EUR", output_type="df")
 
         expected_url = (
-            "https://api.tradingeconomics.com/markets/currency?cross=EUR&c=TESTKEY"
+            "https://api.tradingeconomics.com/markets/currency?cross=EUR"
         )
 
         mock_request.assert_called_once_with(expected_url, "df")

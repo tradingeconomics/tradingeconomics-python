@@ -12,7 +12,7 @@ class TestGetNewsType(unittest.TestCase):
         # Get news with type parameter
         result = getNews(type="articles")
 
-        expected_url = "https://api.tradingeconomics.com/news?c=TESTKEY&type=articles"
+        expected_url = "https://api.tradingeconomics.com/news?type=articles"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"news": "type"})

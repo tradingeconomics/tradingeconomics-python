@@ -28,7 +28,7 @@ class TestGetCmtTotalByType(unittest.TestCase):
         result = getCmtTotalByType(country="Portugal", type="import")
 
         expected_url = (
-            "https://api.tradingeconomics.com/comtrade/import/Portugal/totals/?c=TESTKEY"
+            "https://api.tradingeconomics.com/comtrade/import/Portugal/totals/"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -40,7 +40,7 @@ class TestGetCmtTotalByType(unittest.TestCase):
         result = getCmtTotalByType(country="Brazil", type="export")
 
         expected_url = (
-            "https://api.tradingeconomics.com/comtrade/export/Brazil/totals/?c=TESTKEY"
+            "https://api.tradingeconomics.com/comtrade/export/Brazil/totals/"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)

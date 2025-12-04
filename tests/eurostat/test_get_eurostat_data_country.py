@@ -13,7 +13,7 @@ class TestGetEurostatDataCountry(unittest.TestCase):
         result = getEurostatData(country="Denmark")
 
         expected_url = (
-            "https://api.tradingeconomics.com/eurostat/country/Denmark?c=TESTKEY"
+            "https://api.tradingeconomics.com/eurostat/country/Denmark"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -27,7 +27,7 @@ class TestGetEurostatDataCountry(unittest.TestCase):
         # Provide multiple countries and ensure URL is built correctly
         result = getEurostatData(country=["Denmark", "Sweden"])
 
-        expected_url = "https://api.tradingeconomics.com/eurostat/country/Denmark%2CSweden?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/eurostat/country/Denmark%2CSweden"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "multiple"})

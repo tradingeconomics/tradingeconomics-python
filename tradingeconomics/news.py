@@ -41,7 +41,8 @@ class WebRequestError(ValueError):
 
 def checkIndex(linkAPI, start):
     if start != None:
-        linkAPI += "&start={0}".format(start)
+        separator = "&" if "?" in linkAPI else "?"
+        linkAPI += f"{separator}start={start}"
     return linkAPI
 
 
@@ -149,7 +150,8 @@ def checkArticleIndic(indicator):
 
 def checkArticleLimit(linkAPI, lim):
     if lim != None:
-        linkAPI += "&lim={0}".format(lim)
+        separator = "&" if "?" in linkAPI else "?"
+        linkAPI += f"{separator}lim={lim}"
     return linkAPI
 
 
@@ -301,11 +303,6 @@ def getArticles(
         ).strftime("%Y-%m-%d")
         linkAPI += "/from" + "/" + initDate + "/" + endDate
 
-    try:
-        linkAPI += "?c=" + glob.apikey
-    except AttributeError:
-        raise LoginError("You need to do login before making any request")
-
     linkAPI = checkArticleLimit(linkAPI, lim)
     linkAPI = checkIndex(linkAPI, start)
 
@@ -342,11 +339,6 @@ def getArticleId(id=None, output_type=None):
         ssl._create_default_https_context = _create_unverified_https_context
     if type(id) != None:
         linkAPI = checkArticleId(id)
-
-    try:
-        linkAPI += "?c=" + glob.apikey
-    except AttributeError:
-        raise LoginError("You need to do login before making any request")
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -426,12 +418,11 @@ def getNews(
         "end_date": "",
         "type": "",
         "ticker": "",
-        "key": f"?c={glob.apikey}",
         "output_type": "",
     }
 
     if type:
-        d["type"] = "&type=" + type
+        d["type"] = "?type=" + type
 
     elif ticker:
         d["ticker"] = f"/ticker/{(fn.stringOrList(ticker))}"
@@ -441,12 +432,11 @@ def getNews(
             return 'Please, enter the pair "start" and "limit" or the pair "start_date" and "end_date"'
 
         if start and limit:
+            d["limit"] = f"?limit={limit}"
             d["start"] = f"&start={start}"
 
-            d["limit"] = f"&limit={limit}"
-
         if start_date and end_date and not start and not limit:
-            d["start_date"] = f"&d1={fn.checkDates(start_date)}"
+            d["start_date"] = f"?d1={fn.checkDates(start_date)}"
             d["end_date"] = f"&d2={fn.checkDates(end_date)}"
 
         if indicator:
@@ -458,12 +448,11 @@ def getNews(
         if country and indicator:
             d["indicator"] = f"/{fn.stringOrList(indicator)}"
 
-    api_url_request = "%s%s%s%s%s%s%s%s%s%s" % (
+    api_url_request = "%s%s%s%s%s%s%s%s%s" % (
         d["url_base"],
         d["country"],
         d["indicator"],
         d["ticker"],
-        d["key"],
         d["limit"],
         d["start"],
         d["start_date"],

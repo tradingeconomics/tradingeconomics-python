@@ -7,14 +7,14 @@ from tradingeconomics import glob
 class TestGetDividends(unittest.TestCase):
 
     # -----------------------
-    # API KEY MISSING
+    # API KEY MISSING - now handled by dataRequest()
     # -----------------------
     @patch("tradingeconomics.dividends.fn.dataRequest")
     @patch.object(glob, "apikey", None)
     def test_missing_api_key(self, mock_request):
-        with self.assertRaises(Exception):
-            getDividends(symbols="msft:us")
-        mock_request.assert_not_called()
+        mock_request.return_value = []
+        getDividends(symbols="msft:us")
+        mock_request.assert_called_once()
 
     # -----------------------
     # NO PARAMETERS
@@ -27,7 +27,7 @@ class TestGetDividends(unittest.TestCase):
     def test_no_parameters(self, mock_request, mock_dates):
         result = getDividends()
 
-        expected_url = "https://api.tradingeconomics.com/dividends?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/dividends"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ok": True})
@@ -43,9 +43,7 @@ class TestGetDividends(unittest.TestCase):
     def test_single_symbol(self, mock_request, mock_dates):
         result = getDividends(symbols="msft:us")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/dividends/symbol/msft:us?c=TESTKEY"
-        )
+        expected_url = "https://api.tradingeconomics.com/dividends/symbol/msft:us"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ok": True})
@@ -61,7 +59,9 @@ class TestGetDividends(unittest.TestCase):
     def test_multiple_symbols(self, mock_request, mock_dates):
         result = getDividends(symbols=["msft:us", "aapl:us"])
 
-        expected_url = "https://api.tradingeconomics.com/dividends/symbol/msft:us,aapl:us?c=TESTKEY"
+        expected_url = (
+            "https://api.tradingeconomics.com/dividends/symbol/msft:us,aapl:us"
+        )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ok": True})
@@ -81,7 +81,7 @@ class TestGetDividends(unittest.TestCase):
         )
 
         expected_url = (
-            "https://api.tradingeconomics.com/dividends/symbol/msft:us?c=TESTKEY"
+            "https://api.tradingeconomics.com/dividends/symbol/msft:us"
             "&from=2020-01-01&to=2021-01-01"
         )
 

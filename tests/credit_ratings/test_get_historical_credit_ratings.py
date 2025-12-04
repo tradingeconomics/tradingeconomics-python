@@ -28,7 +28,7 @@ class TestGetHistoricalCreditRatings(unittest.TestCase):
         result = getHistoricalCreditRatings(country="mexico")
 
         expected_start = (
-            "https://api.tradingeconomics.com/credit-ratings/historical/country/mexico?c=TESTKEY"
+            "https://api.tradingeconomics.com/credit-ratings/historical/country/mexico"
         )
 
         mock_dates.assert_called_once_with(expected_start, None, None)
@@ -43,7 +43,7 @@ class TestGetHistoricalCreditRatings(unittest.TestCase):
         result = getHistoricalCreditRatings(country=["mexico", "sweden"])
 
         expected_start = (
-            "https://api.tradingeconomics.com/credit-ratings/historical/country/mexico,sweden?c=TESTKEY"
+            "https://api.tradingeconomics.com/credit-ratings/historical/country/mexico,sweden"
         )
 
         mock_dates.assert_called_once_with(expected_start, None, None)
@@ -62,7 +62,7 @@ class TestGetHistoricalCreditRatings(unittest.TestCase):
         )
 
         expected_base = (
-            "https://api.tradingeconomics.com/credit-ratings/historical/country/mexico?c=TESTKEY"
+            "https://api.tradingeconomics.com/credit-ratings/historical/country/mexico"
         )
 
         mock_dates.assert_called_once_with(expected_base, "2010-01-01", "2011-01-01")

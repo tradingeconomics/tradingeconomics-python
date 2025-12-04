@@ -12,7 +12,7 @@ class TestGetIpoBasic(unittest.TestCase):
         # Get all IPO data
         result = getIpo()
 
-        expected_url = "https://api.tradingeconomics.com/ipo?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/ipo"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ipo": "all"})

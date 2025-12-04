@@ -13,7 +13,7 @@ class TestGetIndicatorByTicker(unittest.TestCase):
         result = getIndicatorByTicker(ticker="USURTOT")
 
         expected_url = (
-            "https://api.tradingeconomics.com/country/ticker/USURTOT?c=TESTKEY"
+            "https://api.tradingeconomics.com/country/ticker/USURTOT"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -29,7 +29,7 @@ class TestGetIndicatorByTicker(unittest.TestCase):
         result = getIndicatorByTicker(ticker=["WGDPCHIN", "USURTOT"])
 
         expected_url = (
-            "https://api.tradingeconomics.com/country/ticker/WGDPCHIN,USURTOT?c=TESTKEY"
+            "https://api.tradingeconomics.com/country/ticker/WGDPCHIN,USURTOT"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -42,7 +42,7 @@ class TestGetIndicatorByTicker(unittest.TestCase):
         result = getIndicatorByTicker(ticker="USURTOT", output_type="df")
 
         expected_url = (
-            "https://api.tradingeconomics.com/country/ticker/USURTOT?c=TESTKEY"
+            "https://api.tradingeconomics.com/country/ticker/USURTOT"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")

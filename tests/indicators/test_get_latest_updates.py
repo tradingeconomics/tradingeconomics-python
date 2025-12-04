@@ -14,7 +14,7 @@ class TestGetLatestUpdates(unittest.TestCase):
         # Get all latest updates
         result = getLatestUpdates()
 
-        expected_url = "https://api.tradingeconomics.com/updates?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/updates"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"updates": "all"})
@@ -29,7 +29,7 @@ class TestGetLatestUpdates(unittest.TestCase):
         result = getLatestUpdates(country="united states")
 
         expected_url = (
-            "https://api.tradingeconomics.com/updates/country/united%20states?c=TESTKEY"
+            "https://api.tradingeconomics.com/updates/country/united%20states"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -44,7 +44,7 @@ class TestGetLatestUpdates(unittest.TestCase):
         # Get latest updates by init date
         result = getLatestUpdates(init_date="2021-06-01")
 
-        expected_url = "https://api.tradingeconomics.com/updates/2021-06-01?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/updates/2021-06-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"updates": "date"})
@@ -59,7 +59,7 @@ class TestGetLatestUpdates(unittest.TestCase):
         # Get latest updates by country and init date
         result = getLatestUpdates(country="united states", init_date="2021-06-01")
 
-        expected_url = "https://api.tradingeconomics.com/updates/country/united%20states/2021-06-01?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/updates/country/united%20states/2021-06-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"updates": "country_date"})
@@ -76,9 +76,7 @@ class TestGetLatestUpdates(unittest.TestCase):
         # Get latest updates by date and time
         result = getLatestUpdates(init_date="2021-10-18", time="15:20")
 
-        expected_url = (
-            "https://api.tradingeconomics.com/updates/2021-10-18?c=TESTKEY&time=15:20"
-        )
+        expected_url = "https://api.tradingeconomics.com/updates/2021-10-18?time=15:20"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"updates": "time"})
@@ -95,7 +93,7 @@ class TestGetLatestUpdates(unittest.TestCase):
             country=["united states", "portugal"], init_date="2021-06-01"
         )
 
-        expected_url = "https://api.tradingeconomics.com/updates/country/united%20states,portugal/2021-06-01?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/updates/country/united%20states,portugal/2021-06-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"updates": "multiple"})

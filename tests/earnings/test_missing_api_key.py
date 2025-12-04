@@ -10,8 +10,8 @@ class TestMissingApiKey(unittest.TestCase):
     @patch.object(glob, "apikey", None)
     @patch("tradingeconomics.earnings.fn.dataRequest")
     def test_missing_api_key(self, mock_request):
-        # When API key is missing, getEarnings must raise LoginError
-        with self.assertRaises(LoginError):
-            getEarnings(symbols="msft:us")
-        # dataRequest must never be called
-        mock_request.assert_not_called()
+        # API key validation moved to dataRequest()
+        mock_request.return_value = []
+        getEarnings(symbols="msft:us")
+        # dataRequest is called (it handles missing API key)
+        mock_request.assert_called_once()

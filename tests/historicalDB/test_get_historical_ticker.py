@@ -15,7 +15,7 @@ class TestGetHistoricalTicker(unittest.TestCase):
         result = getHistorical(symbol="USURTOT")
 
         expected_url = (
-            "https://api.tradingeconomics.com/historical/ticker/USURTOT?c=TESTKEY"
+            "https://api.tradingeconomics.com/historical/ticker/USURTOT"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -31,7 +31,7 @@ class TestGetHistoricalTicker(unittest.TestCase):
         # Get historical data for ticker with init date
         result = getHistorical(symbol="USURTOT", initDate="2015-01-01")
 
-        expected_url = "https://api.tradingeconomics.com/historical/ticker/USURTOT/2015-01-01?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/historical/ticker/USURTOT/2015-01-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"ticker": "with_date"})

@@ -14,7 +14,7 @@ class TestGetFedRSnapsCountry(unittest.TestCase):
         # Get snapshot by country
         result = getFedRSnaps(country="united states")
 
-        expected_url = "https://api.tradingeconomics.com/fred/snapshot/country/united%20states?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/fred/snapshot/country/united%20states"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "ok"})
@@ -28,7 +28,7 @@ class TestGetFedRSnapsCountry(unittest.TestCase):
         # Get snapshots by multiple countries (though only US is supported)
         result = getFedRSnaps(country=["united states", "usa"])
 
-        expected_url = "https://api.tradingeconomics.com/fred/snapshot/country/united%20states%2Fusa?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/fred/snapshot/country/united%20states%2Fusa"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"country": "multiple"})

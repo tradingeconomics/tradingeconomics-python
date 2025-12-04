@@ -15,7 +15,7 @@ class TestGetFinancialsCategoryList(unittest.TestCase):
         result = getFinancialsCategoryList()
 
         expected_url = (
-            "https://api.tradingeconomics.com/financials/categories?c=TESTKEY"
+            "https://api.tradingeconomics.com/financials/categories"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -31,7 +31,7 @@ class TestGetFinancialsCategoryList(unittest.TestCase):
         result = getFinancialsCategoryList(output_type="df")
 
         expected_url = (
-            "https://api.tradingeconomics.com/financials/categories?c=TESTKEY"
+            "https://api.tradingeconomics.com/financials/categories"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")

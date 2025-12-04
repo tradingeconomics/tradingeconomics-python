@@ -9,17 +9,17 @@ class TestGetEarningsType(unittest.TestCase):
     @patch.object(glob, "apikey", None)
     @patch("tradingeconomics.earnings.fn.dataRequest")
     def test_missing_api_key(self, mock_request):
-        # Missing API key must raise LoginError
-        with self.assertRaises(LoginError):
-            getEarningsType(type="ipo")
-        mock_request.assert_not_called()
+        # API key validation moved to dataRequest()
+        mock_request.return_value = []
+        getEarningsType(type="ipo")
+        mock_request.assert_called_once()
 
     @patch.object(glob, "apikey", "TESTKEY")
     @patch("tradingeconomics.earnings.fn.dataRequest", return_value={"type": "ipo"})
     def test_type_parameter(self, mock_request):
         result = getEarningsType(type="ipo")
 
-        expected_url = "https://api.tradingeconomics.com/earnings?type=ipo&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/earnings?type=ipo"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"type": "ipo"})
@@ -29,7 +29,7 @@ class TestGetEarningsType(unittest.TestCase):
     def test_no_type_parameter(self, mock_request):
         result = getEarningsType()
 
-        expected_url = "https://api.tradingeconomics.com/earnings?type=&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/earnings?type="
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"type": None})

@@ -15,7 +15,7 @@ class TestGetWBIndicator(unittest.TestCase):
         # Get indicator by series code
         result = getWBIndicator(series_code="usa.fr.inr.rinr")
 
-        expected_url = "https://api.tradingeconomics.com/worldBank/indicator?c=TESTKEY&s=usa.fr.inr.rinr"
+        expected_url = "https://api.tradingeconomics.com/worldBank/indicator?s=usa.fr.inr.rinr"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"indicator": "series_code"})
@@ -30,7 +30,7 @@ class TestGetWBIndicator(unittest.TestCase):
             url="/united-states/real-interest-rate-percent-wb-data.html"
         )
 
-        expected_url = "https://api.tradingeconomics.com/worldBank/indicator?c=TESTKEY&url=/united-states/real-interest-rate-percent-wb-data.html"
+        expected_url = "https://api.tradingeconomics.com/worldBank/indicator?url=/united-states/real-interest-rate-percent-wb-data.html"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"indicator": "url"})
@@ -50,7 +50,7 @@ class TestGetWBIndicator(unittest.TestCase):
         # Get indicator with DataFrame output type
         result = getWBIndicator(series_code="usa.fr.inr.rinr", output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/worldBank/indicator?c=TESTKEY&s=usa.fr.inr.rinr"
+        expected_url = "https://api.tradingeconomics.com/worldBank/indicator?s=usa.fr.inr.rinr"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, {"indicator": "series_code_df"})

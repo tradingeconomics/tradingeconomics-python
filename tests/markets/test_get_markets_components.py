@@ -13,7 +13,7 @@ class TestGetMarketsComponents(unittest.TestCase):
         result = getMarketsComponents(symbols="psi20:ind")
 
         expected_url = (
-            "https://api.tradingeconomics.com/markets/components/psi20%3Aind?c=TESTKEY"
+            "https://api.tradingeconomics.com/markets/components/psi20%3Aind"
         )
 
         mock_request.assert_called_once_with(expected_url, None)
@@ -28,7 +28,7 @@ class TestGetMarketsComponents(unittest.TestCase):
         # Get components for multiple indexes
         result = getMarketsComponents(symbols=["psi20:ind", "indu:ind"])
 
-        expected_url = "https://api.tradingeconomics.com/markets/components/psi20%3Aind%2Cindu%3Aind?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/markets/components/psi20%3Aind%2Cindu%3Aind"
 
         mock_request.assert_called_once_with(expected_url, None)
         self.assertEqual(result, {"components": "multiple"})
@@ -43,7 +43,7 @@ class TestGetMarketsComponents(unittest.TestCase):
             symbols=["psi20:ind", "indu:ind"], output_type="raw"
         )
 
-        expected_url = "https://api.tradingeconomics.com/markets/components/psi20%3Aind%2Cindu%3Aind?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/markets/components/psi20%3Aind%2Cindu%3Aind"
 
         mock_request.assert_called_once_with(expected_url, "raw")
         self.assertEqual(result, {"components": "raw"})

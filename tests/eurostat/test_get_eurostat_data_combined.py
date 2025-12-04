@@ -15,7 +15,7 @@ class TestGetEurostatDataCombined(unittest.TestCase):
             category="People at risk of income poverty after social transfers",
         )
 
-        expected_url = "https://api.tradingeconomics.com/eurostat/country/Denmark?category=People%20at%20risk%20of%20income%20poverty%20after%20social%20transfers&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/eurostat/country/Denmark?category=People%20at%20risk%20of%20income%20poverty%20after%20social%20transfers"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"combined": "ok"})
@@ -26,7 +26,7 @@ class TestGetEurostatDataCombined(unittest.TestCase):
         # Provide country and category_group together
         result = getEurostatData(country="Denmark", category_group="Poverty")
 
-        expected_url = "https://api.tradingeconomics.com/eurostat/country/Denmark?category_group=Poverty&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/eurostat/country/Denmark?category_group=Poverty"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"combined": "ok"})

@@ -37,7 +37,10 @@ class DateError(ValueError):
 class WebRequestError(ValueError):
     pass
 
-def getFinancialsHistorical(symbol=None, category=None, initDate=None, endDate=None, output_type=None):
+
+def getFinancialsHistorical(
+    symbol=None, category=None, initDate=None, endDate=None, output_type=None
+):
     """
     Returns stocks fundamental information for specific symbols, category and dates.
     ================================================================================
@@ -49,7 +52,7 @@ def getFinancialsHistorical(symbol=None, category=None, initDate=None, endDate=N
             String to get data by category.
             For example, category = 'debt', category = ['assets', 'debt']
     initDate: string with format: YYYY-MM-DD.
-            For example: '2023-01-01' 
+            For example: '2023-01-01'
     endDate: string with format: YYYY-MM-DD.
             For example: '2023-01-02'
 
@@ -69,20 +72,12 @@ def getFinancialsHistorical(symbol=None, category=None, initDate=None, endDate=N
     else:
         ssl._create_default_https_context = _create_unverified_https_context
 
-
     if symbol is not None and category is not None:
-        if category.__contains__(' '):
-            category = category.replace(' ', '-')
+        if category.__contains__(" "):
+            category = category.replace(" ", "-")
         linkAPI = f"http://api.tradingeconomics.com/financials/historical/{fn.stringOrListWithAppend(symbol, category)}"
     else:
         return "symbol and category arguments are required"
-        
-
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
 
     linkAPI = fn.checkDates(linkAPI, initDate, endDate)
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-

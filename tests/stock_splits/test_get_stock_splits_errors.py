@@ -6,17 +6,13 @@ from tradingeconomics import glob
 
 class TestGetStockSplitsErrors(unittest.TestCase):
 
+    @patch("tradingeconomics.stock_splits.glob.apikey", "")
     def test_get_stock_splits_no_credentials(self):
-        # Test that AttributeError is raised when no API key is set
-        original_apikey = glob.apikey
-        try:
-            delattr(glob, "apikey")
-            with self.assertRaises(LoginError) as context:
-                getStockSplits()
+        # Test that HTTPError is raised when no API key is set (API returns 401)
+        from urllib.error import HTTPError
 
-            self.assertIn("login", str(context.exception).lower())
-        finally:
-            glob.apikey = original_apikey
+        with self.assertRaises(HTTPError):
+            getStockSplits()
 
 
 if __name__ == "__main__":

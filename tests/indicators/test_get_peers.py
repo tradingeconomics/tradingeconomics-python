@@ -14,7 +14,7 @@ class TestGetPeers(unittest.TestCase):
         # Get peers by ticker
         result = getPeers(ticker="CPI YOY")
 
-        expected_url = "https://api.tradingeconomics.com/peers/CPI%20YOY?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/peers/CPI%20YOY"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"peers": "ticker"})
@@ -28,7 +28,7 @@ class TestGetPeers(unittest.TestCase):
         result = getPeers(country="united states")
 
         expected_url = (
-            "https://api.tradingeconomics.com/peers/country/united%20states?c=TESTKEY"
+            "https://api.tradingeconomics.com/peers/country/united%20states"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -43,7 +43,7 @@ class TestGetPeers(unittest.TestCase):
         # Get peers by country and category
         result = getPeers(country="united states", category="money")
 
-        expected_url = "https://api.tradingeconomics.com/peers/country/united%20states/money?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/peers/country/united%20states/money"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"peers": "country_category"})
@@ -55,7 +55,7 @@ class TestGetPeers(unittest.TestCase):
         result = getPeers(country="united states", output_type="df")
 
         expected_url = (
-            "https://api.tradingeconomics.com/peers/country/united%20states?c=TESTKEY"
+            "https://api.tradingeconomics.com/peers/country/united%20states"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")

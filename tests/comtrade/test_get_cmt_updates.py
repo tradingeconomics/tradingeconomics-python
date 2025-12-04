@@ -15,14 +15,14 @@ class TestGetCmtUpdates(unittest.TestCase):
     def test_updates_basic(self, mock_dataRequest):
         """
         getCmtUpdates() should call dataRequest with
-        https://api.tradingeconomics.com/comtrade/updates?c=guest:guest
+        https://api.tradingeconomics.com/comtrade/updates
         """
 
         mock_dataRequest.return_value = {"status": "ok"}
 
         result = getCmtUpdates()
 
-        expected_url = "https://api.tradingeconomics.com/comtrade/updates?c=guest:guest"
+        expected_url = "https://api.tradingeconomics.com/comtrade/updates"
 
         mock_dataRequest.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"status": "ok"})

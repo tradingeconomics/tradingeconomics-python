@@ -15,7 +15,7 @@ class TestGetHistoricalComtrade(unittest.TestCase):
         result = getHistorical(symbol="PRTESP24031:comtrade")
 
         expected_url = (
-            "https://api.tradingeconomics.com/comtrade/historical/PRTESP24031?c=TESTKEY"
+            "https://api.tradingeconomics.com/comtrade/historical/PRTESP24031"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -36,7 +36,7 @@ class TestGetHistoricalComtrade(unittest.TestCase):
             symbol="PRTESP24031:comtrade", initDate="2015-01-01", endDate="2020-01-01"
         )
 
-        expected_url = "https://api.tradingeconomics.com/comtrade/historical/PRTESP24031?d1=2015-01-01&d2=2020-01-01&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/comtrade/historical/PRTESP24031?d1=2015-01-01&d2=2020-01-01"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"comtrade": "with_dates"})

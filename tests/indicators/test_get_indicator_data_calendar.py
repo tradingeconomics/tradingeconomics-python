@@ -15,7 +15,7 @@ class TestGetIndicatorDataCalendar(unittest.TestCase):
         result = getIndicatorData(calendar=1)
 
         expected_url = (
-            "https://api.tradingeconomics.com/indicators?calendar=1&c=TESTKEY"
+            "https://api.tradingeconomics.com/indicators?calendar=1"
         )
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
@@ -30,7 +30,7 @@ class TestGetIndicatorDataCalendar(unittest.TestCase):
         # Get indicators with calendar events for specific country
         result = getIndicatorData(country="United States", calendar=1)
 
-        expected_url = "https://api.tradingeconomics.com/indicators?calendar=1&country=United%20States&c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/indicators?calendar=1&country=United%20States"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"calendar": "country"})

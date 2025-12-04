@@ -14,7 +14,7 @@ class TestGetAllCountries(unittest.TestCase):
         # Get all countries
         result = getAllCountries()
 
-        expected_url = "https://api.tradingeconomics.com/country/?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/country/"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type=None)
         self.assertEqual(result, {"countries": "all"})
@@ -27,7 +27,7 @@ class TestGetAllCountries(unittest.TestCase):
         # Get all countries with output type
         result = getAllCountries(output_type="df")
 
-        expected_url = "https://api.tradingeconomics.com/country/?c=TESTKEY"
+        expected_url = "https://api.tradingeconomics.com/country/"
 
         mock_request.assert_called_once_with(api_request=expected_url, output_type="df")
         self.assertEqual(result, {"countries": "df"})
