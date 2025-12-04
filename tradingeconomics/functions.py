@@ -171,11 +171,16 @@ def dataRequest(api_request, output_type):
         code = response.getcode()
         # JSON is already properly parsed by json.loads() - no trimming needed
         webResults = json.loads(response.read().decode("utf-8"))
-    except ValueError:
-        if code != 200:
-            print(urlopen(api_request).read().decode("utf-8"))
-        else:
-            raise WebRequestError("Something went wrong. Error code = " + str(code))
+    except Exception as e:
+        # Handle errors more robustly - code may not be defined if error occurs early
+        try:
+            error_response = urlopen(api_request)
+            error_code = error_response.getcode()
+            error_message = error_response.read().decode("utf-8")
+            print(f"API Error (HTTP {error_code}): {error_message}")
+        except:
+            pass
+        raise WebRequestError(f"Request failed: {str(e)}")
 
     if code == 200:
         # Validate data availability first
