@@ -16,12 +16,12 @@ if PY3:  # Python 3+
         getHistoricalLatest,
         getHistoricalUpdates,
     )
-    from .calendar import (
-        getCalendarData,
-        getCalendarId,
-        getCalendarUpdates,
-        getCalendarEventsByGroup,
-        getCalendarEvents,
+    from .calendar import (  # pyright: ignore[reportAttributeAccessIssue]  # Conflicts with Python builtin
+        getCalendarData,  # pyright: ignore[reportAttributeAccessIssue]
+        getCalendarId,  # pyright: ignore[reportAttributeAccessIssue]
+        getCalendarUpdates,  # pyright: ignore[reportAttributeAccessIssue]
+        getCalendarEventsByGroup,  # pyright: ignore[reportAttributeAccessIssue]
+        getCalendarEvents,  # pyright: ignore[reportAttributeAccessIssue]
     )
     from .forecasts import getForecastData, getForecastByTicker, getForecastUpdates
     from .indicators import (
@@ -52,7 +52,10 @@ if PY3:  # Python 3+
         getMarketsByCountry,
     )
     from .historicalMarkets import fetchMarkets
-    from .glob import login, subscribe
+    from .glob import (  # pyright: ignore[reportAttributeAccessIssue]  # Conflicts with Python builtin
+        login,  # pyright: ignore[reportAttributeAccessIssue]
+        subscribe,  # pyright: ignore[reportAttributeAccessIssue]
+    )
     from .stream import run
     from .earnings import getEarnings, getEarningsType
     from .news import getNews, getArticles, getArticleId
@@ -107,12 +110,12 @@ else:  # Python 2.X
         getHistoricalRatings,
         getHistoricalByTicker,
     )
-    from calendar import (
-        getCalendarData,
-        getCalendarId,
-        getCalendarUpdates,
-        getCalendarEventsByGroup,
-        getCalendarEvents,
+    from calendar import (  # pyright: ignore[reportAttributeAccessIssue]  # Conflicts with Python builtin
+        getCalendarData,  # pyright: ignore[reportAttributeAccessIssue]
+        getCalendarId,  # pyright: ignore[reportAttributeAccessIssue]
+        getCalendarUpdates,  # pyright: ignore[reportAttributeAccessIssue]
+        getCalendarEventsByGroup,  # pyright: ignore[reportAttributeAccessIssue]
+        getCalendarEvents,  # pyright: ignore[reportAttributeAccessIssue]
     )
     from forecasts import getForecastData, getForecastByTicker, getForecastUpdates
     from indicators import (
@@ -139,7 +142,10 @@ else:  # Python 2.X
         getMarketsStockDescriptions,
     )
     from historicalMarkets import fetchMarkets
-    from glob import login, subscribe
+    from glob import (  # pyright: ignore[reportAttributeAccessIssue]  # Conflicts with Python builtin
+        login,  # pyright: ignore[reportAttributeAccessIssue]
+        subscribe,  # pyright: ignore[reportAttributeAccessIssue]
+    )
     from stream import run
     from earnings import getEarnings, getEarningsType
     from news import getNews, getArticles, getArticleId
