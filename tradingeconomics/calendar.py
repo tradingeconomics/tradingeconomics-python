@@ -247,16 +247,25 @@ def getCalendarData(
     elif values == False:
         d["values"] = f"&values=false"
 
-    api_url_request = "%s%s%s%s%s%s%s%s" % (
+    # Build base URL
+    api_url_request = "%s%s%s%s%s%s" % (
         d["url_base"],
         d["country"],
         d["category"],
         d["event"],
         d["init_date"],
         d["end_date"],
-        d["importance"],
-        d["values"],
     )
+
+    # Add query parameters (importance and values)
+    query_params = []
+    if d["importance"]:
+        query_params.append(d["importance"].lstrip("&"))
+    if d["values"]:
+        query_params.append(d["values"].lstrip("&"))
+
+    if query_params:
+        api_url_request += "?" + "&".join(query_params)
     return fn.dataRequest(api_request=api_url_request, output_type=output_type)
 
 
