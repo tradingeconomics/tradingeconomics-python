@@ -58,15 +58,27 @@ def getHistoricalCreditRatings(
     out_type: str.
         Output type options are: df, raw, dict.
 
+    Notes:
+    ------
+    At least initDate or endDate must be provided. 
+    Country alone without date range is not supported.
+
     Example:
     -------
     getHistoricalCreditRatings()
-    getHistoricalCreditRatings(country='mexico')
+    getHistoricalCreditRatings(initDate='2010-08-01', endDate='2012-01-01')
     getHistoricalCreditRatings(country='mexico', initDate='2010-08-01')
     getHistoricalCreditRatings(country='mexico', initDate='2010-08-01', endDate='2012-01-01')
     """
 
     fn.setup_ssl_context()
+
+    # Validate that at least one date parameter is provided when country is specified
+    if country is not None and initDate is None and endDate is None:
+        raise ValueError(
+            "At least 'initDate' or 'endDate' must be provided when filtering by country. "
+            "Country alone is not supported for historical credit ratings."
+        )
 
     linkAPI = "/credit-ratings/historical"
 
