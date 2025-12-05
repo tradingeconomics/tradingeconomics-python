@@ -1,7 +1,7 @@
 import json
 import urllib
 import pandas as pd
-from datetime import *
+from datetime import datetime, date, timedelta
 import sys
 from . import functions as fn
 from . import glob
@@ -10,11 +10,11 @@ import ssl
 PY3 = sys.version_info[0] == 3
 
 if PY3:  # Python 3+
-    from urllib.request import urlopen
-    from urllib.parse import quote
+    from urllib.request import urlopen  # type: ignore
+    from urllib.parse import quote  # type: ignore
 else:  # Python 2.X
-    from urllib import urlopen
-    from urllib import quote
+    from urllib import urlopen  # type: ignore
+    from urllib import quote  # type: ignore
 
 
 class ParametersError(ValueError):
@@ -154,6 +154,7 @@ def getEurostatData(
     """
     fn.setup_ssl_context()
 
+    linkAPI = ""
     if (
         country == None
         and category == None
