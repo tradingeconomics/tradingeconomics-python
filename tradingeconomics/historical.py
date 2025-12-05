@@ -172,12 +172,7 @@ def getHistoricalData(
     getHistoricalData(country = 'United States', indicator = 'Imports', initDate = '2011-01-01', endDate = '2016-01-01')
     getHistoricalData(country = ['United States', 'china'], indicator = ['Imports','Exports'], initDate = '2011-01-01', endDate = '2016-01-01')
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if type(country) is str and type(indicator) is str:
         linkAPI = (
@@ -248,12 +243,7 @@ def getHistoricalRatings(
     getHistoricalRatings(country = 'United States', initDate ='2011-01-01', endDate = '2012-01-01')
 
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if country == None:
         linkAPI = "/ratings/historical/"

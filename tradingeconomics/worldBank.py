@@ -101,12 +101,7 @@ def getWBCategories(category=None, page_number=None, output_type=None):
     getWBCategories(category = ['education', 'agriculture'], output_type = None)
     """
     url = ""
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
     if category:
         url = "/worldBank/category/" + quote(str(category), safe="")
     else:
@@ -154,12 +149,7 @@ def getWBIndicator(series_code=None, url=None, output_type=None):
 
     getWBIndicator(series_code = None, url = '/united-states/real-interest-rate-percent-wb-data.html', output_type = None)
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/worldBank/indicator/"
     if series_code == None and url == None:
@@ -199,12 +189,7 @@ def getWBCountry(country=None, page_number=None, output_type=None):
     getWBCountry(country = 'portugal', output_type = None) # page_number is no longer needed!
     """
     linkAPI = "/worldBank/country/"
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if country == None:
         return "A country is required!"
@@ -242,12 +227,7 @@ def getWBHistorical(series_code=None, output_type=None):
 
     getWBHistorical(series_code = 'usa.fr.inr.rinr', output_type = None)
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/worldBank/historical"
 

@@ -76,12 +76,7 @@ def getHistoricalEurostat(ID=None, initDate=None, endDate=None, output_type=None
     getHistoricalEurostat(ID = '24804', initDate ='2015-01-01', endDate = '2020-01-01', output_type = 'df')
 
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if ID == None:
         raise ValueError("An ID needs to be supplied.")

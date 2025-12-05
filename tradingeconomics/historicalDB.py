@@ -69,12 +69,7 @@ def getHistorical(symbol=None, initDate=None, endDate=None, output_type=None, *a
     """
     linkAPI = "/"
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if symbol[-10:] == ":worldbank":  # type: ignore
         linkAPI += "worldBank/historical?" + "s=" + quote(symbol[:-10], safe=":")  # type: ignore

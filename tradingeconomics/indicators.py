@@ -95,12 +95,7 @@ def getIndicatorData(country=None, indicators=None, calendar=None, output_type=N
     getIndicatorData(country = ['United States', 'Portugal'], indicators = ['Imports','Exports'])
     getIndicatorData(country = ['United States', 'Portugal'], indicators = ['Imports','Exports'], calendar = 1)
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if country is not None and indicators is not None:
         return "Error: You can not use both country and indicators parameters at the same time."
@@ -147,12 +142,7 @@ def getRatings(country=None, rating=None, output_type="df"):
     getRatings(country = 'United States', rating = None, output_type = 'df')
     getRatings(country = ['United States', 'Portugal'], rating = None, output_type = 'df')
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if country == None:
         linkAPI = "/ratings"
@@ -183,14 +173,7 @@ def getCreditRatingsUpdates(output_type=None):
         getCreditRatingsUpdates()
         getCreditRatingsUpdates(output_type='df')
     """
-    # Make sure HTTPS requests work even in environments with strict SSL configs
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        # Older Python versions may not have this; in that case we just skip
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     # Base endpoint for credit rating updates
     linkAPI = "/credit-ratings/updates"
@@ -462,12 +445,7 @@ def getAllCountries(output_type=None):
     getAllCountries()
     getAllCountries(output_type='df')
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/country/"
 
@@ -491,12 +469,7 @@ def getIndicatorChanges(start_date=None, output_type=None):
     getIndicatorChanges()
     getIndicatorChanges(start_date='2024-10-01', output_type='df')
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/changes"
 

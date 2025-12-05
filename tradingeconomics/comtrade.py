@@ -78,12 +78,7 @@ def getCmtLastUpdates(output_type=None, country=None, start_date=None):
     getCmtLastUpdates(country = 'portugal', start_date='2022-01-01', output_type='df')
     """
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/comtrade/updates/country"
 
@@ -118,12 +113,7 @@ def getCmtUpdates(output_type=None):
     getCmtUpdates(output_type = None)
 
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/comtrade/updates"
 
@@ -150,12 +140,7 @@ def getCmtCategories(output_type=None):
     getCmtCategories(category = None, output_type = None)
 
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/comtrade/categories"
 
@@ -191,12 +176,7 @@ def getCmtCountry(country=None, page_number=None, output_type=None):
     getCmtCountry(country = ['china', 'portugal'], page_number = 3, output_type = None)
 
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/comtrade/countries"
 
@@ -235,12 +215,7 @@ def getCmtHistorical(symbol=None, output_type=None):
     getCmtHistorical(symbol = 'PRTESP24031', output_type = None)
 
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/comtrade/historical/"
 
@@ -273,12 +248,7 @@ def getCmtTwoCountries(
     getCmtTwoCountries(country1 = 'portugal', country2 = 'spain', page_number = 3, output_type = None)
 
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/comtrade/country"
 

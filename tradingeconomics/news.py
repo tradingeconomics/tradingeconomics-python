@@ -251,12 +251,7 @@ def getArticles(
 
     """
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if country != None and indicator != None:
         linkAPI = checkArticleLink(country, indicator)
@@ -331,12 +326,7 @@ def getArticleId(id=None, output_type=None):
     getArticleId(id = '20580', output_type = None)
 
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
     if type(id) != None:
         linkAPI = checkArticleId(id)
 

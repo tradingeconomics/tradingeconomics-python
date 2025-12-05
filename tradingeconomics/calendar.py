@@ -113,12 +113,7 @@ def getCalendarId(id=None, output_type=None):
 
     """
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if id == None:
         linkAPI = "/calendar"

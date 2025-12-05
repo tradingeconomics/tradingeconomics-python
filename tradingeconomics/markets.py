@@ -73,12 +73,7 @@ def getMarketsData(marketsField, type=None, output_type=None):
     -------
     getMarketsData(marketsField = 'index')
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     fields = ["commodities", "currency", "index", "bond", "crypto"]
     if marketsField not in fields:
@@ -116,12 +111,7 @@ def getCurrencyCross(cross, output_type=None):
     getCurrencyCross(cross = 'EUR')
     getCurrencyCross(cross = 'EUR', output_type='df')
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if cross is not None:
         linkAPI = "/markets/currency?cross=" + quote(cross, safe="")
@@ -149,12 +139,7 @@ def getMarketsBySymbol(symbols, output_type=None):
     getMarketsBySymbol(symbols = 'indu:ind')
     getMarketsBySymbol(symbols = ['aapl:us', 'indu:ind'], output_type = 'raw')
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if type(symbols) is not str:
         linkAPI = "/markets/symbol/" + quote(",".join(symbols), safe="")
@@ -186,12 +171,7 @@ def getMarketsIntraday(symbols, initDate=None, endDate=None, output_type=None):
     getMarketsIntraday(symbols = 'indu:ind', initDate='2018-03-13 15:30')
     getMarketsIntraday(symbols = ['aapl:us', 'indu:ind'], initDate='2022-01-01', endDate='2022-12-31', output_type = 'raw')
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if type(symbols) is not str:
         linkAPI = "/markets/intraday/" + quote(",".join(symbols), safe="")
@@ -221,12 +201,7 @@ def getMarketsPeers(symbols, output_type=None):
     getMarketsPeers(symbols = 'indu:ind')
     getMarketsPeers(symbols = ['aapl:us', 'indu:ind'], output_type = 'raw')
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if type(symbols) is not str:
         linkAPI = "/markets/peers/" + quote(",".join(symbols), safe="")
@@ -254,12 +229,7 @@ def getMarketsComponents(symbols, output_type=None):
     getMarketsComponents(symbols = 'psi20:ind')
     getMarketsComponents(symbols = ['psi20:ind', 'indu:ind'], output_type = 'raw')
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if type(symbols) is not str:
         linkAPI = "/markets/components/" + quote(",".join(symbols), safe="")
@@ -289,12 +259,7 @@ def getMarketsSearch(country=None, category=None, page=None, output_type=None):
     getMarketsSearch(country = 'japan', category = 'index', page = None, output_type = None)
     """
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if type(country) is not str:
         linkAPI = "/markets/search/" + quote(",".join(country), safe="")  # type: ignore
@@ -330,12 +295,7 @@ def getMarketsForecasts(category=None, symbol=None, output_type=None):
     getMarketsForecasts(symbol = ['psi20:ind', 'indu:ind'], output_type = 'df')
     getMarketsForecasts(symbol =  'indu:ind', output_type = 'df')
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if type(symbol) is list:
         linkAPI = "/markets/forecasts" + "/symbol/" + quote(",".join(symbol), safe="")
@@ -566,12 +526,7 @@ def getStocksByCountry(country=None, output_type=None):
 
     """
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if country == None:
         return "A country is required!"

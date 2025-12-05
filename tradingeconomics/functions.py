@@ -6,6 +6,7 @@ import sys
 import json
 import pandas as pd
 import time
+import ssl
 
 PY3 = sys.version_info[0] == 3
 
@@ -32,6 +33,21 @@ class ParametersError(ValueError):
 
 class WebRequestError(ValueError):
     pass
+
+
+def setup_ssl_context():
+    """
+    Configure SSL context to use unverified HTTPS connections.
+    This is needed for compatibility with some API endpoints.
+    Call this once at the start of functions that make HTTPS requests.
+    """
+    try:
+        _create_unverified_https_context = ssl._create_unverified_context
+    except AttributeError:
+        # Python doesn't support this, skip
+        pass
+    else:
+        ssl._create_default_https_context = _create_unverified_https_context
 
 
 def credCheck(credentials):

@@ -65,12 +65,7 @@ def getFinancialsHistorical(
     getFinancialsHistorical(symbol=['aapl:us', 'tsla:us'], category=['assets', 'debt'], output_type='df')
 
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if symbol is not None and category is not None:
         if category.__contains__(" "):

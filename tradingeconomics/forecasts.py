@@ -96,12 +96,7 @@ def getForecastData(country=None, indicator=None, output_type=None):
 
     getForecastData(country = ['United States', 'India'], indicator = ['Imports','Exports'])
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     if country == None and indicator == None:
         raise ValueError(

@@ -28,12 +28,7 @@ def getCreditRatings(
     getCreditRatings(country=['mexico', 'sweden'])
     """
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/credit-ratings"
 
@@ -71,12 +66,7 @@ def getHistoricalCreditRatings(
     getHistoricalCreditRatings(country='mexico', initDate='2010-08-01', endDate='2012-01-01')
     """
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/credit-ratings/historical"
 

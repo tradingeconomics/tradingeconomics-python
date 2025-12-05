@@ -81,12 +81,7 @@ def getEarnings(
     getEarnings(country = 'united states')
     """
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/earnings-revenues"
     # Symbols must NOT be URL-encoded; TE API expects literal format like "msft:us"
@@ -117,12 +112,7 @@ def getEarnings(
 
 
 def getEarningsType(type=None, output_type=None):
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/earnings?type="
     if type:

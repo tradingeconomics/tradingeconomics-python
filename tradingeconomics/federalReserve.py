@@ -117,12 +117,7 @@ def getFedRStates(county=None, output_type=None):
     getFedRStates(county = 'arkansas', output_type = None)
     """
     name = ""
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/fred/states"
 
@@ -192,12 +187,7 @@ def getFedRSnaps(
 
     """
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/fred/snapshot/"
 
@@ -244,12 +234,7 @@ def getFedRCountyOld(state=None, county=None, output_type=None):
 
     """
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     linkAPI = "/fred/snapshot/county/Pike%20County,%20AR"
 
@@ -283,12 +268,7 @@ def getFedRCounty(state=None, county=None, output_type=None):
 
     """
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
     # d is a dictionary used for create the api url
     d = {
