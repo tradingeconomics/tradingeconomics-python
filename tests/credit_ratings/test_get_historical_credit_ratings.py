@@ -38,7 +38,9 @@ class TestGetHistoricalCreditRatings(unittest.TestCase):
     @patch("tradingeconomics.credit_ratings.fn.dataRequest", return_value={"ok": True})
     @patch("tradingeconomics.credit_ratings.fn.checkDates", return_value="FINALURL")
     def test_multiple_countries(self, mock_dates, mock_request):
-        result = getHistoricalCreditRatings(country=["mexico", "sweden"], endDate="2023-12-31")
+        result = getHistoricalCreditRatings(
+            country=["mexico", "sweden"], endDate="2023-12-31"
+        )
 
         expected_start = "/credit-ratings/historical/country/mexico,sweden"
 
@@ -86,7 +88,9 @@ class TestGetHistoricalCreditRatings(unittest.TestCase):
     )
     @patch("tradingeconomics.credit_ratings.fn.checkDates", return_value="URL_FINAL")
     def test_with_output_type_raw(self, mock_dates, mock_request):
-        result = getHistoricalCreditRatings(country="sweden", initDate="2020-01-01", output_type="raw")
+        result = getHistoricalCreditRatings(
+            country="sweden", initDate="2020-01-01", output_type="raw"
+        )
 
         expected_base = "/credit-ratings/historical/country/sweden"
 
@@ -139,7 +143,7 @@ class TestGetHistoricalCreditRatings(unittest.TestCase):
     def test_country_without_dates_raises_error(self):
         with self.assertRaises(ValueError) as context:
             getHistoricalCreditRatings(country="mexico")
-        
+
         self.assertIn("initDate", str(context.exception))
         self.assertIn("endDate", str(context.exception))
         self.assertIn("Country alone is not supported", str(context.exception))

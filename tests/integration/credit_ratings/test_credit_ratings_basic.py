@@ -105,11 +105,11 @@ class TestHistoricalCreditRatings:
         try:
             with pytest.raises(ValueError) as exc_info:
                 te.getHistoricalCreditRatings(country="mexico")
-            
+
             # Verify the error message is descriptive
             assert "initDate" in str(exc_info.value) or "endDate" in str(exc_info.value)
             assert "Country alone is not supported" in str(exc_info.value)
-            
+
             print("✓ Correctly raises ValueError when country provided without dates")
 
         except Exception as e:

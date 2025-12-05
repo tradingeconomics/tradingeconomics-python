@@ -60,7 +60,7 @@ def getHistoricalCreditRatings(
 
     Notes:
     ------
-    At least initDate or endDate must be provided. 
+    At least initDate or endDate must be provided.
     Country alone without date range is not supported.
 
     Example:
