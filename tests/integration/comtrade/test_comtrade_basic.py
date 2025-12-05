@@ -28,7 +28,11 @@ class TestComtradeCategories:
             assert isinstance(result[0], dict)
 
             # Verify expected fields in category data
-            assert "id" in result[0] or "categoryId" in result[0] or "category" in result[0]
+            assert (
+                "id" in result[0]
+                or "categoryId" in result[0]
+                or "category" in result[0]
+            )
 
             print(f"✓ Found {len(result)} Comtrade categories")
 
