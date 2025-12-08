@@ -3,7 +3,7 @@ import itertools
 import urllib
 import pandas as pd
 import sys
-from datetime import *
+import datetime
 from dateutil.relativedelta import relativedelta
 from . import functions as fn
 from . import glob
@@ -15,8 +15,8 @@ if PY3:  # Python 3+
     from urllib.request import urlopen
     from urllib.parse import quote
 else:  # Python 2.X
-    from urllib import urlopen
-    from urllib import quote
+    from urllib import urlopen  # type: ignore
+    from urllib import quote  # type: ignore
 
 
 class ParametersError(ValueError):
@@ -106,10 +106,11 @@ def getNewsResults(webResults, country):
     ]
     maindf = pd.DataFrame()
     for i in range(len(names)):
-        names[i] = [d[names2[i]] for d in webResults]
+        col_data = [d[names2[i]] for d in webResults]
         maindf = pd.concat(
-            [maindf, pd.DataFrame(names[i], columns=[names2[i]])], axis=1
+            [maindf, pd.DataFrame(col_data, columns=[names2[i]])], axis=1
         )
+    if "country" in maindf:
         maindf["country"] = maindf["country"].map(lambda x: x.strip())
 
 
@@ -180,10 +181,11 @@ def getArticleResults(webResults, id):
     ]
     maindf = pd.DataFrame()
     for i in range(len(names)):
-        names[i] = [d[names2[i]] for d in webResults]
+        col_data = [d[names2[i]] for d in webResults]
         maindf = pd.concat(
-            [maindf, pd.DataFrame(names[i], columns=[names2[i]])], axis=1
+            [maindf, pd.DataFrame(col_data, columns=[names2[i]])], axis=1
         )
+    if "category" in maindf:
         maindf["category"] = maindf["category"].map(lambda x: x.strip())
 
 
@@ -264,19 +266,19 @@ def getArticles(
 
     if (initDate != None) and (endDate != None):
         try:
-            fn.validate(initDate)
+            initDateFormat = fn.validate(initDate)
         except ValueError:
             raise DateError(
                 "Incorrect initDate format, should be YYYY-MM-DD or MM-DD-YYYY."
             )
         try:
-            fn.validate(endDate)
+            endDateFormat = fn.validate(endDate)
         except ValueError:
             raise DateError(
                 "Incorrect endDate format, should be YYYY-MM-DD or MM-DD-YYYY."
             )
         try:
-            fn.validatePeriod(initDate, endDate)
+            fn.validatePeriod(initDate, initDateFormat, endDate, endDateFormat)
         except ValueError:
             raise DateError("Invalid time period.")
         linkAPI += "/from" + "/" + initDate + "/" + endDate
@@ -294,7 +296,7 @@ def getArticles(
 
     elif initDate == None and (endDate != None):
         initDate = (
-            datetime.str(endDate, "%Y-%m-%d") - relativedelta(months=6)
+            datetime.datetime.strptime(endDate, "%Y-%m-%d") - relativedelta(months=6)
         ).strftime("%Y-%m-%d")
         linkAPI += "/from" + "/" + initDate + "/" + endDate
 
@@ -326,6 +328,7 @@ def getArticleId(id=None, output_type=None):
     getArticleId(id = '20580', output_type = None)
 
     """
+    linkAPI = ""
     fn.setup_ssl_context()
     if type(id) != None:
         linkAPI = checkArticleId(id)
