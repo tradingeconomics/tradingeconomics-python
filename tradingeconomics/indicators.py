@@ -415,13 +415,12 @@ def getPeers(country=None, category=None, ticker=None, output_type=None):
     }
 
     if country:
-        country = country.replace(" ", "%20")
-        d["country"] = f"country/{country}"
+        d["country"] = f"country/{fn.stringOrList(country)}"
         if not (category is None):
-            d["category"] = f"/{category}"
+            d["category"] = f"/{fn.stringOrList(category)}"
 
     if ticker:
-        d["ticker"] = ticker.replace(" ", "%20")
+        d["ticker"] = fn.stringOrList(ticker)
 
     api_url_request = "%s%s%s%s" % (
         d["url_base"],
