@@ -1,6 +1,7 @@
 import urllib
 import sys
-from datetime import *
+
+
 from . import glob
 from . import functions as fn
 
@@ -10,8 +11,8 @@ if PY3:  # Python 3+
     from urllib.request import urlopen
     from urllib.parse import quote
 else:  # Python 2.X
-    from urllib import urlopen
-    from urllib import quote
+    from urllib import urlopen  # type: ignore
+    from urllib import quote  # type: ignore
 
 
 class ParametersError(ValueError):
