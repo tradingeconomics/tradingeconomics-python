@@ -250,7 +250,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         url = mock_request.call_args[1]["api_request"]
         self.assertEqual(
             url,
-            "/calendar/country/united%20states&importance=2",
+            "/calendar/country/united%20states?importance=2",
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
@@ -265,7 +265,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         url = mock_request.call_args[1]["api_request"]
         self.assertEqual(
             url,
-            "/calendar/country/united%20states/2023-01-01/2023-01-31&importance=3",
+            "/calendar/country/united%20states/2023-01-01/2023-01-31?importance=3",
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
@@ -275,7 +275,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         url = mock_request.call_args[1]["api_request"]
         self.assertEqual(
             url,
-            "/calendar/country/united%20states&values=true",
+            "/calendar/country/united%20states?values=true",
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
@@ -285,7 +285,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         url = mock_request.call_args[1]["api_request"]
         self.assertEqual(
             url,
-            "/calendar/country/united%20states&values=false",
+            "/calendar/country/united%20states?values=false",
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
@@ -376,7 +376,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         url = mock_request.call_args[1]["api_request"]
         self.assertEqual(
             url,
-            "/calendar/indicator/inflation%20rate&importance=2",
+            "/calendar/indicator/inflation%20rate?importance=2",
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
@@ -386,7 +386,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         url = mock_request.call_args[1]["api_request"]
         self.assertEqual(
             url,
-            "/calendar/country/united%20states&importance=2&values=true",
+            "/calendar/country/united%20states?importance=2&values=true",
         )
 
 
