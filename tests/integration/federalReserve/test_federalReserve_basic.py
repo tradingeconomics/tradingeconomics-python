@@ -22,10 +22,35 @@ import pytest
 import tradingeconomics as te
 import pandas as pd
 import time
+from functools import wraps
 
 
 # Configure API access
 te.login("guest:guest")
+
+
+def retry_on_server_error(max_retries=3, delay=2):
+    """Decorator to retry test on HTTP 500 errors (server-side issues)."""
+
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            for attempt in range(max_retries):
+                try:
+                    return func(*args, **kwargs)
+                except te.functions.WebRequestError as e:
+                    if "500" in str(e) and attempt < max_retries - 1:
+                        print(
+                            f"\n⚠️  Server error (attempt {attempt + 1}/{max_retries}), retrying in {delay}s..."
+                        )
+                        time.sleep(delay)
+                        continue
+                    raise
+            return None
+
+        return wrapper
+
+    return decorator
 
 
 class TestFedRStates:
@@ -95,8 +120,13 @@ class TestFedRSnaps:
         first_item = result[0]
         assert isinstance(first_item, dict)
 
+    @retry_on_server_error(max_retries=3, delay=3)
     def test_snaps_url(self):
-        """Test: te.getFedRSnaps(url='/united-states/all-marginally-attached-workers-for-tennessee-fed-data.html')"""
+        """Test: te.getFedRSnaps(url='/united-states/all-marginally-attached-workers-for-tennessee-fed-data.html')
+
+        Note: This endpoint occasionally returns HTTP 500 errors due to server-side issues.
+        The test includes retry logic to handle transient failures.
+        """
         result = te.getFedRSnaps(
             url="/united-states/all-marginally-attached-workers-for-tennessee-fed-data.html"
         )
