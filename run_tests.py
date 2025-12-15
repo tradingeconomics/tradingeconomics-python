@@ -22,6 +22,7 @@ def get_test_subdirectories(tests_dir="tests"):
             item.is_dir()
             and not item.name.startswith("_")
             and not item.name == "__pycache__"
+            and item.name != "integration"
         ):
             # Check if directory contains test files
             has_tests = any(

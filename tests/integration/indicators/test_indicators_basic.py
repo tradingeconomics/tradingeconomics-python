@@ -275,6 +275,23 @@ class TestHistoricalByTicker:
         assert isinstance(first_item, dict)
 
 
+class TestHistoricalLatest:
+    """Test Historical Latest endpoints."""
+
+    def test_historical_latest_multiple_countries_with_date(self):
+        """Test: te.getHistoricalLatest(country=['United States', 'Brazil'], date='2024-08-26')"""
+        result = te.getHistoricalLatest(
+            country=["United States", "Brazil"], date="2024-08-26"
+        )
+
+        assert result is not None
+        assert isinstance(result, list)
+        assert len(result) > 0
+
+        first_item = result[0]
+        assert isinstance(first_item, dict)
+
+
 class TestHistoricalUpdates:
     """Test Historical updates endpoints."""
 
