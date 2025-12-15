@@ -83,3 +83,4 @@ dlldata.c
 *.vspx
 
 .github/copilot-instructions.md
+DEPLOYMENT.md
