@@ -84,6 +84,10 @@ class TestFedRStates:
 class TestFedRSnaps:
     """Test Federal Reserve snapshots endpoints."""
 
+    def tearDown(self):
+        """Add delay between tests to avoid API rate limiting."""
+        time.sleep(2)
+
     def test_snaps_country_united_states(self):
         """Test: te.getFedRSnaps(country='united states')"""
         result = te.getFedRSnaps(country="united states")
