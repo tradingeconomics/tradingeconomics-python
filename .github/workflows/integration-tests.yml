@@ -22,5 +22,7 @@ jobs:
           pip install pytest
 
       - name: Run integration tests
+        env:
+          apikey: ${{ secrets.TE_API_KEY }}
         run: |
           pytest tests/integration/ --maxfail=1 --disable-warnings -v

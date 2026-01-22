@@ -22,6 +22,8 @@ jobs:
           pip install pytest
 
       - name: Run 10 essential integration tests
+        env:
+          apikey: ${{ secrets.TE_API_KEY }}
         run: |
           pytest \
             tests/integration/calendar/test_calendar_basic.py::TestCalendarBasicEndpoints::test_get_calendar_no_parameters \
