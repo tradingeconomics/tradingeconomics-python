@@ -507,9 +507,9 @@ class TestMarketsIntraday:
             assert isinstance(first_item, dict)
 
     def test_markets_intraday_with_date_range(self):
-        """Test: te.getMarketsIntraday(symbols='aapl:us', initDate='2017-08-01', endDate='2017-08-08')"""
+        """Test: te.getMarketsIntraday(symbols='aapl:us', initDate='2026-01-01', endDate='2026-01-30')"""
         result = te.getMarketsIntraday(
-            symbols="aapl:us", initDate="2017-08-01", endDate="2017-08-08"
+            symbols="aapl:us", initDate="2026-01-01", endDate="2026-01-30"
         )
 
         assert result is not None
@@ -524,11 +524,11 @@ class TestMarketsIntradayByInterval:
     """Test Markets intraday by interval endpoints."""
 
     def test_markets_intraday_by_interval(self):
-        """Test: te.getMarketsIntradayByInterval(symbol='aapl:us', initDate='2020-01-01', endDate='2020-12-01', interval='10m')"""
+        """Test: te.getMarketsIntradayByInterval(symbol='aapl:us', initDate='2026-01-01', endDate='2026-01-30', interval='10m')"""
         result = te.getMarketsIntradayByInterval(
             symbol="aapl:us",
-            initDate="2020-01-01",
-            endDate="2020-12-01",
+            initDate="2026-01-01",
+            endDate="2026-01-30",
             interval="10m",
         )
 

@@ -19,6 +19,7 @@ Usage:
 
 import pytest
 import os
+import time
 import tradingeconomics as te
 
 
@@ -46,6 +47,22 @@ def skip_if_no_api_key():
     api_key = os.environ.get("apikey", "guest:guest")
     if api_key == "guest:guest":
         pytest.skip("Skipping: requires paid API key (guest has limited access)")
+
+
+@pytest.fixture(autouse=True)
+def throttle_api_requests():
+    """
+    Add delay between tests to respect API rate limits.
+
+    This prevents:
+    - HTTP 429 (Too Many Requests) errors
+    - Temporary IP blocks from API server
+    - Quota exhaustion with guest credentials
+
+    The delay is applied AFTER each test completes.
+    """
+    yield  # Test runs here
+    time.sleep(1)  # 1 second delay after each test
 
 
 # Pytest markers for organizing tests

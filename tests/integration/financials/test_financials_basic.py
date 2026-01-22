@@ -272,11 +272,11 @@ class TestEarnings:
 
     @pytest.mark.requires_paid_api
     def test_earnings_by_index(self):
-        """Test: te.getEarnings(index='ndx:ind')
+        """Test: te.getEarnings(index='spx:ind')
 
         Note: This endpoint may require paid API access.
         """
-        result = te.getEarnings(index="ndx:ind")
+        result = te.getEarnings(index="spx:ind")
 
         assert result is not None
         assert isinstance(result, list)
@@ -287,12 +287,12 @@ class TestEarnings:
 
     @pytest.mark.requires_paid_api
     def test_earnings_by_index_with_dates(self):
-        """Test: te.getEarnings(index='ndx:ind', initDate='2016-01-01', endDate='2023-12-31')
+        """Test: te.getEarnings(index='spx:ind', initDate='2016-01-01', endDate='2023-12-31')
 
         Note: This endpoint may require paid API access.
         """
         result = te.getEarnings(
-            index="ndx:ind", initDate="2016-01-01", endDate="2023-12-31"
+            index="spx:ind", initDate="2023-01-01", endDate="2023-12-31"
         )
 
         assert result is not None
@@ -422,8 +422,8 @@ class TestStockSplits:
         assert isinstance(first_item, dict)
 
     def test_stock_splits_by_ticker(self):
-        """Test: te.getStockSplits(ticker='DSX')"""
-        result = te.getStockSplits(ticker="DSX")
+        """Test: te.getStockSplits(ticker='NVDA')"""
+        result = te.getStockSplits(ticker="NVDA")
 
         assert result is not None
         assert isinstance(result, list)

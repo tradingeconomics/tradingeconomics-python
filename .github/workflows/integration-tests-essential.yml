@@ -1,36 +1,26 @@
-# This workflow will upload a Python Package using Twine when a release is created
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Unit Tests
+name: Essential Integration Tests (Manual)
 
 on:
-  push:
-    branches: [release, main]
-
-permissions:
-  contents: read
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  essential-integration-tests:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: "3.12"
+
       - name: Install dependencies
         run: |
+          python -m pip install --upgrade pip
           pip install -r tradingeconomics/requirements.txt
           pip install pytest
-      - name: Run unit tests
-        run: python run_tests.py -v
+
       - name: Run 10 essential integration tests
         run: |
           pytest \

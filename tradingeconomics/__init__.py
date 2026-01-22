@@ -8,6 +8,13 @@ PY3 = sys.version_info[0] == 3
 
 
 if PY3:  # Python 3+
+    from .functions import (
+        AuthenticationError,
+        CredentialsError,
+        ParametersError,
+        WebRequestError,
+        DateError,
+    )
     from .historicalDB import getHistorical
     from .historical import (
         getHistoricalData,

@@ -27,6 +27,12 @@ class CredentialsError(ValueError):
     pass
 
 
+class AuthenticationError(ValueError):
+    """Raised when API authentication fails (401/403 errors)"""
+
+    pass
+
+
 class ParametersError(ValueError):
     pass
 
@@ -169,10 +175,16 @@ def dataRequest(api_request, output_type):
 
     Raises:
     -------
+    AuthenticationError: Invalid credentials or missing authentication (401/403)
     ParametersError: Invalid output_type or no data returned
     WebRequestError: HTTP request failure or connection error
     """
     from . import glob
+
+    if PY3:
+        from urllib.error import HTTPError, URLError
+    else:
+        from urllib2 import HTTPError, URLError  # type: ignore
 
     def outputTypeCheck(outputType):
         if outputType not in (None, "raw", "dict", "df"):
@@ -187,28 +199,87 @@ def dataRequest(api_request, output_type):
             api_request = "/" + api_request
         api_request = glob.API_BASE_URL + api_request
 
-    try:
-        # Build HTTP request and add authentication header if available
-        request = Request(api_request)
-        if hasattr(glob, "apikey") and glob.apikey:
-            request.add_header("Authorization", glob.apikey)
+    # Build HTTP request and add authentication header if available
+    request = Request(api_request)
+    if hasattr(glob, "apikey") and glob.apikey:
+        request.add_header("Authorization", glob.apikey)
 
+    try:
         # Execute HTTP request and parse JSON response
         with urlopen(request) as response:
             code = response.getcode()
             webResults = json.loads(response.read().decode("utf-8"))
-    except Exception as e:
-        # Attempt to retrieve error details from API response
-        try:
-            with urlopen(api_request) as error_response:
-                error_code = error_response.getcode()
-                error_message = error_response.read().decode("utf-8")
-                print(f"API Error (HTTP {error_code}): {error_message}")
-        except:
-            pass
-        raise WebRequestError(f"Request failed: {str(e)}")
 
-    if code == 200:
+    except HTTPError as e:
+        # Handle HTTP errors with specific status codes
+        error_code = e.code
+        error_body = ""
+
+        try:
+            error_body = e.read().decode("utf-8")
+            # Try to parse JSON error message from API
+            try:
+                error_json = json.loads(error_body)
+                error_message = error_json.get("message", error_body)
+            except:
+                error_message = error_body
+        except:
+            error_message = str(e.reason)
+
+        # Handle authentication/authorization errors
+        if error_code == 401:
+            raise AuthenticationError(
+                f"Authentication failed (401 Unauthorized). "
+                f"Invalid API key or missing credentials. "
+                f"Please check your login credentials. Details: {error_message}"
+            )
+        elif error_code == 403:
+            raise AuthenticationError(
+                f"Access forbidden (403 Forbidden). "
+                f"Your API key may not have permission to access this resource. "
+                f"Details: {error_message}"
+            )
+        elif error_code == 404:
+            raise ParametersError(
+                f"Endpoint not found (404). "
+                f"The requested resource does not exist. "
+                f"Details: {error_message}"
+            )
+        elif 400 <= error_code < 500:
+            raise ParametersError(
+                f"Client error (HTTP {error_code}). "
+                f"Invalid request parameters. "
+                f"Details: {error_message}"
+            )
+        elif error_code >= 500:
+            raise WebRequestError(
+                f"Server error (HTTP {error_code}). "
+                f"Trading Economics API is experiencing issues. "
+                f"Please try again later. Details: {error_message}"
+            )
+        else:
+            raise WebRequestError(f"HTTP error {error_code}: {error_message}")
+
+    except URLError as e:
+        # Handle network-level errors (DNS, connection timeout, etc.)
+        raise WebRequestError(
+            f"Network error: Unable to connect to Trading Economics API. "
+            f"Please check your internet connection. Details: {str(e.reason)}"
+        )
+
+    except json.JSONDecodeError as e:
+        # Handle invalid JSON responses
+        raise WebRequestError(
+            f"Invalid JSON response from API. "
+            f"The server may be experiencing issues. Details: {str(e)}"
+        )
+
+    except Exception as e:
+        # Catch-all for unexpected errors
+        raise WebRequestError(f"Unexpected error during API request: {str(e)}")
+
+    # Process successful response (code should be 200 or 2xx)
+    if 200 <= code < 300:
         # Check if response contains data
         if len(webResults) == 0:
             raise ParametersError("No data available for the provided parameters.")
@@ -225,7 +296,8 @@ def dataRequest(api_request, output_type):
                 "output_type options : df(default) for data frame or raw for unparsed results."
             )
     else:
-        return ""
+        # This should not happen as non-2xx codes trigger HTTPError
+        raise WebRequestError(f"Unexpected response code: {code}")
 
 
 def makeRequestAndParse(api_request, output_type):
