@@ -80,12 +80,10 @@ def getCmtLastUpdates(output_type=None, country=None, start_date=None):
 
     fn.setup_ssl_context()
 
-    linkAPI = "/comtrade/updates/country"
-
     if country:
-        linkAPI += "/" + quote(country)
+        linkAPI = "/comtrade/updates/country/" + quote(country)
     else:
-        linkAPI += "/all"
+        linkAPI = "/comtrade/updates"
 
     if start_date:
         linkAPI += "?from=" + quote(start_date)

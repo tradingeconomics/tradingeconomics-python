@@ -48,13 +48,13 @@ class TestGetCmtLastUpdates(unittest.TestCase):
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_no_country(self, mock_dataRequest):
         """
-        If no country is provided, URL must become /updates/country/all
+        If no country is provided, URL must become /comtrade/updates
         """
         mock_dataRequest.return_value = {"ok": True}
 
         result = getCmtLastUpdates(start_date=None)
 
-        expected_url = "/comtrade/updates/country/all"
+        expected_url = "/comtrade/updates"
 
         mock_dataRequest.assert_called_once_with(
             api_request=expected_url, output_type=None
@@ -65,13 +65,13 @@ class TestGetCmtLastUpdates(unittest.TestCase):
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_start_date_only(self, mock_dataRequest):
         """
-        If only start_date is provided (no country), URL should default to /all
+        If only start_date is provided (no country), URL should be /comtrade/updates?from=...
         """
         mock_dataRequest.return_value = {"ok": True}
 
         result = getCmtLastUpdates(start_date="2022-06-01")
 
-        expected_url = "/comtrade/updates/country/all?from=2022-06-01"
+        expected_url = "/comtrade/updates?from=2022-06-01"
 
         mock_dataRequest.assert_called_once_with(
             api_request=expected_url, output_type=None
