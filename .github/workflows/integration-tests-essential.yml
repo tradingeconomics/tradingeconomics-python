@@ -1,0 +1,39 @@
+name: Essential Integration Tests (Manual)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  essential-integration-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r tradingeconomics/requirements.txt
+          pip install pytest
+
+      - name: Run 10 essential integration tests
+        env:
+          apikey: ${{ secrets.TE_API_KEY }}
+        run: |
+          pytest \
+            tests/integration/calendar/test_calendar_basic.py::TestCalendarBasicEndpoints::test_get_calendar_no_parameters \
+            tests/integration/indicators/test_indicators_basic.py::TestIndicatorData::test_indicator_by_country_single \
+            tests/integration/indicators/test_indicators_basic.py::TestHistoricalData::test_historical_country_indicator \
+            tests/integration/markets/test_markets_basic.py::TestMarketsBySymbol::test_markets_by_symbol_single \
+            tests/integration/forecasts/test_forecasts_basic.py::TestForecastData::test_forecast_by_country_single \
+            tests/integration/markets/test_markets_basic.py::TestMarketsData::test_markets_data_commodities \
+            tests/integration/markets/test_markets_basic.py::TestMarketsData::test_markets_data_currency \
+            tests/integration/financials/test_financials_basic.py::TestEarnings::test_earnings_no_filters \
+            tests/integration/search/test_search_basic.py::TestSearch::test_search_by_term \
+            tests/integration/indicators/test_indicators_basic.py::TestCreditRatings::test_credit_ratings_all \
+            --maxfail=1 --disable-warnings -v

@@ -17,16 +17,35 @@ permissions:
 
 jobs:
   deploy:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.x'
-    - name: Install dependencies
-      run: pip install -r tradingeconomics/requirements.txt
-    - name: Test package
-      run: python -m unittest discover tests
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.x"
+      - name: Install dependencies
+        run: |
+          pip install -r tradingeconomics/requirements.txt
+          pip install pytest
+      - name: Run unit tests
+        env:
+          apikey: ${{ secrets.TE_API_KEY }}
+        run: python run_tests.py -v
+      - name: Run 10 essential integration tests
+        env:
+          apikey: ${{ secrets.TE_API_KEY }}
+        run: |
+          pytest \
+            tests/integration/calendar/test_calendar_basic.py::TestCalendarBasicEndpoints::test_get_calendar_no_parameters \
+            tests/integration/indicators/test_indicators_basic.py::TestIndicatorData::test_indicator_by_country_single \
+            tests/integration/indicators/test_indicators_basic.py::TestHistoricalData::test_historical_country_indicator \
+            tests/integration/markets/test_markets_basic.py::TestMarketsBySymbol::test_markets_by_symbol_single \
+            tests/integration/forecasts/test_forecasts_basic.py::TestForecastData::test_forecast_by_country_single \
+            tests/integration/markets/test_markets_basic.py::TestMarketsData::test_markets_data_commodities \
+            tests/integration/markets/test_markets_basic.py::TestMarketsData::test_markets_data_currency \
+            tests/integration/financials/test_financials_basic.py::TestEarnings::test_earnings_no_filters \
+            tests/integration/search/test_search_basic.py::TestSearch::test_search_by_term \
+            tests/integration/indicators/test_indicators_basic.py::TestCreditRatings::test_credit_ratings_all \
+            --maxfail=1 --disable-warnings -v

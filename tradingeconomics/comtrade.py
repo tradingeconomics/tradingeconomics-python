@@ -2,7 +2,6 @@ import json
 import urllib
 import pandas as pd
 import sys
-from datetime import *
 from . import functions as fn
 from . import glob
 import ssl
@@ -10,11 +9,11 @@ import ssl
 PY3 = sys.version_info[0] == 3
 
 if PY3:  # Python 3+
-    from urllib.request import urlopen
-    from urllib.parse import quote
+    from urllib.request import urlopen  # type: ignore
+    from urllib.parse import quote  # type: ignore
 else:  # Python 2.X
-    from urllib import urlopen
-    from urllib import quote
+    from urllib import urlopen  # type: ignore
+    from urllib import quote  # type: ignore
 
 
 class ParametersError(ValueError):
@@ -28,6 +27,7 @@ class CredentialsError(ValueError):
 class LoginError(AttributeError):
     pass
 
+
 class TypeError(AttributeError):
     pass
 
@@ -37,18 +37,19 @@ class WebRequestError(ValueError):
 
 
 def checkCmtCountry(country):
-    linkAPI = 'https://api.tradingeconomics.com/comtrade/country/'
+    linkAPI = "/comtrade/country/"
 
     if type(country) is str:
         linkAPI += quote(country)
     else:
-        linkAPI += quote("/".join(country), safe='')
+        encoded_items = [quote(c) for c in country]
+        linkAPI += "/".join(encoded_items)
     return linkAPI
 
 
 def checkCmtPage(linkAPI, page_number):
     if page_number != None:
-        linkAPI += '/{0}'.format(page_number)
+        linkAPI += "/{0}".format(page_number)
 
     return linkAPI
 
@@ -77,28 +78,15 @@ def getCmtLastUpdates(output_type=None, country=None, start_date=None):
     getCmtLastUpdates(country = 'portugal', start_date='2022-01-01', output_type='df')
     """
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
-
-    linkAPI = 'https://api.tradingeconomics.com/comtrade/updates/country'
+    fn.setup_ssl_context()
 
     if country:
-        linkAPI += '/' + quote(country)
+        linkAPI = "/comtrade/updates/country/" + quote(country)
     else:
-        linkAPI += '/all'
-
-
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
+        linkAPI = "/comtrade/updates"
 
     if start_date:
-        linkAPI += '&from=' + quote(start_date)
+        linkAPI += "?from=" + quote(start_date)
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -123,18 +111,9 @@ def getCmtUpdates(output_type=None):
     getCmtUpdates(output_type = None)
 
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
-    linkAPI = 'https://api.tradingeconomics.com/comtrade/updates'
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
+    linkAPI = "/comtrade/updates"
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -159,19 +138,9 @@ def getCmtCategories(output_type=None):
     getCmtCategories(category = None, output_type = None)
 
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
-    linkAPI = 'https://api.tradingeconomics.com/comtrade/categories'
-
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
+    linkAPI = "/comtrade/categories"
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -205,26 +174,17 @@ def getCmtCountry(country=None, page_number=None, output_type=None):
     getCmtCountry(country = ['china', 'portugal'], page_number = 3, output_type = None)
 
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
-    linkAPI = 'https://api.tradingeconomics.com/comtrade/countries'
+    linkAPI = "/comtrade/countries"
 
-    if country == None:
-        linkAPI = 'https://api.tradingeconomics.com/comtrade/countries'
+    if country is None:
+        linkAPI = "/comtrade/countries"
     else:
         linkAPI = checkCmtCountry(country)
 
     if page_number != None:
         linkAPI = checkCmtPage(linkAPI, page_number)
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
@@ -253,29 +213,21 @@ def getCmtHistorical(symbol=None, output_type=None):
     getCmtHistorical(symbol = 'PRTESP24031', output_type = None)
 
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
-    linkAPI = 'https://api.tradingeconomics.com/comtrade/historical/'
+    linkAPI = "/comtrade/historical/"
 
     if symbol == None:
         return "A symbol is required!"
     else:
-        linkAPI = 'https://api.tradingeconomics.com/comtrade/historical/' + quote(symbol)
-
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
+        linkAPI = "/comtrade/historical/" + quote(symbol)
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
-def getCmtTwoCountries(country1=None, country2=None, page_number=None, output_type=None):
+def getCmtTwoCountries(
+    country1=None, country2=None, page_number=None, output_type=None
+):
     """
     Get detailed information about Comtrade between two countries.
     =================================================================================
@@ -294,208 +246,190 @@ def getCmtTwoCountries(country1=None, country2=None, page_number=None, output_ty
     getCmtTwoCountries(country1 = 'portugal', country2 = 'spain', page_number = 3, output_type = None)
 
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
-    linkAPI = 'https://api.tradingeconomics.com/comtrade/country'
+    linkAPI = "/comtrade/country"
 
-    if country1 and country2 == None:
-        linkAPI = 'https://api.tradingeconomics.com/comtrade/country'
+    if country1 is not None and country2 is None:
+        linkAPI = f"/comtrade/country/{quote(country1)}"
+    elif country1 is not None and country2 is not None:
+        linkAPI = f"/comtrade/country/{quote(country1)}/{quote(country2)}"
     else:
-        linkAPI = 'https://api.tradingeconomics.com/comtrade/country/' + quote(country1) + '/' + quote(country2)
+        return "country1 is required"
 
     if page_number != None:
         linkAPI = checkCmtPage(linkAPI, page_number)
-
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
 def getCmtCountryByCategory(country=None, type=None, category=None, output_type=None):
     """
-        Get detailed information about Comtrade Country by Imports or Exports and by Category
-        =================================================================================
+    Get detailed information about Comtrade Country by Imports or Exports and by Category
+    =================================================================================
 
-        Parameters:
-        -----------
-        country:string.
-                 for example:
-                    country = 'country_name'
+    Parameters:
+    -----------
+    country:string.
+             for example:
+                country = 'country_name'
 
-        type: string.
-                for example:
-                    type = 'import'
-                    type = 'export'
-        category: string.
-                for example:
-                    category = 'live animals'
-                    category = 'Swine, live'
-                    category = 'Sheep and goats, live'
+    type: string.
+            for example:
+                type = 'import'
+                type = 'export'
+    category: string.
+            for example:
+                category = 'live animals'
+                category = 'Swine, live'
+                category = 'Sheep and goats, live'
 
 
-        output_type: string.
-                 'dict'(default) for dictionary format output, 'df' for data frame,
-                 'raw' for list of dictionaries directly from the web.
+    output_type: string.
+             'dict'(default) for dictionary format output, 'df' for data frame,
+             'raw' for list of dictionaries directly from the web.
 
-        Notes
-        -----
-        'country' and 'type' parameters are not optional.
-        if 'category' is None, returns total exports or imports with main category
+    Notes
+    -----
+    'country' and 'type' parameters are not optional.
+    if 'category' is None, returns total exports or imports with main category
 
-        Example
-        -------
-        getCmtCountryByCategory(country = 'Portugal', type = 'import', category = None, output_type = None )
+    Example
+    -------
+    getCmtCountryByCategory(country = 'Portugal', type = 'import', category = None, output_type = None )
 
-        getCmtCountryByCategory(country = 'United States', type = 'export', category = 'live animals', output_type = 'raw')
+    getCmtCountryByCategory(country = 'United States', type = 'export', category = 'live animals', output_type = 'raw')
 
-        getCmtCountryByCategory(country = 'Brazil', type = import, category = 'Swine, live', output_type = 'df' )
+    getCmtCountryByCategory(country = 'Brazil', type = import, category = 'Swine, live', output_type = 'df' )
 
-        """
+    """
 
     if country is None:
-        return f'country is missing'
+        return f"country is missing"
     if type is None:
         return f"type is missing. Choose 'import' or 'export'"
 
     def getLinkApi(country, type, category):
-        api_url_base = "https://api.tradingeconomics.com/comtrade"
+        api_url_base = "/comtrade"
 
         if category is None:
-            return f'{api_url_base}/{type}/{quote(country)}'
-        return f'{api_url_base}/{type}/{quote(country)}/{quote(category)}'
+            return f"{api_url_base}/{type}/{quote(country)}"
+        return f"{api_url_base}/{type}/{quote(country)}/{quote(category)}"
 
     link_api = getLinkApi(country, type, category)
 
-    try:
-        link_api += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
-
     return fn.dataRequest(api_request=link_api, output_type=output_type)
-        
+
 
 def getCmtTotalByType(country=None, type=None, output_type=None):
     """
-        Get detailed information about Comtrade Country Total by Import or Exports
-        =================================================================================
+    Get detailed information about Comtrade Country Total by Import or Exports
+    =================================================================================
 
-        Parameters:
-        -----------
-        country:string.
-                    for example:
-                    country = 'country_name' ,
-
-        type: string.
+    Parameters:
+    -----------
+    country:string.
                 for example:
-                    type = 'import'
-                    type = 'export'
+                country = 'country_name' ,
 
-        output_type: string.
-                    'dict'(default) for dictionary format output, 'df' for data frame,
-                    'raw' for list of dictionaries directly from the web.
+    type: string.
+            for example:
+                type = 'import'
+                type = 'export'
 
-        Notes
-        -----
-        country and type parameters are not optional.
+    output_type: string.
+                'dict'(default) for dictionary format output, 'df' for data frame,
+                'raw' for list of dictionaries directly from the web.
 
-        Example
-        -------
-        getCmtTotalByType(country = 'Portugal', type = 'import', output_type = None )
+    Notes
+    -----
+    country and type parameters are not optional.
 
-        getCmtTotalByType(country = 'United States', type = 'export', output_type = 'raw' )
+    Example
+    -------
+    getCmtTotalByType(country = 'Portugal', type = 'import', output_type = None )
 
-        getCmtTotalByType(country = 'Brazil', type = import, output_type = 'df' )
+    getCmtTotalByType(country = 'United States', type = 'export', output_type = 'raw' )
 
-        """
+    getCmtTotalByType(country = 'Brazil', type = import, output_type = 'df' )
 
+    """
 
     if country is None:
-        return f'country is missing'
+        return f"country is missing"
 
     if type is None:
         return f"type is missing. Choose 'import' or 'export'"
 
     def getLinkApi(country, type):
-        api_url_base = "https://api.tradingeconomics.com/comtrade"
+        api_url_base = "/comtrade"
 
-        return f'{api_url_base}/{type}/{quote(country)}/totals/?c={glob.apikey}'
+        return f"{api_url_base}/{type}/{quote(country)}/totals/"
 
     link_api = getLinkApi(country, type)
 
     return fn.dataRequest(api_request=link_api, output_type=output_type)
 
 
-def getCmtCountryFilterByType(country1=None, country2=None, type=None, output_type=None):
+def getCmtCountryFilterByType(
+    country1=None, country2=None, type=None, output_type=None
+):
     """
-        Get detailed information about Comtrade Countries filter by type 'import' or 'export'
-        =================================================================================
+    Get detailed information about Comtrade Countries filter by type 'import' or 'export'
+    =================================================================================
 
-        Parameters:
-        -----------
-        country:string.
-                 for example:
-                    country1 = 'country_name'
-                    country2 = 'country_name'
+    Parameters:
+    -----------
+    country:string.
+             for example:
+                country1 = 'country_name'
+                country2 = 'country_name'
 
-        type: string.
-                for example:
-                    type = 'import'
-                    type = 'export'
-        category: string.
-                for example:
-                    category = 'live animals'
-                    category = 'Swine, live'
-                    category = 'Sheep and goats, live'
-
-
-        output_type: string.
-                 'dict'(default) for dictionary format output, 'df' for data frame,
-                 'raw' for list of dictionaries directly from the web.
-
-        Notes
-        -----
-        'country1' and 'type' parameters are not optional.
+    type: string.
+            for example:
+                type = 'import'
+                type = 'export'
+    category: string.
+            for example:
+                category = 'live animals'
+                category = 'Swine, live'
+                category = 'Sheep and goats, live'
 
 
-        Example
-        -------
-        getCmtCountryFilterByType(country1 = 'Portugal', country2 = 'Spain', type = 'import' )
+    output_type: string.
+             'dict'(default) for dictionary format output, 'df' for data frame,
+             'raw' for list of dictionaries directly from the web.
 
-        getCmtCountryFilterByType(country1 = 'United States', type = 'export')
+    Notes
+    -----
+    'country1' and 'type' parameters are not optional.
 
 
-        """
+    Example
+    -------
+    getCmtCountryFilterByType(country1 = 'Portugal', country2 = 'Spain', type = 'import' )
+
+    getCmtCountryFilterByType(country1 = 'United States', type = 'export')
+
+
+    """
 
     if country1 is None:
-        return f'country is missing'
+        return f"country is missing"
     if type is None:
         return f"type is missing. Choose 'import' or 'export'"
 
-    def getLinkApi(country1, country2 ):
-        api_url_base = "https://api.tradingeconomics.com/comtrade/country"
+    def getLinkApi(country1, country2):
+        api_url_base = "/comtrade/country"
 
         if country2 is None:
-            return f'{api_url_base}/{quote(country1)}'
-        return f'{api_url_base}/{quote(country1)}/{quote(country2)}'
+            return f"{api_url_base}/{quote(country1)}"
+        return f"{api_url_base}/{quote(country1)}/{quote(country2)}"
 
     link_api = getLinkApi(country1, country2)
 
     try:
-        link_api += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
-
-    try:
-        link_api += f'&type={type}'
-
+        link_api += f"?type={type}"
     except AttributeError:
         raise TypeError('type is missing. Choose "import" or "export"')
 
@@ -504,51 +438,49 @@ def getCmtCountryFilterByType(country1=None, country2=None, type=None, output_ty
 
 def getCmtSnapshotByType(country=None, type=None, output_type=None):
     """
-        Get Snapshot of data per country filtered by type: import or export
-        =================================================================================
+    Get Snapshot of data per country filtered by type: import or export
+    =================================================================================
 
-        Parameters:
-        -----------
-        country:string.
-                    for example:
-                    country = 'country_name' ,
-
-        type: string.
+    Parameters:
+    -----------
+    country:string.
                 for example:
-                    type = 'import'
-                    type = 'export'
+                country = 'country_name' ,
 
-        output_type: string.
-                    'dict'(default) for dictionary format output, 'df' for data frame,
-                    'raw' for list of dictionaries directly from the web.
+    type: string.
+            for example:
+                type = 'import'
+                type = 'export'
 
-        Notes
-        -----
-        country and type parameters are not optional.
+    output_type: string.
+                'dict'(default) for dictionary format output, 'df' for data frame,
+                'raw' for list of dictionaries directly from the web.
 
-        Example
-        -------
-        getCmtSnapshotByType(country = 'Portugal', type = 'import', output_type = None )
+    Notes
+    -----
+    country and type parameters are not optional.
 
-        getCmtSnapshotByType(country = 'United States', type = 'export', output_type = 'raw' )
+    Example
+    -------
+    getCmtSnapshotByType(country = 'Portugal', type = 'import', output_type = None )
 
-        getCmtSnapshotByType(country = 'Brazil', type = import, output_type = 'df' )
+    getCmtSnapshotByType(country = 'United States', type = 'export', output_type = 'raw' )
 
-        """
+    getCmtSnapshotByType(country = 'Brazil', type = import, output_type = 'df' )
 
+    """
 
     if country is None:
-        raise ParametersError (f'country is missing')
+        raise ParametersError(f"country is missing")
 
     if type is None:
-        raise ParametersError (f"type is missing. Choose 'import' or 'export'")
+        raise ParametersError(f"type is missing. Choose 'import' or 'export'")
 
     def getLinkApi(country, type):
-        api_url_base = "https://api.tradingeconomics.com/comtrade/country"
+        api_url_base = "/comtrade/country"
 
-        return f'{api_url_base}/{quote(country)}?type={type}&c={glob.apikey}'
+        return f"{api_url_base}/{quote(country)}?type={type}"
 
     link_api = getLinkApi(country, type)
 
     return fn.dataRequest(api_request=link_api, output_type=output_type)
-

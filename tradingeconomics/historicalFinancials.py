@@ -2,7 +2,7 @@ import json
 import urllib
 import pandas as pd
 import sys
-from datetime import *
+from datetime import datetime, date
 from . import glob
 import ssl
 from . import functions as fn
@@ -11,11 +11,11 @@ from dateutil.relativedelta import relativedelta
 PY3 = sys.version_info[0] == 3
 
 if PY3:  # Python 3+
-    from urllib.request import urlopen
-    from urllib.parse import quote
+    from urllib.request import urlopen  # type: ignore
+    from urllib.parse import quote  # type: ignore
 else:  # Python 2.X
-    from urllib import urlopen
-    from urllib import quote
+    from urllib import urlopen  # type: ignore
+    from urllib import quote  # type: ignore
 
 
 class ParametersError(ValueError):
@@ -37,7 +37,10 @@ class DateError(ValueError):
 class WebRequestError(ValueError):
     pass
 
-def getFinancialsHistorical(symbol=None, category=None, initDate=None, endDate=None, output_type=None):
+
+def getFinancialsHistorical(
+    symbol=None, category=None, initDate=None, endDate=None, output_type=None
+):
     """
     Returns stocks fundamental information for specific symbols, category and dates.
     ================================================================================
@@ -49,7 +52,7 @@ def getFinancialsHistorical(symbol=None, category=None, initDate=None, endDate=N
             String to get data by category.
             For example, category = 'debt', category = ['assets', 'debt']
     initDate: string with format: YYYY-MM-DD.
-            For example: '2023-01-01' 
+            For example: '2023-01-01'
     endDate: string with format: YYYY-MM-DD.
             For example: '2023-01-02'
 
@@ -62,27 +65,16 @@ def getFinancialsHistorical(symbol=None, category=None, initDate=None, endDate=N
     getFinancialsHistorical(symbol=['aapl:us', 'tsla:us'], category=['assets', 'debt'], output_type='df')
 
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
-
+    fn.setup_ssl_context()
 
     if symbol is not None and category is not None:
-        if category.__contains__(' '):
-            category = category.replace(' ', '-')
-        linkAPI = f"http://api.tradingeconomics.com/financials/historical/{fn.stringOrListWithAppend(symbol, category)}"
+        if category.__contains__(" "):
+            category = category.replace(" ", "-")
+        linkAPI = (
+            f"/financials/historical/{fn.stringOrListWithAppend(symbol, category)}"
+        )
     else:
         return "symbol and category arguments are required"
-        
-
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
 
     linkAPI = fn.checkDates(linkAPI, initDate, endDate)
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-

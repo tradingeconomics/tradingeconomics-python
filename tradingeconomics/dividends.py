@@ -1,12 +1,19 @@
 import ssl
-from typing import List
+from typing import List, Union, Optional
 from . import functions as fn
 from . import glob
+
 
 class LoginError(AttributeError):
     pass
 
-def getDividends(symbols: List[str]=None, startDate: str=None, endDate: str=None, output_type: str=None):
+
+def getDividends(
+    symbols: Optional[Union[str, List[str]]] = None,
+    startDate: Optional[str] = None,
+    endDate: Optional[str] = None,
+    output_type: Optional[str] = None,
+):
     """
     Returns dividends calendar data.
     ==========================================================
@@ -27,28 +34,16 @@ def getDividends(symbols: List[str]=None, startDate: str=None, endDate: str=None
     getDividends(symbols = 'msft:us', startDate='2016-01-01')
     getDividends(symbols = 'msft:us')
     getDividends()
-    
+
     """
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
-    linkAPI = 'https://api.tradingeconomics.com/dividends'
+    linkAPI = "/dividends"
 
-    if symbols and fn.isStringOrList(symbols):
-        linkAPI += '/symbol/' + fn.stringOrList(symbols)
-
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
+    if symbols and fn.stringOrList(symbols):
+        linkAPI += "/symbol/" + fn.stringOrList(symbols)
 
     linkAPI = fn.checkDates(linkAPI, startDate, endDate)
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-
-

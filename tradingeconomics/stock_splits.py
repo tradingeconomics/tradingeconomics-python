@@ -1,16 +1,24 @@
 import ssl
-from typing import List
+from typing import List, Union, Optional
 from . import functions as fn
 from . import glob
 
+
 class LoginError(AttributeError):
     pass
+
 
 class WebRequestError(ValueError):
     pass
 
 
-def getStockSplits(ticker: List[str]=None, country: List[str]=None, startDate: str=None, endDate: str=None, output_type: str=None):
+def getStockSplits(
+    ticker: Optional[Union[str, List[str]]] = None,
+    country: Optional[Union[str, List[str]]] = None,
+    startDate: Optional[str] = None,
+    endDate: Optional[str] = None,
+    output_type: Optional[str] = None,
+):
     """
     Returns stock splits calendar data.
     ==========================================================
@@ -34,27 +42,17 @@ def getStockSplits(ticker: List[str]=None, country: List[str]=None, startDate: s
     getStockSplits(ticker = ['MMET', 'REX'], startDate='2023-09-01')
     getStockSplits(coutnry = ['Canada', 'United States'])
     getStockSplits()
-    
+
     """
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
-    linkAPI = 'https://api.tradingeconomics.com/splits'
-    
-    if ticker and fn.isStringOrList(ticker):
-        linkAPI += '/ticker/' + fn.stringOrList(ticker)
-    elif country and fn.isStringOrList(country):
-        linkAPI += '/country/' + fn.stringOrList(country)
-    
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
+    linkAPI = "/splits"
+
+    if ticker and fn.stringOrList(ticker):
+        linkAPI += "/ticker/" + fn.stringOrList(ticker)
+    elif country and fn.stringOrList(country):
+        linkAPI += "/country/" + fn.stringOrList(country)
 
     linkAPI = fn.checkDates(linkAPI, startDate, endDate)
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)

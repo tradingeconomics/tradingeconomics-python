@@ -1,14 +1,16 @@
 from . import functions as fn
 from . import glob
 import ssl
-from typing import List
+from typing import List, Union, Optional
 
 
 class LoginError(AttributeError):
     pass
 
 
-def getCreditRatings(country: List[str]=None, output_type: str=None):
+def getCreditRatings(
+    country: Optional[Union[str, List[str]]] = None, output_type: Optional[str] = None
+):
     """
     Returns a list of all countries credit ratings.
 
@@ -26,27 +28,22 @@ def getCreditRatings(country: List[str]=None, output_type: str=None):
     getCreditRatings(country=['mexico', 'sweden'])
     """
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
-    
-    linkAPI = 'https://api.tradingeconomics.com/credit-ratings'
-    
-    if country != None:
-        linkAPI = linkAPI + f'/country/{fn.isStringOrList(country)}'
+    fn.setup_ssl_context()
 
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
+    linkAPI = "/credit-ratings"
+
+    if country != None:
+        linkAPI = linkAPI + f"/country/{fn.stringOrList(country)}"
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
 
 
-def getHistoricalCreditRatings(country: List[str]=None, initDate: str=None, endDate: str=None, output_type: str=None):
+def getHistoricalCreditRatings(
+    country: Optional[Union[str, List[str]]] = None,
+    initDate: Optional[str] = None,
+    endDate: Optional[str] = None,
+    output_type: Optional[str] = None,
+):
     """
     Returns historical credit ratings by country and date.
 
@@ -61,33 +58,33 @@ def getHistoricalCreditRatings(country: List[str]=None, initDate: str=None, endD
     out_type: str.
         Output type options are: df, raw, dict.
 
+    Notes:
+    ------
+    At least initDate or endDate must be provided.
+    Country alone without date range is not supported.
+
     Example:
     -------
     getHistoricalCreditRatings()
-    getHistoricalCreditRatings(country='mexico')
+    getHistoricalCreditRatings(initDate='2010-08-01', endDate='2012-01-01')
     getHistoricalCreditRatings(country='mexico', initDate='2010-08-01')
     getHistoricalCreditRatings(country='mexico', initDate='2010-08-01', endDate='2012-01-01')
     """
 
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
-    
-    linkAPI = 'https://api.tradingeconomics.com/credit-ratings/historical'
-    
-    if country != None:
-        linkAPI = linkAPI + f'/country/{fn.isStringOrList(country)}'
+    fn.setup_ssl_context()
 
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
+    # Validate that at least one date parameter is provided when country is specified
+    if country is not None and initDate is None and endDate is None:
+        raise ValueError(
+            "At least 'initDate' or 'endDate' must be provided when filtering by country. "
+            "Country alone is not supported for historical credit ratings."
+        )
+
+    linkAPI = "/credit-ratings/historical"
+
+    if country != None:
+        linkAPI = linkAPI + f"/country/{fn.stringOrList(country)}"
 
     linkAPI = fn.checkDates(linkAPI, initDate, endDate)
 
     return fn.dataRequest(api_request=linkAPI, output_type=output_type)
-
-

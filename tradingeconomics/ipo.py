@@ -1,16 +1,24 @@
 import ssl
-from typing import List
+from typing import List, Union, Optional
 from . import functions as fn
 from . import glob
 
+
 class LoginError(AttributeError):
     pass
+
 
 class WebRequestError(ValueError):
     pass
 
 
-def getIpo(ticker: List[str]=None, country: List[str]=None, startDate: str=None, endDate: str=None, output_type: str=None):
+def getIpo(
+    ticker: Optional[Union[str, List[str]]] = None,
+    country: Optional[Union[str, List[str]]] = None,
+    startDate: Optional[str] = None,
+    endDate: Optional[str] = None,
+    output_type: Optional[str] = None,
+):
     """
     Returns IPO calendar data.
     ==========================================================
@@ -18,7 +26,7 @@ def getIpo(ticker: List[str]=None, country: List[str]=None, startDate: str=None,
     -----------
     ticker: string or list of strings, optional
             Get IPO data for the ticker/s specified.
-    
+
     country: string or list of strings, optional
             Get IPO data from stocks of specific countries.
 
@@ -33,29 +41,19 @@ def getIpo(ticker: List[str]=None, country: List[str]=None, startDate: str=None,
     getIpo(ticker = 'SWIN', startDate='2023-10-01', endDate='2023-10-31')
     getIpo(country = ['United States', 'Hong Kong'], startDate='2023-10-31')
     getIpo()
-    
+
     """
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+    fn.setup_ssl_context()
 
-    linkAPI = 'https://api.tradingeconomics.com/ipo'
-    
+    linkAPI = "/ipo"
+
     if ticker and country:
-        raise ValueError('ticker and country cannot be used together')
+        raise ValueError("ticker and country cannot be used together")
 
-    if ticker and fn.isStringOrList(ticker):
-        linkAPI += '/ticker/' + fn.stringOrList(ticker)
-    elif country and fn.isStringOrList(country):
-        linkAPI += '/country/' + fn.stringOrList(country)
-    
-    try:
-        linkAPI += '?c=' + glob.apikey
-    except AttributeError:
-        raise LoginError('You need to do login before making any request')
+    if ticker and fn.stringOrList(ticker):
+        linkAPI += "/ticker/" + fn.stringOrList(ticker)
+    elif country and fn.stringOrList(country):
+        linkAPI += "/country/" + fn.stringOrList(country)
 
     linkAPI = fn.checkDates(linkAPI, startDate, endDate)
 
