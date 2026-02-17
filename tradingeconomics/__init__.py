@@ -9,11 +9,49 @@ PY3 = sys.version_info[0] == 3
 
 if PY3: # Python 3+
     from .historicalDB import getHistorical
-    from .historical import getHistoricalData, getHistoricalRatings,getHistoricalByTicker,getHistoricalLatest,getHistoricalUpdates
-    from .calendar import getCalendarData, getCalendarId,getCalendarUpdates, getCalendarEventsByGroup, getCalendarEvents
-    from .forecasts import getForecastData,getForecastByTicker,getForecastUpdates
-    from .indicators import getIndicatorData, getRatings, getLatestUpdates, getDiscontinuedIndicator, getIndicatorByCategoryGroup, getIndicatorByTicker, getPeers, getAllCountries, getIndicatorChanges
-    from .markets import getMarketsData, getMarketsBySymbol, getMarketsIntraday, getMarketsPeers, getMarketsComponents, getMarketsSearch, getMarketsForecasts, getCurrencyCross, getMarketsIntradayByInterval, getMarketsStockDescriptions,getMarketsSymbology,getStocksByCountry,getMarketsByCountry
+    from .historical import (
+        getHistoricalData,
+        getHistoricalRatings,
+        getHistoricalByTicker,
+        getHistoricalLatest,
+        getHistoricalUpdates,
+    )
+    from .calendar import (  # pyright: ignore[reportAttributeAccessIssue]  # Conflicts with Python builtin
+        getCalendarData,  # pyright: ignore[reportAttributeAccessIssue]
+        getCalendarId,  # pyright: ignore[reportAttributeAccessIssue]
+        getCalendarUpdates,  # pyright: ignore[reportAttributeAccessIssue]
+        getCalendarEventsByGroup,  # pyright: ignore[reportAttributeAccessIssue]
+        getCalendarEvents,  # pyright: ignore[reportAttributeAccessIssue]
+    )
+    from .forecasts import getForecastData, getForecastByTicker, getForecastUpdates
+    from .indicators import (
+        getIndicatorData,
+        getRatings,
+        getLatestUpdates,
+        getDiscontinuedIndicator,
+        getIndicatorByCategoryGroup,
+        getIndicatorByTicker,
+        getPeers,
+        getAllCountries,
+        getIndicatorChanges,
+        getCreditRatingsUpdates,
+    )
+    from .markets import (
+        getMarketsData,
+        getMarketsBySymbol,
+        getMarketsIntraday,
+        getMarketsPeers,
+        getMarketsComponents,
+        getMarketsSearch,
+        getMarketsForecasts,
+        getCurrencyCross,
+        getMarketsIntradayByInterval,
+        getMarketsStockDescriptions,
+        getMarketsSymbology,
+        getStocksByCountry,
+        getMarketsByCountry,
+        getMarketsDiscontinued
+    )
     from .historicalMarkets import fetchMarkets
     from .glob import login, subscribe
     from .stream import run

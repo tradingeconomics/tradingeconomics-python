@@ -665,6 +665,28 @@ def getMarketsByCountry (country:str,output_type=None):
     api_url_request = "%s%s%s" % (d['url_base'], d['country'],d['key']) 
     return fn.dataRequest(api_url_request, output_type)
 
+
+def getMarketsDiscontinued(output_type=None):
+    """
+    Returns a list of discontinued markets.
+    ==========================================================
+    Parameters:
+    -----------
+    output_type: string.
+             'dict'(default), 'df' for data frame,
+             'raw' for list of unparsed data.
+    Example
+    -------
+    getMarketsDiscontinued()
+    getMarketsDiscontinued(output_type='df')
+    """
+    fn.setup_ssl_context()
+
+    linkAPI = "/markets/discontinued"
+
+    return fn.dataRequest(linkAPI, output_type)
+
+
 def checkCountry(country):
     linkAPI = 'https://api.tradingeconomics.com/markets/stocks/country/'   
     if type(country) is str:
