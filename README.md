@@ -90,7 +90,8 @@ https://docs.tradingeconomics.com
 
 #
 
-## Learn More
 
-https://tradingeconomics.com/analytics/api.aspx
+**Learn More abour our API**
+
+https://tradingeconomics.com/api/
 
