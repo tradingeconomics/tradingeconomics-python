@@ -21,6 +21,7 @@ import pytest
 import os
 import time
 import tradingeconomics as te
+from tradingeconomics.functions import AuthenticationError
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -63,6 +64,22 @@ def throttle_api_requests():
     """
     yield  # Test runs here
     time.sleep(1)  # 1 second delay after each test
+
+
+@pytest.fixture(autouse=True)
+def skip_guest_auth_failures():
+    """
+    Skip integration tests that require paid API access when running as guest.
+
+    This keeps guest-based CI stable while preserving real failures for paid keys.
+    """
+    try:
+        yield
+    except AuthenticationError as exc:
+        api_key = os.environ.get("apikey", "guest:guest")
+        if api_key == "guest:guest":
+            pytest.skip(f"Skipping endpoint requiring paid API access: {exc}")
+        raise
 
 
 # Pytest markers for organizing tests
