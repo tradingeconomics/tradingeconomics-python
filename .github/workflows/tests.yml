@@ -19,7 +19,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      apikey: ${{ secrets.TE_API_KEY || 'guest:guest' }}
+      # Use TE_API_KEY only if it matches the expected user:password format.
+      # Otherwise, fall back to guest credentials.
+      apikey: ${{ (contains(secrets.TE_API_KEY, ':') && secrets.TE_API_KEY) || 'guest:guest' }}
     strategy:
       fail-fast: false
       matrix:
@@ -54,7 +56,12 @@ jobs:
       - name: Run unit tests
         run: python run_tests.py
 
+      - name: Skip integration tests (guest credentials)
+        if: ${{ env.apikey == 'guest:guest' }}
+        run: echo "Skipping essential integration tests because TE_API_KEY is missing or invalid."
+
       - name: Run 10 essential integration tests
+        if: ${{ env.apikey != 'guest:guest' }}
         run: |
           pytest \
             tests/integration/calendar/test_calendar_basic.py::TestCalendarBasicEndpoints::test_get_calendar_no_parameters \
