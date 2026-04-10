@@ -16,23 +16,37 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+        pandas-version: ["2.2.*", "3.0.*"]
+        exclude:
+          # pandas 2.2 requires Python >=3.9
+          - python-version: "3.8"
+            pandas-version: "2.2.*"
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v3
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
-          python-version: "3.x"
-      - name: Install dependencies
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies (pandas ${{ matrix.pandas-version }})
         run: |
+          python -m pip install --upgrade pip
+          pip install pandas==${{ matrix.pandas-version }}
           pip install -r tradingeconomics/requirements.txt
           pip install pytest
+
       - name: Run unit tests
         env:
           apikey: ${{ secrets.TE_API_KEY }}
-        run: python run_tests.py -v
+        run: python run_tests.py
+
       - name: Run 10 essential integration tests
         env:
           apikey: ${{ secrets.TE_API_KEY }}
@@ -48,4 +62,4 @@ jobs:
             tests/integration/financials/test_financials_basic.py::TestEarnings::test_earnings_no_filters \
             tests/integration/search/test_search_basic.py::TestSearch::test_search_by_term \
             tests/integration/indicators/test_indicators_basic.py::TestCreditRatings::test_credit_ratings_all \
-            --maxfail=1 --disable-warnings -v
+            --maxfail=1 --disable-warnings -q
