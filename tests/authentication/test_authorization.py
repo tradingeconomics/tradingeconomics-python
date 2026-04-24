@@ -34,21 +34,19 @@ class TestAuthenticationScenarios(unittest.TestCase):
             os.environ["apikey"] = self.original_apikey
         time.sleep(1)  # Rate limiting
 
-    def test_successful_auth_with_guest_credentials(self):
-        """✅ Test successful authentication with guest credentials"""
-        te.login("guest:guest")
+    def test_empty_credentials_fail(self):
+        """❌ Test that empty credentials fail authentication"""
+        te.login("")
 
-        # Should return data (even if limited sample)
-        result = te.getCalendarData(output_type="df")
-
-        self.assertIsNotNone(result)
-        self.assertTrue(len(result) > 0, "Guest credentials should return sample data")
+        # Empty credentials are not valid — API requires a subscription key
+        with self.assertRaises(AuthenticationError):
+            te.getCalendarData(output_type="df")
 
     def test_no_authentication_fails(self):
         """❌ Test that requests without authentication fail appropriately"""
         # Don't call te.login() - no authentication set
 
-        # This should fail with AuthenticationError or return limited data
+        # This should fail with AuthenticationError or return restricted data
         # Depending on API behavior, adjust assertion
         try:
             result = te.getCalendarData(output_type="df")
@@ -81,15 +79,11 @@ class TestAuthenticationScenarios(unittest.TestCase):
         )
 
     def test_authorization_header_is_added(self):
-        """✅ Test that Authorization header is properly added to requests"""
-        te.login("guest:guest")
+        """✅ Test that Authorization header is properly set after login"""
+        te.login("fake:credentials")
 
         # Verify that glob.apikey is set
-        self.assertEqual(te.glob.apikey, "guest:guest")
-
-        # Make a request - if no error, header was accepted
-        result = te.getCalendarData(output_type="df")
-        self.assertIsNotNone(result)
+        self.assertEqual(te.glob.apikey, "fake:credentials")
 
     def test_empty_apikey_handling(self):
         """❌ Test behavior when apikey is explicitly empty"""
@@ -163,7 +157,7 @@ class TestDifferentHTTPStatusCodes(unittest.TestCase):
     """Test handling of various HTTP status codes"""
 
     def setUp(self):
-        te.login("guest:guest")
+        te.login("fake:credentials")
         time.sleep(1)
 
     def tearDown(self):

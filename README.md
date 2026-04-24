@@ -34,12 +34,12 @@ In Windows, you can permanently set environment variables using a settings windo
 
 ```bash
 # windows command line
-set apikey='guest:guest'
+set apikey=''
 ```
 ### Linux / Mac
 
 ```bash
-export apikey='guest:guest'
+export apikey=''
 ```
 ### Login - the secure way
 
@@ -52,9 +52,9 @@ te.login()
 
 ```python
 import tradingeconomics as te
-te.login('guest:guest')
+te.login('')
 ```
-Please replace guest:guest with your API key or we will be returning sample data.
+Please subscribe to a plan at https://tradingeconomics.com/api/pricing.aspx to get an API key.
 
 #
 

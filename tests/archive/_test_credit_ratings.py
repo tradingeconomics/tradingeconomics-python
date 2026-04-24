@@ -8,7 +8,7 @@ import time
 sys.path.insert (0, '../tradingeconomics')
 import tradingeconomics as te
 
-te.login('guest:guest')
+te.login('')
 
 class TestCreditRatings(unittest.TestCase):
 
@@ -18,7 +18,7 @@ class TestCreditRatings(unittest.TestCase):
     # def test_getCreditRatings_country(self):
     #     a = te.getCreditRatings(country='sweden', output_type='df')
 
-    #     url = f'https://api.tradingeconomics.com/credit-ratings/country/sweden?c=guest:guest'
+    #     url = f'https://api.tradingeconomics.com/credit-ratings/country/sweden?c='
     #     data = requests.get(url).json()
 
     #     b = pd.DataFrame.from_dict(data, orient='columns')
@@ -34,7 +34,7 @@ class TestCreditRatings(unittest.TestCase):
     def test_getCreditRatings_two_country(self):
         a = te.getCreditRatings(country=['mexico', 'sweden'], output_type='df')
 
-        url = f'https://api.tradingeconomics.com/credit-ratings/country/mexico,sweden?c=guest:guest'
+        url = f'https://api.tradingeconomics.com/credit-ratings/country/mexico,sweden?c='
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -51,7 +51,7 @@ class TestCreditRatings(unittest.TestCase):
 
         a = te.getHistoricalCreditRatings(country='sweden', initDate='2010-08-01', endDate='2022-01-01', output_type='df')
 
-        url = f'https://api.tradingeconomics.com/credit-ratings/historical/country/sweden?c=guest:guest&d1=2010-08-01&d2=2022-01-01'
+        url = f'https://api.tradingeconomics.com/credit-ratings/historical/country/sweden?c=&d1=2010-08-01&d2=2022-01-01'
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')

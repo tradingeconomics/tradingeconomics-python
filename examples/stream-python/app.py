@@ -27,10 +27,10 @@ if len(sys.argv) == 4:
     client_secret = sys.argv[3]
 elif len(sys.argv) == 2:
     event = sys.argv[1]   
-    client_key = 'guest' 
-    client_secret = 'guest' 
+    client_key = ''
+    client_secret = ''
     
-    print ('You are subscribed as a guest user')
+    print ('Please subscribe to a plan at https://tradingeconomics.com/api/pricing.aspx to get an API key.')
 else:
     print ('Please provide the name of the event that you want to subscribe')
     sys.exit(1) 

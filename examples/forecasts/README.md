@@ -1,7 +1,7 @@
 #Forecasts examples
 
 In this folder you can find examples on how to get forecast data using python.
-Remember that without a client key to login, only a sample of data will be provided.
+Please subscribe to a plan at https://tradingeconomics.com/api/pricing.aspx to get an API key.
 
 #**forecastsEx**
 

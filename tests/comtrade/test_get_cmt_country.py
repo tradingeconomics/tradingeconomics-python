@@ -12,7 +12,7 @@ from tradingeconomics.comtrade import getCmtCountry
 
 class TestGetCmtCountry(unittest.TestCase):
 
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_no_country(self, mock_dataRequest):
         """
@@ -30,7 +30,7 @@ class TestGetCmtCountry(unittest.TestCase):
         )
         self.assertEqual(result, {"ok": True})
 
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_country_single(self, mock_dataRequest):
         """
@@ -48,7 +48,7 @@ class TestGetCmtCountry(unittest.TestCase):
         )
         self.assertEqual(result, {"ok": True})
 
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_multiple_countries(self, mock_dataRequest):
         """
@@ -66,7 +66,7 @@ class TestGetCmtCountry(unittest.TestCase):
         )
         self.assertEqual(result, {"ok": True})
 
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_country_with_page(self, mock_dataRequest):
         """

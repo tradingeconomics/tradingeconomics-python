@@ -1,7 +1,7 @@
 """
 Integration tests for Forecasts module.
 
-Tests the following API calls with guest:guest credentials:
+Tests the following API calls with an API key:
 
 Forecasts:
 - te.getForecastData(country='mexico')
@@ -20,7 +20,7 @@ Markets Forecasts:
 - te.getMarketsForecasts(symbol='aapl:us')
 - te.getMarketsForecasts(symbol=['AAPL:US','DAX:IND','INDU:IND'])
 
-These tests validate API endpoint availability and data structure with free access.
+These tests validate API endpoint availability and data structure with authenticated access.
 """
 
 import pytest
@@ -30,7 +30,7 @@ import time
 
 
 # Configure API access
-te.login("guest:guest")
+te.login("")
 
 
 class TestForecastData:

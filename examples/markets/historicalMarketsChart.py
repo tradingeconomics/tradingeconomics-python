@@ -2,9 +2,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import tradingeconomics as te
-te.login('guest:guest')
+te.login('')
 
-#without a client key only a small sample of data will be given.
+#Please subscribe to a plan at https://tradingeconomics.com/api/pricing.aspx to get an API key.
 
 #getting data to plot a bar chart
 mydata = te.fetchMarkets(symbol = 'aapl:us')

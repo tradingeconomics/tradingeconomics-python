@@ -1,7 +1,7 @@
 """
 Integration tests for earnings.py module - Basic functionality
 
-Tests all valid API call combinations with guest:guest credentials.
+Tests all valid API call combinations with an API key.
 These tests make real API calls and should be run manually, not in CI/CD.
 
 Test execution:
@@ -152,7 +152,7 @@ class TestEarningsWithIndex:
     def test_earnings_index_only(self):
         """Test getting earnings for NASDAQ 100 index
 
-        Note: This endpoint requires paid API access with guest:guest credentials
+        Note: This endpoint requires paid API access with an API key
         """
         try:
             result = te.getEarnings(index="ndx:ind")
@@ -170,7 +170,7 @@ class TestEarningsWithIndex:
     def test_earnings_index_with_date_range(self):
         """Test getting earnings for NASDAQ 100 index (2016-2023)
 
-        Note: This endpoint requires paid API access with guest:guest credentials
+        Note: This endpoint requires paid API access with an API key
         """
         try:
             result = te.getEarnings(

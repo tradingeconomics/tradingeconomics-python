@@ -2,9 +2,9 @@ import tradingeconomics as te
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-te.login('guest:guest')
+te.login('')
 
-## Without a client key only a small sample of data will be given.
+## Please subscribe to a plan at https://tradingeconomics.com/api/pricing.aspx to get an API key.
 
 ## With no output_type defined, the result will be of the dictionary type.
 ## Use output_type='df' to display in pandas dataframe. 

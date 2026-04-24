@@ -8,7 +8,7 @@ import time
 sys.path.insert (0, '../tradingeconomics')
 import tradingeconomics as te
 
-te.login('guest:guest')
+te.login('')
 
 class TestgetDividends(unittest.TestCase):
 
@@ -18,7 +18,7 @@ class TestgetDividends(unittest.TestCase):
     def test_getDividends_startDate_endDate(self):
         a = te.getDividends(startDate='2017-01-01', endDate='2018-01-01', output_type='df')
 
-        url = f'https://api.tradingeconomics.com/dividends?c=guest:guest&d1=2017-01-01&d2=2018-01-01'
+        url = f'https://api.tradingeconomics.com/dividends?c=&d1=2017-01-01&d2=2018-01-01'
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -36,7 +36,7 @@ class TestgetDividends(unittest.TestCase):
     def test_getDividends(self):
         a = te.getDividends(output_type='df')
 
-        url = f'https://api.tradingeconomics.com/dividends?c=guest:guest'
+        url = f'https://api.tradingeconomics.com/dividends?c='
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -53,7 +53,7 @@ class TestgetDividends(unittest.TestCase):
     def test_getDividends_symbol(self):
         a = te.getDividends(symbols='aapl:us', output_type='df')
 
-        url = f'https://api.tradingeconomics.com/dividends/symbol/aapl:us?c=guest:guest'
+        url = f'https://api.tradingeconomics.com/dividends/symbol/aapl:us?c='
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -69,7 +69,7 @@ class TestgetDividends(unittest.TestCase):
     def test_getDividends_startDate(self):
         a = te.getDividends(startDate='2017-01-01', output_type='df')
         
-        url = f'https://api.tradingeconomics.com/dividends?c=guest:guest&d1=2017-01-01'
+        url = f'https://api.tradingeconomics.com/dividends?c=&d1=2017-01-01'
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')

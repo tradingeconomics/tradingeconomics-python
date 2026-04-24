@@ -1,7 +1,7 @@
 import tradingeconomics as te
-te.login('guest:guest')
+te.login('')
 
-#without a client key only a small sample of data will be given.
+#Please subscribe to a plan at https://tradingeconomics.com/api/pricing.aspx to get an API key.
 
 
 #With no parameters a list of all articles will be provided.

@@ -1,7 +1,7 @@
 """
 Integration tests for Eurostat module.
 
-Tests the following API calls with guest:guest credentials:
+Tests the following API calls with an API key:
 - te.getEurostatData(lists='countries')
 - te.getEurostatData(lists='categories')
 - te.getEurostatData(symbol='51640')
@@ -14,7 +14,7 @@ Tests the following API calls with guest:guest credentials:
 - te.getHistoricalEurostat(ID='24804', initDate='2015-01-01')
 - te.getHistoricalEurostat(ID='24804', initDate='2016-01-01', endDate='2020-01-01')
 
-These tests validate API endpoint availability and data structure with free access.
+These tests validate API endpoint availability and data structure with authenticated access.
 """
 
 import pytest
@@ -24,7 +24,7 @@ import time
 
 
 # Configure API access
-te.login("guest:guest")
+te.login("")
 
 
 class TestEurostatLists:

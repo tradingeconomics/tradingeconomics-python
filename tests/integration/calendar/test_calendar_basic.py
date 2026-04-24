@@ -106,7 +106,7 @@ class TestCalendarBasicEndpoints:
         except Exception as e:
             if "403" in str(e) or "No Access" in str(e):
                 pytest.skip(
-                    "Feature requires paid API access (guest credentials have limited access)"
+                    "Feature requires paid API access (An empty API key has no access)"
                 )
             else:
                 raise
@@ -129,7 +129,7 @@ class TestCalendarBasicEndpoints:
         except Exception as e:
             if "403" in str(e) or "No Access" in str(e):
                 pytest.skip(
-                    "Feature requires paid API access (guest credentials have limited access)"
+                    "Feature requires paid API access (An empty API key has no access)"
                 )
             else:
                 raise

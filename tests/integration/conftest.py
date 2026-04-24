@@ -29,10 +29,11 @@ def setup_api_credentials():
     """
     Configure API credentials for integration tests.
 
-    Reads from environment variable 'apikey' or uses guest credentials.
-    Guest credentials have limited access and rate limits.
+    Reads from environment variable 'apikey'.
+    If missing or empty, endpoints that require credentials will fail authentication
+    and may be skipped by test fixtures.
     """
-    api_key = os.environ.get("apikey", "guest:guest")
+    api_key = os.environ.get("apikey", "")
     te.login(api_key)
 
     print(f"\n🔑 Using API key: {api_key[:10]}...")
@@ -44,10 +45,13 @@ def setup_api_credentials():
 
 @pytest.fixture
 def skip_if_no_api_key():
-    """Skip test if using guest credentials (limited access)"""
-    api_key = os.environ.get("apikey", "guest:guest")
-    if api_key == "guest:guest":
-        pytest.skip("Skipping: requires paid API key (guest has limited access)")
+    """Skip test when no API key is configured."""
+    api_key = os.environ.get("apikey", "")
+    if api_key == "":
+        pytest.skip(
+            "Skipping: requires an active API subscription. "
+            "Please subscribe to a plan at https://tradingeconomics.com/api/pricing.aspx to get an API key."
+        )
 
 
 @pytest.fixture(autouse=True)
@@ -58,7 +62,7 @@ def throttle_api_requests():
     This prevents:
     - HTTP 429 (Too Many Requests) errors
     - Temporary IP blocks from API server
-    - Quota exhaustion with guest credentials
+    - quota exhaustion with missing API credentials
 
     The delay is applied AFTER each test completes.
     """
@@ -67,17 +71,15 @@ def throttle_api_requests():
 
 
 @pytest.fixture(autouse=True)
-def skip_guest_auth_failures():
+def skip_auth_failures_without_api_key():
     """
-    Skip integration tests that require paid API access when running as guest.
-
-    This keeps guest-based CI stable while preserving real failures for paid keys.
+    Skip integration tests that require paid API access when no API key is set.
     """
     try:
         yield
     except AuthenticationError as exc:
-        api_key = os.environ.get("apikey", "guest:guest")
-        if api_key == "guest:guest":
+        api_key = os.environ.get("apikey", "")
+        if api_key == "":
             pytest.skip(f"Skipping endpoint requiring paid API access: {exc}")
         raise
 

@@ -8,7 +8,7 @@ import time
 sys.path.insert (0, '../tradingeconomics')
 import tradingeconomics as te
 
-te.login('guest:guest')
+te.login('')
 
 class TestgetIpo(unittest.TestCase):
 
@@ -18,7 +18,7 @@ class TestgetIpo(unittest.TestCase):
     # def test_getIpo(self):
     #     a = te.getIpo(output_type='df')
 
-    #     url = f'https://api.tradingeconomics.com/ipo?c=guest:guest'
+    #     url = f'https://api.tradingeconomics.com/ipo?c='
     #     data = requests.get(url).json()
 
     #     b = pd.DataFrame.from_dict(data, orient='columns')

@@ -21,7 +21,7 @@ class TestGetCmtHistorical(unittest.TestCase):
         result = getCmtHistorical(symbol=None)
         self.assertEqual(result, "A symbol is required!")
 
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_symbol_basic(self, mock_dataRequest):
         """
@@ -39,7 +39,7 @@ class TestGetCmtHistorical(unittest.TestCase):
         )
         self.assertEqual(result, {"ok": True})
 
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_symbol_with_spaces(self, mock_dataRequest):
         """

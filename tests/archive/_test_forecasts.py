@@ -8,7 +8,7 @@ import time
 sys.path.insert (0, '../tradingeconomics')
 import tradingeconomics as te
 
-te.login('guest:guest')
+te.login('')
 
 class TestForecastsUpdates(unittest.TestCase):
 
@@ -18,7 +18,7 @@ class TestForecastsUpdates(unittest.TestCase):
     def test_getForecastUpdates(self):
         a = te.getForecastUpdates(output_type='df')
 
-        url = f'https://api.tradingeconomics.com/forecast/updates?c=guest:guest'
+        url = f'https://api.tradingeconomics.com/forecast/updates?c='
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -37,7 +37,7 @@ class TestForecastsUpdates(unittest.TestCase):
     def test_getForecastUpdates_country(self):
         a = te.getForecastUpdates(country='france', output_type='df')
 
-        url = f'https://api.tradingeconomics.com/forecast/updates?c=guest:guest&country=france'
+        url = f'https://api.tradingeconomics.com/forecast/updates?c=&country=france'
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -56,7 +56,7 @@ class TestForecastsUpdates(unittest.TestCase):
     def test_getForecastUpdates_country_date(self):
         a = te.getForecastUpdates(country='france', init_date='2024-11-20', output_type='df')
 
-        url = f'https://api.tradingeconomics.com/forecast/updates?c=guest:guest&country=france&date=2024-11-20'
+        url = f'https://api.tradingeconomics.com/forecast/updates?c=&country=france&date=2024-11-20'
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -74,7 +74,7 @@ class TestForecastsUpdates(unittest.TestCase):
     def test_getForecastUpdates_date(self):
         a = te.getForecastUpdates(init_date='2024-11-20', output_type='df')
 
-        url = f'https://api.tradingeconomics.com/forecast/updates?start_date=2024-11-20&c=guest:guest'
+        url = f'https://api.tradingeconomics.com/forecast/updates?start_date=2024-11-20&c='
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -98,7 +98,7 @@ class TestForecastsMarkets(unittest.TestCase):
 
         a = te.getMarketsForecasts(category='index', output_type='df')
 
-        url = f'https://api.tradingeconomics.com/markets/forecasts/index?c=guest:guest'
+        url = f'https://api.tradingeconomics.com/markets/forecasts/index?c='
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -117,7 +117,7 @@ class TestForecastsMarkets(unittest.TestCase):
     def test_getForecastsMarkets_symbol(self):
         a = te.getMarketsForecasts(symbol='aapl:us', output_type='df')
 
-        url = f'https://api.tradingeconomics.com/markets/forecasts/symbol/aapl:us?c=guest:guest'
+        url = f'https://api.tradingeconomics.com/markets/forecasts/symbol/aapl:us?c='
         data = requests.get(url).json()
         b = pd.DataFrame.from_dict(data, orient='columns')
 
@@ -135,7 +135,7 @@ class TestForecastsMarkets(unittest.TestCase):
     def test_getForecastsMarkets_symbols(self):
         a = te.getMarketsForecasts(symbol=['AAPL:US','DAX:IND', 'INDU:IND'], output_type='df')
 
-        url = f'https://api.tradingeconomics.com/markets/forecasts/symbol/AAPL:US,DAX:IND,INDU:IND?c=guest:guest'
+        url = f'https://api.tradingeconomics.com/markets/forecasts/symbol/AAPL:US,DAX:IND,INDU:IND?c='
         data = requests.get(url).json()
         b = pd.DataFrame.from_dict(data, orient='columns')
 
@@ -158,7 +158,7 @@ class TestForecastsIndicators(unittest.TestCase):
     def test_getForecastsIndicators_country(self):
         a = te.getForecastData(country=['mexico', 'sweden'], output_type='df')
 
-        url = 'https://api.tradingeconomics.com/forecast/country/mexico,sweden?c=guest:guest'
+        url = 'https://api.tradingeconomics.com/forecast/country/mexico,sweden?c='
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -176,7 +176,7 @@ class TestForecastsIndicators(unittest.TestCase):
     def test_getForecastsIndicators_indicator(self):
         a = te.getForecastData(indicator='gdp', output_type='df')
 
-        url = 'https://api.tradingeconomics.com/forecast/indicator/gdp?c=guest:guest'
+        url = 'https://api.tradingeconomics.com/forecast/indicator/gdp?c='
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -194,7 +194,7 @@ class TestForecastsIndicators(unittest.TestCase):
     def test_getForecastsIndicators_indicators(self):
         a = te.getForecastData(indicator=['gdp', 'population'], output_type='df')
 
-        url = 'https://api.tradingeconomics.com/forecast/indicator/gdp,population?c=guest:guest'
+        url = 'https://api.tradingeconomics.com/forecast/indicator/gdp,population?c='
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -213,7 +213,7 @@ class TestForecastsIndicators(unittest.TestCase):
     def test_getForecastsIndicators_country_indicator(self):
         a = te.getForecastData(country='mexico', indicator='gdp', output_type='df')
 
-        url = 'https://api.tradingeconomics.com/forecast/country/mexico/indicator/gdp?c=guest:guest'
+        url = 'https://api.tradingeconomics.com/forecast/country/mexico/indicator/gdp?c='
         data = requests.get(url).json()
         
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -231,7 +231,7 @@ class TestForecastsIndicators(unittest.TestCase):
     def test_getForecastsIndicators_countries_indicator(self):
         a = te.getForecastData(country=['mexico', 'sweden'], indicator='gdp', output_type='df')
 
-        url = 'https://api.tradingeconomics.com/forecast/country/mexico,sweden/indicator/gdp?c=guest:guest'
+        url = 'https://api.tradingeconomics.com/forecast/country/mexico,sweden/indicator/gdp?c='
         data = requests.get(url).json()
         
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -249,7 +249,7 @@ class TestForecastsIndicators(unittest.TestCase):
     def test_getForecastsIndicators_countries_indicators(self):
         a = te.getForecastData(country=['mexico', 'sweden'], indicator=['gdp', 'population'], output_type='df')
 
-        url = 'https://api.tradingeconomics.com/forecast/country/mexico,sweden/indicator/gdp,population?c=guest:guest'
+        url = 'https://api.tradingeconomics.com/forecast/country/mexico,sweden/indicator/gdp,population?c='
         data = requests.get(url).json()
         
         b = pd.DataFrame.from_dict(data, orient='columns')

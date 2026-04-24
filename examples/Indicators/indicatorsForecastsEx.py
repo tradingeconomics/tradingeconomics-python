@@ -1,8 +1,8 @@
 import pandas as pd
 import tradingeconomics as te
-te.login('guest:guest')
+te.login('')
 
-## without a client key only a small sample of data will be given.
+## Please subscribe to a plan at https://tradingeconomics.com/api/pricing.aspx to get an API key.
 
 ## Putting country name or indicator name in square brackets [] will result, by default
 ## in the dictionary type for several countries and indicators.

@@ -18,6 +18,8 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      TE_API_KEY: ${{ secrets.TRADINGECONOMICS_API_KEY }}
     strategy:
       fail-fast: false
       matrix:
@@ -52,9 +54,10 @@ jobs:
       - name: Run unit tests
         run: python run_tests.py
 
-      - name: Run 10 essential integration tests (guest-safe)
+      - name: Run 10 essential integration tests
+        if: ${{ env.TE_API_KEY != '' }}
         env:
-          apikey: guest:guest
+          apikey: ${{ env.TE_API_KEY }}
         run: |
           pytest \
             tests/integration/calendar/test_calendar_basic.py::TestCalendarBasicEndpoints::test_get_calendar_no_parameters \
@@ -68,3 +71,9 @@ jobs:
             tests/integration/search/test_search_basic.py::TestSearch::test_search_by_term \
             tests/integration/indicators/test_indicators_basic.py::TestCreditRatings::test_credit_ratings_all \
             --maxfail=1 --disable-warnings -q
+
+      - name: Skip integration tests when API key is not configured
+        if: ${{ env.TE_API_KEY == '' }}
+        run: |
+          echo "Skipping integration tests because TRADINGECONOMICS_API_KEY is not set."
+          echo "Please subscribe to a plan at https://tradingeconomics.com/api/pricing.aspx to get an API key."

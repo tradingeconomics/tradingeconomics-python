@@ -157,11 +157,12 @@ Executes integration tests in:
 
 ### API Credentials
 
-Integration tests use `guest:guest` credentials by default (configured in `tests/integration/conftest.py`).
+Integration tests require a valid API key.
 
-For testing premium endpoints, GitHub Secrets would need:
+Configure GitHub Secrets for workflows that run integration tests:
 
-- `apikey`: Trading Economics API key (not currently configured)
+- `TRADINGECONOMICS_API_KEY`: Used by `tests.yml` for optional integration smoke tests
+- `apikey`: Used by manual integration workflows when configured
 
 ### Why Manual Only?
 
@@ -271,9 +272,9 @@ Configure branch protection rules on `main` and `release`:
 
 **Solution**:
 
-1. Verify `guest:guest` credentials still work for basic endpoints
-2. For premium endpoints, add `apikey` secret to GitHub
-3. Check if API endpoint has changed authentication requirements
+1. Verify a valid API key secret is configured and non-empty
+2. Ensure the key has an active subscription for the endpoints being tested
+3. Check if API endpoint permissions or authentication requirements changed
 
 ### integration-tests.yml Fails with Network Errors
 

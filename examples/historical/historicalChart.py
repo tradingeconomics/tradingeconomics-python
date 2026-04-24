@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tradingeconomics as te
 
-#without a client key only a small sample of data will be given.
-te.login('guest:guest')
+#Please subscribe to a plan at https://tradingeconomics.com/api/pricing.aspx to get an API key.
+te.login('')
 
 
 #plot a simple chart

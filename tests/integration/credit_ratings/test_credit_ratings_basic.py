@@ -1,7 +1,7 @@
 """
 Integration tests for credit_ratings.py module - Basic functionality
 
-Tests all valid API call combinations with guest:guest credentials.
+Tests all valid API call combinations with an API key.
 These tests make real API calls and should be run manually, not in CI/CD.
 
 Test execution:

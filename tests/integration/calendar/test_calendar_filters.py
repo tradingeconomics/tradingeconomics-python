@@ -2,7 +2,7 @@
 Integration tests for Trading Economics Calendar API - Advanced Filters
 Tests all valid filter combinations based on API documentation
 
-These tests use parameters that should work with guest:guest credentials.
+These tests use parameters that should work with an API key.
 Tests will skip with details when encountering errors for investigation.
 """
 

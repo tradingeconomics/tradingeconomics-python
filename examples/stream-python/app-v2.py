@@ -41,8 +41,8 @@ def settle_date():
 TE_URL = "ws://stream.tradingeconomics.com/"
 
 
-CLIENT_KEY = "guest" #API_CLIENT_KEY
-CLIENT_SECRET = "guest" #API_CLIENT_KEY
+CLIENT_KEY = ""  # API_CLIENT_KEY
+CLIENT_SECRET = ""  # API_CLIENT_SECRET
 
 
 SETTLE_DATE = settle_date()

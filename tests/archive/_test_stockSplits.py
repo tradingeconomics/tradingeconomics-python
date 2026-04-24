@@ -8,7 +8,7 @@ import time
 sys.path.insert (0, '../tradingeconomics')
 import tradingeconomics as te
 
-te.login('guest:guest')
+te.login('')
 
 class TestgetStockSplits(unittest.TestCase):
 
@@ -18,7 +18,7 @@ class TestgetStockSplits(unittest.TestCase):
     # def test_getStockSplits(self):
     #     a = te.getStockSplits(output_type='df')
 
-    #     url = f'https://api.tradingeconomics.com/splits?c=guest:guest'
+    #     url = f'https://api.tradingeconomics.com/splits?c='
     #     data = requests.get(url).json()
 
     #     b = pd.DataFrame.from_dict(data, orient='columns')
@@ -35,7 +35,7 @@ class TestgetStockSplits(unittest.TestCase):
     # def test_getIpo_country(self):
     #     a = te.getStockSplits(country='mexico', output_type='df')
 
-    #     url = f'https://api.tradingeconomics.com/splits/country/mexico?c=guest:guest'
+    #     url = f'https://api.tradingeconomics.com/splits/country/mexico?c='
     #     data = requests.get(url).json()
 
     #     b = pd.DataFrame.from_dict(data, orient='columns')

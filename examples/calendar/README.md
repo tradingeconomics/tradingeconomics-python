@@ -1,7 +1,7 @@
 #Calendar examples
 
 In this folder you can find examples on how to get data from calendar using python.
-Remember that without a client key to login, only a sample of data will be provided.
+Please subscribe to a plan at https://tradingeconomics.com/api/pricing.aspx to get an API key.
 
 #**calendarEx**
 
@@ -66,7 +66,7 @@ The output will be:
 An example on how to get streaming data for the calendar in python
 
 ```python
-te.login('guest:guest')
+te.login('')
 te.subscribe('calendar')
 
 def on_message(ws, message):

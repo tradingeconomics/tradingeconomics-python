@@ -1,8 +1,8 @@
 import pandas as pd
 import tradingeconomics as te
-te.login('guest:guest')
+te.login('')
 
-## Without a client key only a small sample of data will be given.
+## Please subscribe to a plan at https://tradingeconomics.com/api/pricing.aspx to get an API key.
 
 ## Putting symbol name in square brackets [] will result, by default
 ## in the dictionary type for several symbols.

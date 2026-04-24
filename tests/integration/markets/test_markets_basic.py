@@ -1,7 +1,7 @@
 """
 Integration tests for Markets module.
 
-Tests the following API calls with guest:guest credentials:
+Tests the following API calls with an API key:
 
 Markets Data:
 - te.getMarketsData(marketsField='commodities')
@@ -65,7 +65,7 @@ Markets Intraday:
 Markets Intraday by Interval:
 - te.getMarketsIntradayByInterval(symbol='aapl:us', initDate='2020-01-01', endDate='2020-12-01', interval='10m')
 
-These tests validate API endpoint availability and data structure with free access.
+These tests validate API endpoint availability and data structure with authenticated access.
 """
 
 import pytest
@@ -74,7 +74,7 @@ import pandas as pd
 
 
 # Configure API access
-te.login("guest:guest")
+te.login("")
 
 
 class TestMarketsData:
@@ -490,7 +490,7 @@ class TestMarketsIntraday:
 
         assert result is not None
         assert isinstance(result, list)
-        # May be empty with guest credentials
+        # May be empty with missing API credentials
         if len(result) > 0:
             first_item = result[0]
             assert isinstance(first_item, dict)
@@ -501,7 +501,7 @@ class TestMarketsIntraday:
 
         assert result is not None
         assert isinstance(result, list)
-        # May be empty with guest credentials
+        # May be empty with missing API credentials
         if len(result) > 0:
             first_item = result[0]
             assert isinstance(first_item, dict)
@@ -514,7 +514,7 @@ class TestMarketsIntraday:
 
         assert result is not None
         assert isinstance(result, list)
-        # May be empty with guest credentials
+        # May be empty with missing API credentials
         if len(result) > 0:
             first_item = result[0]
             assert isinstance(first_item, dict)
@@ -534,7 +534,7 @@ class TestMarketsIntradayByInterval:
 
         assert result is not None
         assert isinstance(result, list)
-        # May be empty with guest credentials
+        # May be empty with missing API credentials
         if len(result) > 0:
             first_item = result[0]
             assert isinstance(first_item, dict)

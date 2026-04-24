@@ -1,7 +1,7 @@
 #Markets examples
 
 In this folder you can find examples on how to get data from markets using python.
-Remember that without a client key to login, only a sample of data will be provided.
+Please subscribe to a plan at https://tradingeconomics.com/api/pricing.aspx to get an API key.
 
 #**marketsEx**
 
@@ -54,7 +54,7 @@ An example on how to get streaming data for markets in python
 ```python
 import tradingeconomics as te
 import json
-te.login('guest:guest')
+te.login('')
 
 def on_message(ws, message):
   print json.loads(message)

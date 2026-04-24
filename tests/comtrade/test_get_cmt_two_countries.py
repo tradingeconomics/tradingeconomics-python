@@ -12,7 +12,7 @@ from tradingeconomics.comtrade import getCmtTwoCountries
 
 class TestGetCmtTwoCountries(unittest.TestCase):
 
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_missing_second_country(self, mock_dataRequest):
         """
@@ -30,7 +30,7 @@ class TestGetCmtTwoCountries(unittest.TestCase):
         )
         self.assertEqual(result, {"ok": True})
 
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_two_countries(self, mock_dataRequest):
         """
@@ -48,7 +48,7 @@ class TestGetCmtTwoCountries(unittest.TestCase):
         )
         self.assertEqual(result, {"ok": True})
 
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_two_countries_with_page(self, mock_dataRequest):
         """

@@ -10,7 +10,7 @@ from tradingeconomics.comtrade import getCmtLastUpdates
 
 
 class TestGetCmtLastUpdates(unittest.TestCase):
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_country_only(self, mock_dataRequest):
         """
@@ -27,7 +27,7 @@ class TestGetCmtLastUpdates(unittest.TestCase):
         )
         self.assertEqual(result, {"ok": True})
 
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_country_and_start_date(self, mock_dataRequest):
         """
@@ -44,7 +44,7 @@ class TestGetCmtLastUpdates(unittest.TestCase):
         )
         self.assertEqual(result, {"ok": True})
 
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_no_country(self, mock_dataRequest):
         """
@@ -61,7 +61,7 @@ class TestGetCmtLastUpdates(unittest.TestCase):
         )
         self.assertEqual(result, {"ok": True})
 
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_start_date_only(self, mock_dataRequest):
         """
@@ -78,7 +78,7 @@ class TestGetCmtLastUpdates(unittest.TestCase):
         )
         self.assertEqual(result, {"ok": True})
 
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_with_output_type_df(self, mock_dataRequest):
         """

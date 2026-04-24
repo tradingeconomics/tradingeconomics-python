@@ -62,7 +62,7 @@ class TestGetCalendarId(unittest.TestCase):
     """Tests for getCalendarId() ensuring correct URL assembly and behavior."""
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_getCalendarId_with_single_id(self, mock_request):
         getCalendarId(id="555")
         url = mock_request.call_args[1]["api_request"]
@@ -72,7 +72,7 @@ class TestGetCalendarId(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_getCalendarId_no_id(self, mock_request):
         getCalendarId(id=None)
         url = mock_request.call_args[1]["api_request"]
@@ -86,7 +86,7 @@ class TestGetCalendarData(unittest.TestCase):
     """Tests for URL construction in getCalendarData()."""
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_country_only(self, mock_request):
         getCalendarData(country="united states")
         url = mock_request.call_args[1]["api_request"]
@@ -96,7 +96,7 @@ class TestGetCalendarData(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_country_and_category(self, mock_request):
         getCalendarData(country="united states", category="inflation rate")
         url = mock_request.call_args[1]["api_request"]
@@ -106,7 +106,7 @@ class TestGetCalendarData(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_ticker_only(self, mock_request):
         getCalendarData(ticker="IJCUSA")
         url = mock_request.call_args[1]["api_request"]
@@ -116,13 +116,13 @@ class TestGetCalendarData(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_event_without_country(self, mock_request):
         result = getCalendarData(event="GDP")
         self.assertEqual(result, "The parameter 'country' must be provided!")
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_country_with_dates(self, mock_request):
         getCalendarData(
             country="united states", initDate="2020-01-01", endDate="2020-01-02"
@@ -138,7 +138,7 @@ class TestGetCalendarEvents(unittest.TestCase):
     """Tests for getCalendarEvents()."""
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_get_all_events(self, mock_request):
         getCalendarEvents()
         url = mock_request.call_args[1]["api_request"]
@@ -148,7 +148,7 @@ class TestGetCalendarEvents(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_get_events_for_country(self, mock_request):
         getCalendarEvents(country="china")
         url = mock_request.call_args[1]["api_request"]
@@ -162,7 +162,7 @@ class TestGetCalendarEventsByGroup(unittest.TestCase):
     """Tests for getCalendarEventsByGroup()."""
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_basic_group(self, mock_request):
         getCalendarEventsByGroup(group="bonds")
         url = mock_request.call_args[1]["api_request"]
@@ -172,7 +172,7 @@ class TestGetCalendarEventsByGroup(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_group_with_country(self, mock_request):
         getCalendarEventsByGroup(group="bonds", country="united states")
         url = mock_request.call_args[1]["api_request"]
@@ -182,7 +182,7 @@ class TestGetCalendarEventsByGroup(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_group_with_dates(self, mock_request):
         getCalendarEventsByGroup(
             group="inflation", initDate="2023-01-01", endDate="2023-02-01"
@@ -194,7 +194,7 @@ class TestGetCalendarEventsByGroup(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_group_with_country_and_dates(self, mock_request):
         getCalendarEventsByGroup(
             group="inflation",
@@ -217,7 +217,7 @@ class TestGetCalendarUpdates(unittest.TestCase):
     """Tests for getCalendarUpdates()."""
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_get_calendar_updates(self, mock_request):
         from tradingeconomics.calendar import getCalendarUpdates
 
@@ -229,7 +229,7 @@ class TestGetCalendarUpdates(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_get_calendar_updates_with_output_type(self, mock_request):
         from tradingeconomics.calendar import getCalendarUpdates
 
@@ -244,7 +244,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
     """Advanced tests for getCalendarData() with importance, values, and events."""
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_with_importance(self, mock_request):
         getCalendarData(country="united states", importance="2")
         url = mock_request.call_args[1]["api_request"]
@@ -254,7 +254,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_with_importance_and_dates(self, mock_request):
         getCalendarData(
             country="united states",
@@ -269,7 +269,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_with_values_true(self, mock_request):
         getCalendarData(country="united states", values=True)
         url = mock_request.call_args[1]["api_request"]
@@ -279,7 +279,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_with_values_false(self, mock_request):
         getCalendarData(country="united states", values=False)
         url = mock_request.call_args[1]["api_request"]
@@ -289,7 +289,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_with_event_and_country(self, mock_request):
         getCalendarData(country="united states", event="GDP Growth Rate")
         url = mock_request.call_args[1]["api_request"]
@@ -299,7 +299,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_with_event_country_and_dates(self, mock_request):
         getCalendarData(
             country="united states",
@@ -314,7 +314,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_with_multiple_events(self, mock_request):
         getCalendarData(
             country="united states",
@@ -327,7 +327,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_ticker_with_dates(self, mock_request):
         getCalendarData(ticker="IJCUSA", initDate="2023-01-01", endDate="2023-01-31")
         url = mock_request.call_args[1]["api_request"]
@@ -337,7 +337,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_ticker_with_multiple_tickers(self, mock_request):
         getCalendarData(ticker=["IJCUSA", "SPAINFACORD"])
         url = mock_request.call_args[1]["api_request"]
@@ -347,7 +347,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_dates_only_fallback_to_all(self, mock_request):
         getCalendarData(initDate="2023-01-01", endDate="2023-01-31")
         url = mock_request.call_args[1]["api_request"]
@@ -357,7 +357,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_multiple_countries_and_categories(self, mock_request):
         getCalendarData(
             country=["united states", "china"],
@@ -370,7 +370,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_category_with_importance(self, mock_request):
         getCalendarData(category="inflation rate", importance="2")
         url = mock_request.call_args[1]["api_request"]
@@ -380,7 +380,7 @@ class TestGetCalendarDataAdvanced(unittest.TestCase):
         )
 
     @patch("tradingeconomics.calendar.fn.dataRequest")
-    @patch("tradingeconomics.calendar.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.calendar.glob.apikey", "")
     def test_combined_importance_and_values(self, mock_request):
         getCalendarData(country="united states", importance="2", values=True)
         url = mock_request.call_args[1]["api_request"]

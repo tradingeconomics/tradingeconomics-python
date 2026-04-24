@@ -1,7 +1,7 @@
 """
 Integration tests for Indicators and Historical modules.
 
-Tests the following API calls with guest:guest credentials:
+Tests the following API calls with an API key:
 
 Indicators:
 - te.getIndicatorData(country='mexico')
@@ -45,7 +45,7 @@ Credit Ratings:
 - te.getHistoricalCreditRatings(initDate='2022-01-01', endDate='2023-01-01')
 - te.getHistoricalCreditRatings(country='sweden', initDate='2000-01-01', endDate='2023-01-01')
 
-These tests validate API endpoint availability and data structure with free access.
+These tests validate API endpoint availability and data structure with authenticated access.
 """
 
 import pytest
@@ -55,7 +55,7 @@ import time
 
 
 # Configure API access
-te.login("guest:guest")
+te.login("")
 
 
 class TestIndicatorData:

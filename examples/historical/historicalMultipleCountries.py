@@ -16,7 +16,7 @@ def main():
        The CSVs are named as follows: <indicator>_<date>.csv.
        The end date is always the current date.
     """
-    te.login('guest:guest') #Insert your API Key
+    te.login('') #Insert your API Key
 
     countries = ['United States', 'Germany', 'China', 'United Kingdom', 'Portugal', 'Spain', 'France', 'Japan', 'Australia'] #Choose your Countries
     indicators = ['GDP', 'Interest Rate', 'Population'] #Choose your indicators. WARNING: It must be written like on https://api.tradingeconomics.com/indicators.

@@ -1,14 +1,14 @@
 """
 Integration tests for Search module.
 
-Tests the following API calls with guest:guest credentials:
+Test the following API calls with an API key:
 
 Search:
 - te.getSearch(term='gold')
 - te.getSearch()
 - te.getSearch(term='japan', category='markets')
 
-These tests validate API endpoint availability and data structure with free access.
+These tests validate API endpoint availability and data structure with authenticated access.
 """
 
 import pytest
@@ -17,7 +17,7 @@ import pandas as pd
 
 
 # Configure API access
-te.login("guest:guest")
+te.login("")
 
 
 class TestSearch:

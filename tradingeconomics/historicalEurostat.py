@@ -68,7 +68,7 @@ def getHistoricalEurostat(ID=None, initDate=None, endDate=None, output_type=None
             'raw' for list of dictionaries without any parsing.
     Notes
     -----
-    Without credentials only sample data will be provided.
+    Please subscribe to a plan at https://tradingeconomics.com/api/pricing.aspx to get an API key.
     Example
     -------
     getHistoricalEurostat(ID = '24804', output_type = 'df')

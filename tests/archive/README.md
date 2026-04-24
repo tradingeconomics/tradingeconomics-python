@@ -19,9 +19,9 @@ These tests use the old naming convention (`_test_*.py`) and are **integration t
 ### Characteristics:
 
 - Use `unittest` framework
-- Make real API calls with `guest:guest` credentials
+- Make real API calls (require a valid API key)
 - Compare SDK output against direct API requests
-- Global `te.login('guest:guest')` at file level
+- Global `te.login('')` at file level (must be replaced with a valid key to run)
 
 ### Why Archived?
 

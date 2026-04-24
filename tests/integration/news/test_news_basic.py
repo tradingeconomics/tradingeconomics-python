@@ -1,7 +1,7 @@
 """
 Integration tests for News module.
 
-Tests the following API calls with guest:guest credentials:
+Tests the following API calls with an API key:
 
 News:
 - te.getNews()
@@ -18,7 +18,7 @@ News:
 - te.getNews(type='markets')
 - te.getNews(ticker='CZCAEUR')
 
-These tests validate API endpoint availability and data structure with free access.
+These tests validate API endpoint availability and data structure with authenticated access.
 """
 
 import pytest
@@ -28,7 +28,7 @@ import time
 
 
 # Configure API access
-te.login("guest:guest")
+te.login("")
 
 
 class TestNewsBasic:

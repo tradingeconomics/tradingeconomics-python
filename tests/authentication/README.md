@@ -40,11 +40,11 @@ This directory contains comprehensive tests for API authentication and authoriza
 
 #### Authentication Scenarios Tested:
 
-- ✅ **Successful authentication with guest credentials** - Validates that `'guest:guest'` works
+- ❌ **Empty credentials fail** - Validates that `''` returns `AuthenticationError`
 - ❌ **No authentication** - Validates behavior when no login is performed
 - ❌ **Invalid credentials format** - Catches malformed API keys (missing `:`) early
 - ❌ **Valid format but incorrect credentials** - Tests 401 handling for wrong credentials
-- ✅ **Authorization header** - Verifies header is properly added to requests
+- ✅ **Authorization header** - Verifies header is properly set after login
 - ❌ **Empty/None API key** - Tests edge cases with empty authentication
 
 #### Error Message Quality Tests:
@@ -68,26 +68,26 @@ python -m unittest tests.authentication.test_authorization -v
 python -m unittest tests.authentication.test_authorization.TestAuthenticationScenarios -v
 
 # Run specific test
-python -m unittest tests.authentication.test_authorization.TestAuthenticationScenarios.test_successful_auth_with_guest_credentials -v
+python -m unittest tests.authentication.test_authorization.TestAuthenticationScenarios.test_empty_credentials_fail -v
 ```
 
 ## Expected Behaviors
 
 ### ✅ Success Cases:
 
-| Scenario      | API Key           | Expected Result               |
-| ------------- | ----------------- | ----------------------------- |
-| Guest access  | `'guest:guest'`   | Returns sample data (limited) |
-| Valid API key | Valid credentials | Returns full data             |
+| Scenario      | API Key            | Expected Result  |
+| ------------- | ------------------ | ---------------- |
+| Valid API key | Valid credentials   | Returns full data |
 
 ### ❌ Failure Cases:
 
 | Scenario          | API Key           | Expected Exception    | HTTP Code |
 | ----------------- | ----------------- | --------------------- | --------- |
+| Empty API key     | `''`              | `AuthenticationError` | 401       |
 | No login          | None              | `AuthenticationError` | 401       |
 | Invalid format    | `'no_colon'`      | `CredentialsError`    | -         |
 | Wrong credentials | `'fake:key'`      | `AuthenticationError` | 401       |
-| No permission     | Valid but limited | `AuthenticationError` | 403       |
+| No permission     | Valid but limited  | `AuthenticationError` | 403       |
 | Bad endpoint      | Any               | `ParametersError`     | 404       |
 
 ## Migration Notes

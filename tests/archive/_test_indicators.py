@@ -7,7 +7,7 @@ import time
 sys.path.insert (0, '../tradingeconomics')
 import tradingeconomics as te
 
-te.login('guest:guest')
+te.login('')
 
 class TestHelpers(unittest.TestCase):
 
@@ -82,7 +82,7 @@ class TestgetIndicatorsData(unittest.TestCase):
     def test_getIndicatorData_indicator(self):
         a = te.getIndicatorData(indicators='gdp', output_type='df')
         
-        url = 'https://api.tradingeconomics.com/country/all/gdp?c=guest:guest'
+        url = 'https://api.tradingeconomics.com/country/all/gdp?c='
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -98,7 +98,7 @@ class TestgetIndicatorsData(unittest.TestCase):
     def test_getIndicatorData_country(self):
         a = te.getIndicatorData(country='sweden', output_type='df')
         
-        url = 'https://api.tradingeconomics.com/country/sweden?c=guest:guest'
+        url = 'https://api.tradingeconomics.com/country/sweden?c='
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -118,7 +118,7 @@ class TestgetIndicatorsData(unittest.TestCase):
     def test_getIndicatorData_countries(self):
         a = te.getIndicatorData(country=['mexico', 'sweden'], output_type='df')
 
-        url = 'https://api.tradingeconomics.com/country/mexico%2Csweden?c=guest:guest'
+        url = 'https://api.tradingeconomics.com/country/mexico%2Csweden?c='
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -139,7 +139,7 @@ class TestgetIndicatorsData(unittest.TestCase):
     def test_getIndicatorData_countries_indicator(self):
         a = te.getIndicatorData(country=['portugal', 'sweden'], indicators='gdp', output_type='df')
 
-        # url = 'https://api.tradingeconomics.com/indicators/portugal%2Csweden/gdp?c=guest:guest'
+        # url = 'https://api.tradingeconomics.com/indicators/portugal%2Csweden/gdp?c='
         # data = requests.get(url).json()
 
         # b = pd.DataFrame.from_dict(data, orient='columns')
@@ -161,7 +161,7 @@ class TestgetIndicatorsData(unittest.TestCase):
     def test_getIndicatorData_country_indicator(self):
         a = te.getIndicatorData(country='sweden', indicators='gdp', output_type='df')
 
-        # url = 'https://api.tradingeconomics.com/indicators/sweden/gdp?c=guest:guest'
+        # url = 'https://api.tradingeconomics.com/indicators/sweden/gdp?c='
         # data = requests.get(url).json()
 
         # b = pd.DataFrame.from_dict(data, orient='columns')
@@ -182,7 +182,7 @@ class TestgetIndicatorsData(unittest.TestCase):
     # def test_getIndicatorData_calendar(self):
     #     a = te.getIndicatorData(calendar=1, output_type='df')
 
-    #     url = 'https://api.tradingeconomics.com/indicators?calendar=1&c=guest:guest'
+    #     url = 'https://api.tradingeconomics.com/indicators?calendar=1&c='
     #     data = requests.get(url).json()
 
     #     b = pd.DataFrame.from_dict(data, orient='columns')
@@ -208,7 +208,7 @@ class TestgetRatings(unittest.TestCase):
     # def test_getCreditRatings_country(self):
     #     a = te.getRatings(output_type='df')
 
-    #     url = f'https://api.tradingeconomics.com/ratings?c=guest:guest'
+    #     url = f'https://api.tradingeconomics.com/ratings?c='
     #     data = requests.get(url).json()
 
     #     b = pd.DataFrame.from_dict(data, orient='columns')
@@ -229,7 +229,7 @@ class TestgetDiscontinuedIndicator(unittest.TestCase):
     def test_getDiscontinuedIndicator(self):
         a = te.getDiscontinuedIndicator(output_type='df')
 
-        url = 'https://api.tradingeconomics.com/country/all/discontinued?c=guest:guest'
+        url = 'https://api.tradingeconomics.com/country/all/discontinued?c='
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -245,7 +245,7 @@ class TestgetDiscontinuedIndicator(unittest.TestCase):
     def test_DiscontinuedIndicator_country(self):
         a = te.getDiscontinuedIndicator(country=['united states', 'china'], output_type='df')
 
-        url = 'https://api.tradingeconomics.com/country/united%20states%2Cchina/discontinued?c=guest:guest'
+        url = 'https://api.tradingeconomics.com/country/united%20states%2Cchina/discontinued?c='
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -266,7 +266,7 @@ class TestgetIndicatorByCategoryGroup(unittest.TestCase):
     def test_getIndicatorByCategoryGroup_country_category(self):
         a = te.getIndicatorByCategoryGroup(country='sweden', category_group = 'gdp', output_type='df')
 
-        url = 'https://api.tradingeconomics.com/country/sweden?c=guest:guest&group=gdp'
+        url = 'https://api.tradingeconomics.com/country/sweden?c=&group=gdp'
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -293,7 +293,7 @@ class TestgetIndicatorByTicker(unittest.TestCase):
     def test_getIndicatorByTicker(self):
         a = te.getIndicatorByTicker(ticker = 'USURTOT', output_type = 'df')
 
-        url = "https://api.tradingeconomics.com/country/ticker/USURTOT?c=guest:guest"
+        url = "https://api.tradingeconomics.com/country/ticker/USURTOT?c="
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -315,7 +315,7 @@ class TestgetLatestUpdates(unittest.TestCase):
     def test_getLatestUpdates_country(self):
         a = te.getLatestUpdates(country = 'united states', output_type = 'df')
 
-        url = "https://api.tradingeconomics.com/updates/country/united%20states?c=guest:guest"
+        url = "https://api.tradingeconomics.com/updates/country/united%20states?c="
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -331,7 +331,7 @@ class TestgetLatestUpdates(unittest.TestCase):
     def test_getLatestUpdates_init_date(self):
         a = te.getLatestUpdates(country = 'united states',init_date = '2021-06-01', output_type = 'df')
 
-        url = "https://api.tradingeconomics.com/updates/country/united%20states/2021-06-01?c=guest:guest"
+        url = "https://api.tradingeconomics.com/updates/country/united%20states/2021-06-01?c="
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -347,7 +347,7 @@ class TestgetLatestUpdates(unittest.TestCase):
     def test_getLatestUpdates_countries(self):
         a = te.getLatestUpdates(country =['united states', 'portugal'],init_date = '2021-06-01', output_type = 'df')
 
-        url = "https://api.tradingeconomics.com/updates/country/united%20states%2Cportugal/2021-06-01?c=guest:guest"
+        url = "https://api.tradingeconomics.com/updates/country/united%20states%2Cportugal/2021-06-01?c="
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -363,7 +363,7 @@ class TestgetLatestUpdates(unittest.TestCase):
     # def test_getLatestUpdates_init_date_time(self):
     #     a = te.getLatestUpdates(init_date = '2021-10-18', time='15:20', output_type = 'df')
 
-    #     url = "https://api.tradingeconomics.com/updates/2021-10-18?c=guest:guest&time=15:20"
+    #     url = "https://api.tradingeconomics.com/updates/2021-10-18?c=&time=15:20"
     #     data = requests.get(url).json()
 
     #     b = pd.DataFrame.from_dict(data, orient='columns')
@@ -384,7 +384,7 @@ class TestgetPeers(unittest.TestCase):
     # def test_getPeers_ticker(self):
     #     a = te.getPeers(ticker ='CPI YOY', output_type = 'df')
 
-    #     url = "https://api.tradingeconomics.com/peers/CPI%20YOY?c=guest:guest"
+    #     url = "https://api.tradingeconomics.com/peers/CPI%20YOY?c="
     #     data = requests.get(url).json()
 
     #     b = pd.DataFrame.from_dict(data, orient='columns')
@@ -405,7 +405,7 @@ class TestgetAllCountries(unittest.TestCase):
     def test_getAllCountries(self):
         a = te.getAllCountries(output_type='df')
 
-        url = "https://api.tradingeconomics.com/country/?c=guest:guest"
+        url = "https://api.tradingeconomics.com/country/?c="
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -427,7 +427,7 @@ class TestgetIndicatorChanges(unittest.TestCase):
     def test_getIndicatorChanges(self):
         a = te.getIndicatorChanges(output_type='df')
 
-        url = "https://api.tradingeconomics.com/changes?c=guest:guest"
+        url = "https://api.tradingeconomics.com/changes?c="
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')
@@ -443,7 +443,7 @@ class TestgetIndicatorChanges(unittest.TestCase):
     def test_getIndicatorChanges_start_date(self):
         a = te.getIndicatorChanges(start_date='2024-10-29', output_type='df')
 
-        url = "https://api.tradingeconomics.com/changes/2024-10-29?c=guest:guest"
+        url = "https://api.tradingeconomics.com/changes/2024-10-29?c="
         data = requests.get(url).json()
 
         b = pd.DataFrame.from_dict(data, orient='columns')

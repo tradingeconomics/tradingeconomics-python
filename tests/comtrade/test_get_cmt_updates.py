@@ -10,7 +10,7 @@ from tradingeconomics.comtrade import getCmtUpdates
 
 
 class TestGetCmtUpdates(unittest.TestCase):
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_updates_basic(self, mock_dataRequest):
         """
@@ -29,7 +29,7 @@ class TestGetCmtUpdates(unittest.TestCase):
         )
         self.assertEqual(result, {"status": "ok"})
 
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_updates_with_df_output(self, mock_dataRequest):
         """
@@ -46,7 +46,7 @@ class TestGetCmtUpdates(unittest.TestCase):
         )
         self.assertEqual(result, "DataFrame")
 
-    @patch("tradingeconomics.glob.apikey", "guest:guest")
+    @patch("tradingeconomics.glob.apikey", "")
     @patch("tradingeconomics.comtrade.fn.dataRequest")
     def test_updates_with_raw_output(self, mock_dataRequest):
         """

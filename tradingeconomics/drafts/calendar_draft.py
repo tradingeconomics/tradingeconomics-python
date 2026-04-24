@@ -103,7 +103,7 @@ def getCalendarData(country=None, indicator=None, start_date=None, end_date=None
         # 'indicator': '/indicator/balance%20of%20trade,personal%20spending,interest%20rate',
         # 'start_date': '/2010-12-02',
         # 'end_date': '/2016-12-03',
-        # #'key': '?c=guest:guest',
+        # #'key': '?c=',
         # 'key': f'?c={glob.apikey}',
         # 'importance': '&importance=2'
     }

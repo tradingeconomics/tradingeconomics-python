@@ -5,7 +5,7 @@ import tablib
 import os
 
 import tradingeconomics as te
-te.login('guest:guest')
+te.login('')
 
 mydata = te.getForecastData(country = ['United States', 'India'], indicator = ['Imports','Exports'], output_type= 'df')
 df = pd.DataFrame(mydata)

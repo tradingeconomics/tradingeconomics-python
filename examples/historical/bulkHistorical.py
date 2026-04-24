@@ -39,5 +39,5 @@ def main():
                 time.sleep(1) #avoid throttling protection
                 
 if __name__ == "__main__":
-    te.login('guest:guest') #Insert your API Key
+    te.login('') #Insert your API Key
     main()

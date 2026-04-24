@@ -1,7 +1,7 @@
 """
 Integration tests for Financials, Earnings, Dividends, IPO, and Stock Splits modules.
 
-Tests the following API calls with guest:guest credentials:
+Tests the following API calls with an API key:
 
 Financials:
 - te.getFinancialsDataByCategory(category='assets')
@@ -44,7 +44,7 @@ Stock Splits:
 - te.getStockSplits(country='india')
 - te.getStockSplits(startDate='2025-01-01', endDate='2025-12-01')
 
-These tests validate API endpoint availability and data structure with free access.
+These tests validate API endpoint availability and data structure with authenticated access.
 """
 
 import pytest
@@ -54,7 +54,7 @@ import time
 
 
 # Configure API access
-te.login("guest:guest")
+te.login("")
 
 
 class TestFinancialsData:

@@ -5,7 +5,7 @@ import tradingeconomics as te
 class TestWorldBankIntegration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        te.login("guest:guest")
+        te.login("")
 
     def test_getWBCategories_none(self):
         res = te.getWBCategories(category=None)

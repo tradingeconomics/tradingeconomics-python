@@ -82,7 +82,7 @@ python -m unittest tests.calendar.test_calendar_basic.TestCalendarBasic.test_get
 
 **Technology**: `pytest` framework with real API calls
 
-**API key required**: Uses `guest:guest` by default, or `apikey` environment variable for paid endpoints.
+**API key required**: Integration tests require a valid `apikey` environment variable. Empty credentials are invalid.
 
 **Warning**: These tests consume API quota and require internet connectivity.
 
@@ -153,7 +153,7 @@ pytest tests/integration/calendar/test_calendar_basic.py::TestCalendarBasicFunct
 
 Integration tests automatically authenticate using the `setup_api_credentials()` fixture in `conftest.py`:
 
-1. **Default behavior**: Uses `guest:guest` credentials
+1. **Default behavior**: If `apikey` is not set (or empty), key-required tests will fail with authentication errors or be skipped by fixtures.
 2. **Custom API key**: Set environment variable before running tests:
 
 ```bash

@@ -1,7 +1,7 @@
 """
 Integration tests for Federal Reserve module.
 
-Tests the following API calls with guest:guest credentials:
+Tests the following API calls with an API key:
 - te.getFedRStates()
 - te.getFedRStates(county='arkansas')
 - te.getFedRSnaps(country='united states')
@@ -15,7 +15,7 @@ Tests the following API calls with guest:guest credentials:
 - te.getFedRHistorical(symbol='BAMLC0A1CAAAEY', initDate='2017-05-01')
 - te.getFedRHistorical(symbol='BAMLC0A1CAAAEY', initDate='2017-05-01', endDate='2019-01-01')
 
-These tests validate API endpoint availability and data structure with free access.
+These tests validate API endpoint availability and data structure with authenticated access.
 """
 
 import pytest
@@ -26,7 +26,7 @@ from functools import wraps
 
 
 # Configure API access
-te.login("guest:guest")
+te.login("")
 
 
 def retry_on_server_error(max_retries=3, delay=2):

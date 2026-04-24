@@ -234,7 +234,7 @@ def getHistoricalRatings(
              'raw' for list of dictionaries without any parsing.
     Notes
     -----
-    Without credentials only sample data will be provided.
+    Please subscribe to a plan at https://tradingeconomics.com/api/pricing.aspx to get an API key.
     Example
     -------
     getHistoricalRatings(country = 'United States', rating = None)
