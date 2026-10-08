@@ -391,7 +391,7 @@ def getCalendarEvents(
     -------
             getCalendarEvents(output_type='df')
             getCalendarEvents(country='china', output_type='df')
-            getCalendarEvents(country=['china', 'canada'] output_type='dict')
+            getCalendarEvents(country=['china', 'canada'], output_type='dict')
 
     """
 

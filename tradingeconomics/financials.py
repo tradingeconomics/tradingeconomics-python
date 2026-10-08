@@ -104,8 +104,8 @@ def getFinancialsCategoryList(output_type=None):
     Example
     -------
     If no argument is provided, returns a list of all categories as a dictionary.
-    getFinancialsCategories()
-    getFinancialsCategories(output_type='df')
+    getFinancialsCategoryList()
+    getFinancialsCategoryList(output_type='df')
     """
 
     d = {
@@ -139,7 +139,7 @@ def getFinancialsDataByCategory(category=None, output_type=None):
 
             or
 
-            getFinancialsDataCategory(symbol=['assets','debt'], output_type='df')
+            getFinancialsDataByCategory(category=['assets','debt'], output_type='df')
     """
 
     # d is a dictionary used for create the api url

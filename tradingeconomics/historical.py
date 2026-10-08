@@ -291,11 +291,11 @@ def getHistoricalByTicker(
 
     Example
     -------
-            getIndicatorByTicker(ticker = 'USURTOT', output_type = 'df')
+            getHistoricalByTicker(ticker = 'USURTOT', output_type = 'df')
 
-            getIndicatorByTicker(ticker = 'USURTOT', start_date = '2015-03-01', output_type = 'df')
+            getHistoricalByTicker(ticker = 'USURTOT', start_date = '2015-03-01', output_type = 'df')
 
-            getIndicatorByTicker(ticker = 'USURTOT', start_date = '2015-03-01', end_date='2015-09-30', output_type = 'df')
+            getHistoricalByTicker(ticker = 'USURTOT', start_date = '2015-03-01', end_date='2015-09-30', output_type = 'df')
     """
 
     # d is a dictionary used for create the api url

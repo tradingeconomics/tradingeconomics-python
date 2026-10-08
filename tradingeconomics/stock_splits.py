@@ -40,7 +40,7 @@ def getStockSplits(
     --------
     getStockSplits(ticker = 'MMET', startDate='2023-09-01', endDate='2023-12-01')
     getStockSplits(ticker = ['MMET', 'REX'], startDate='2023-09-01')
-    getStockSplits(coutnry = ['Canada', 'United States'])
+    getStockSplits(country = ['Canada', 'United States'])
     getStockSplits()
 
     """
